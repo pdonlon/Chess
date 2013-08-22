@@ -1,17 +1,17 @@
 
-public class RookPiece extends Piece{
+public class RookPiece extends Piece
+{
 
-	public RookPiece(boolean white, String pieceType) {
-		super(white, pieceType);
-		// TODO Auto-generated constructor stub
+	public RookPiece(boolean white, int xCord, int yCord) 
+	{
+		super(white, xCord, yCord);
+		
+		this.pieceType = "Rook";
 	}
 
-	public boolean[][] canMove(int startX, int startY){
-		
-		boolean[][] canMove = new boolean[8][8];
-		
-		return canMove;
-		
+	public void setMoves(int x1, int y1)
+	{
+		setHorizontalandVertical();
 	}
 	
 }

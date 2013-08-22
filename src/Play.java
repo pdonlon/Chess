@@ -12,20 +12,27 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 
-public class Play extends JFrame implements ActionListener, MouseMotionListener, MouseListener, KeyListener{
+public class Play extends JFrame implements ActionListener, MouseMotionListener, MouseListener, KeyListener
+{
 	
 	Board playBoard;
 	Display playDisplay;
 	
-	public static void main(String[]args){
+	public static void main(String[]args)
+	{
 		
 		System.out.print("Hello Ricky");
 		
 		Play playChess = new Play();
+				//playChess.playBoard.movePiece(2, 7, 1, 6);
+
+		
 		playChess.repaint();
+//		System.out.print(playChess.playBoard.boardPiece.);
 	}
 	
-	public Play(){
+	public Play()
+	{
 		
 		playBoard = new Board();
 		playBoard.initializeBoard();
@@ -47,9 +54,13 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 		
 	}
 	
-	public class Display extends JPanel{ 
+	
+	
+	public class Display extends JPanel
+	{ 
 		
-		public void paintComponent(Graphics g){
+		public void paintComponent(Graphics g)
+		{
 			
 			super.paintComponent(g);
 			this.setBackground(Color.GRAY);
@@ -59,67 +70,78 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 	}
 
 	@Override
-	public void keyTyped(KeyEvent e) {
+	public void keyTyped(KeyEvent e) 
+	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e) {
+	public void keyPressed(KeyEvent e) 
+	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {
+	public void keyReleased(KeyEvent e) 
+	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
+	public void mouseClicked(MouseEvent e) 
+	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e) {
+	public void mousePressed(MouseEvent e) 
+	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
+	public void mouseReleased(MouseEvent e) 
+	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {
+	public void mouseEntered(MouseEvent e) 
+	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void mouseExited(MouseEvent e) {
+	public void mouseExited(MouseEvent e) 
+	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void mouseDragged(MouseEvent e) {
+	public void mouseDragged(MouseEvent e) 
+	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void mouseMoved(MouseEvent e) {
+	public void mouseMoved(MouseEvent e) 
+	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e) 
+	{
 		// TODO Auto-generated method stub
 		
 	}

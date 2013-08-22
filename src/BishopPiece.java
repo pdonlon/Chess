@@ -1,29 +1,18 @@
 
 
-public class BishopPiece extends Piece{
+public class BishopPiece extends Piece
+{
 
-	
-	public BishopPiece(boolean white, String pieceType) {
-		super(white, pieceType);
-		// TODO Auto-generated constructor stub
+
+	public BishopPiece(boolean white, int xCord, int yCord) 
+	{
+		super(white, xCord, yCord);
+		
+		this.pieceType = "Bishop";
 	}
 
-	public boolean canMove(int startX, int startY, int moveX, int moveY){
-
-		boolean canMove = false;
-
-		return canMove;
-
+	public void setMoves(int x1, int y1)
+	{
+		setDiagonal();
 	}
-
-	public boolean canJump(int startX, int startY, int moveX, int moveY){
-		
-		boolean canJump = false;
-		
-		if(canMove(startX,startY,moveX,moveY))
-			canJump = true;
-		
-		return canJump;
-	}
-	
 }

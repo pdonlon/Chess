@@ -1,27 +1,17 @@
 
 public class QueenPiece extends Piece{
 
-	public QueenPiece(boolean white, String pieceType) {
-		super(white, pieceType);
-		// TODO Auto-generated constructor stub
+	public QueenPiece(boolean white, int xCord, int yCord) 
+	{
+		super(white, xCord, yCord);
+		
+		this.pieceType = "Queen";
 	}
 
-	public boolean canMove(int startX, int startY, int moveX, int moveY){
-
-		boolean canMove = false;
-
-		return canMove;
-
-	}
-	
-	public boolean canJump(int startX, int startY, int moveX, int moveY){
-		
-		boolean canJump = false;
-		
-		if(canMove(startX,startY,moveX,moveY))
-			canJump = true;
-		
-		return canJump;
+	public void setMoves(int x1, int y1)
+	{
+		setDiagonal();
+		setHorizontalandVertical();
 	}
 
 }

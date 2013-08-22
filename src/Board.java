@@ -6,110 +6,148 @@ public class Board {
 
 	Piece[][] board;
 	int tileSize =60;
+	Piece boardPiece;
 
-
-	public Board(){
-
+	public Board()
+	{
 		board = new Piece[8][8];
-
+		
+		boardPiece = new Piece(false,0,0);
+		boardPiece.setPieceBoard(board);
 	}
 
-	public void movePiece(int startX,int startY, int moveX, int moveY){
+	public void movePiece(int x1,int y1, int x2, int y2)
+	{
 
-		board[moveX][moveY] = board[startX][startY];
-
-		board[startX][startY] = null;
-
+		if(board[x1][y1].isAble(x2,y2)){
+			board[x2][y2] = board[x1][y1];
+			board[x1][y1] = null;
+			System.out.print("works"+ x2+ ", "+y2);
+			//setCordinates to the new
+		}
+		else
+			System.out.print("fuck");
+		
 	}
 
-	public Piece[][] getBoard(){ 
+	public Piece[][] getBoard()
+	{ 
 
 		return board;
 
 	}
 	
-	public int getTileSize(){
+	public int getTileSize()
+	{
 		
 		return tileSize;
 	}
 
-	public boolean simulateMove(){ //checks if move will put you in check
+	public boolean simulateMove()
+	{ //checks if move will put you in check
 		//TODO
 		boolean check = false;
 
 		return check;
 	}
 
-	public boolean sameColor(int x1, int y1, int x2, int y2){
+//	public boolean sameColor(int x1, int y1, int x2, int y2)
+//	{
+//
+//		boolean same = false;
+//
+//		if((board[x1][y1].isWhite() && board[x2][y2].isWhite())
+//				|| (!board[x1][y1].isWhite() && !board[x2][y2].isWhite()))
+//			same = true;
+//
+//		return same;
+//	}
 
-		boolean same = false;
+	public void initializeBoard()
+	{
 
-		if((board[x1][y1].isWhite() && board[x2][y2].isWhite())
-				|| (!board[x1][y1].isWhite() && !board[x2][y2].isWhite()))
-			same = true;
+		for(int y=0; y<9; y+=7)
+		{ //rook
+			for(int x=0; x<9; x+=7)
+			{
 
-		return same;
-	}
-
-	public void initializeBoard(){
-
-		for(int y=0; y<9; y+=7){ //rook
-			for(int x=0; x<9; x+=7){
-
-				board[x][y] = new RookPiece(false, "Rook");
-
+				board[x][y] = new RookPiece(false,x,y);
+				//TODO change this to be global setMoves
 			}
 		}
 
-		for(int y=0; y<9; y+=7){ //knight
-			for(int x=1; x<8; x+=5){
+		for(int y=0; y<9; y+=7)
+		{ //knight
+			for(int x=1; x<8; x+=5)
+			{
 
-				board[x][y] = new KnightPiece(false,"Knight");
+				board[x][y] = new KnightPiece(false,x,y);
 			}
 		}
 
-		for(int y=0; y<9; y+=7){ //bishop
-			for(int x=2; x<8; x+=3){
+		for(int y=0; y<9; y+=7)
+		{ //bishop
+			for(int x=2; x<8; x+=3)
+			{
 
-				board[x][y] = new BishopPiece(false,"Bishop");
-				if(y>0)
-					board[x][y].setWhite(true);
+				board[x][y] = new BishopPiece(false,x,y);
 			}
 		}
 
-		for(int y=0; y<9; y+=7){ //queen
+		for(int y=0; y<9; y+=7)
+		{ //queen
 			int x = 3;
 
-			board[x][y] = new QueenPiece(false,"Queen");
+			board[x][y] = new QueenPiece(false,x,y);
+
 		}
 
-		for(int y=0; y<9; y+=7){ //king
+		for(int y=0; y<9; y+=7)
+		{ //king
 			int x = 4;
 
-			board[x][y] = new KingPiece(false,"King");
+			board[x][y] = new KingPiece(false,x,y);
 		}
 
-		for(int y=1; y<7; y+=5){ //pawn
-			for(int x=0; x<8; x++){
+//		for(int y=1; y<7; y+=5)
+//		{ //pawn
+//			for(int x=0; x<8; x++)
+//			{
+//
+//				board[x][y] = new PawnPiece(false);
+//			}
+//		}
 
-				board[x][y] = new PawnPiece(false,"Pawn");
-			}
-		}
-
-		for(int y=6; y<8; y++){
+//		for(int y=6; y<8; y++){
+//			for(int x=0; x<8; x++){
+//				
+//				board[x][y].setWhite(true);
+//				
+//			}
+//		}
+//		
+		for(int y=0; y<8; y++){
 			for(int x=0; x<8; x++){
 				
+				try{
 				board[x][y].setWhite(true);
-				
+				}
+				catch(Exception E){
+					
+				}
 			}
 		}
-		
+		System.out.println("here");
+		board[0][7].setHorizontalandVertical();
+		System.out.println("not here");
 	}
 
-	public boolean isEmpty(int x, int y){
+	public boolean isEmpty(int x, int y)
+	{
 		boolean empty = false;
 
-		try{
+		try
+		{
 			if(board[x][y] == null)
 				empty = true;
 		}
@@ -119,16 +157,19 @@ public class Board {
 		return empty;
 	}
 
-	public void paintBoard(Graphics g){
+	public void paintBoard(Graphics g)
+	{
 
 		int tileMarker=0;
 		int ySpacing =0;
 
-		for(int y=0; y<8; y++){
+		for(int y=0; y<8; y++)
+		{
 
 			int xSpacing =0;
 
-			for(int x=0; x<8; x++){
+			for(int x=0; x<8; x++)
+			{
 
 				if(tileMarker%2==0)
 					g.setColor(Color.LIGHT_GRAY);
@@ -137,13 +178,16 @@ public class Board {
 
 				g.fillRect(xSpacing, ySpacing, tileSize+1, tileSize+1);
 
-				if(!isEmpty(x,y)){
-					if(board[x][y].isWhite()){
+				if(!isEmpty(x,y))
+				{
+					if(board[x][y].isWhite())
+					{
 						g.setColor(Color.WHITE);
 						g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
 						g.setColor(Color.BLACK);
 					}
-					else{
+					else
+					{
 						g.setColor(Color.BLACK);
 						g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
 						g.setColor(Color.WHITE);

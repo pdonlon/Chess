@@ -1,27 +1,12 @@
 
 public class KingPiece extends Piece{
 
-	public KingPiece(boolean white, String pieceType) {
-		super(white, pieceType);
-		// TODO Auto-generated constructor stub
+	public KingPiece(boolean white, int xCord, int yCord) 
+	{
+		super(white, xCord, yCord);
+		
+		this.pieceType = "King";
 	}
 
-	public boolean canMove(int startX, int startY, int moveX, int moveY){
-
-		boolean canMove = false;
-
-		return canMove;
-
-	}
-	
-	public boolean canJump(int startX, int startY, int moveX, int moveY){
-		
-		boolean canJump = false;
-		
-		if(canMove(startX,startY,moveX,moveY))
-			canJump = true;
-		
-		return canJump;
-	}
 
 }
