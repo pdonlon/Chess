@@ -29,6 +29,12 @@ public class Piece
 
 		white = a;
 	}
+	
+	public void setXandYCord(int x, int y){
+		
+		xCord = x;
+		yCord = y;
+	}
 
 	public String getPieceType()
 	{
@@ -50,6 +56,8 @@ public class Piece
 		}
 
 	}
+	
+	
 
 	public boolean isEmpty(int x, int y)
 	{
@@ -70,10 +78,10 @@ public class Piece
 	public boolean isValid(int x, int y)
 	{
 
-		boolean valid = true;
+		boolean valid = false;
 
-		if((x>0 && x<8) && (y>0 && y<8))
-			valid = false;
+		if((x>=0 && x<8) && (y>=0 && y<8))
+			valid = true;
 
 		return valid;
 	}
@@ -87,20 +95,41 @@ public class Piece
 			same =true;
 
 		else{
-				if(pieceBoard[x2][y2].isWhite()&&pieceBoard[x2][y2].isWhite()
+				if(pieceBoard[xCord][yCord].isWhite()&&pieceBoard[x2][y2].isWhite()
 						||(!pieceBoard[xCord][yCord].isWhite()&&!pieceBoard[x2][y2].isWhite()))
 					same =true;
 
 		}
 		return same;
 	}
+	
+//	public void setHorizontalandVertical()
+//	{
+//		for(int y=(yCord-1); y>=0; y--)
+//		{
+//			if(isValid(xCord,y)){
+//				canMove[xCord][y]= true;
+//			}
+//		}
+//	}
 
-	public void setHorizontalandVertical(){
+	public void setHorizontalandVertical()
+	{
+		for(int x=(xCord-1); x>=0; x--) //left
+		{
+			System.out.print(x+","+yCord+" ");
+			if(isValid(x,yCord)){
+				
+				System.out.println();
+				System.out.print(x+","+yCord+" ");
+				if(isEmpty(x,yCord) || !sameColor(x, yCord))
+					canMove[x][yCord] = true;
+				else
+					break;
+			}
+		}
 
-//		System.out.println(""+xCord+","+yCord);
-//		System.out.println(""+isWhite());
-		
-		for(int x=(xCord-1); x>=0; x--)
+		for(int x=(xCord+1); x<8; x++) //right
 		{
 			if(isValid(x,yCord)){
 				if(isEmpty(x,yCord) || !sameColor(x, yCord))
@@ -110,17 +139,7 @@ public class Piece
 			}
 		}
 
-		for(int x=(xCord+1); x<8; x++)
-		{
-			if(isValid(x,yCord)){
-				if(isEmpty(x,yCord) || !sameColor(x, yCord))
-					canMove[x][yCord] = true;
-				else
-					break;
-			}
-		}
-
-		for(int y=(yCord-1); y>=0; y--)
+		for(int y=(yCord-1); y>=0; y--) //up
 		{
 			if(isValid(xCord,y)){
 				if(isEmpty(xCord,y) || !sameColor(xCord, y))
@@ -130,7 +149,7 @@ public class Piece
 			}
 		}
 
-		for(int y=(yCord+1); y<8; y++)
+		for(int y=(yCord+1); y<8; y++) //down
 		{
 			if(isValid(xCord,y)){
 				if(isEmpty(xCord,y) || !sameColor(xCord, y))
@@ -220,5 +239,56 @@ public class Piece
 
 		return able;
 	}
+	
+	public void printMoves(){
+		
+		for(int y=0; y<8; y++){
+			for(int x=0; x<8; x++){
+				
+				System.out.print(canMove[x][y]+" ");
+				
+			}
+			System.out.println();
+		}
+		
+	}
 
+	public void knightMoves(){
+
+		for(int y=-2; y<3; y+=4)
+		{
+			for(int x=-1; x<2; x+=2)
+			{
+
+				int moveX = x+xCord;
+				int moveY = y+yCord;
+
+				if(isValid(moveX,moveY))
+				{
+
+					if(isEmpty(moveX,moveY) || !sameColor(moveX,moveY))
+						canMove[moveX][moveY] = true;
+				}
+			}
+		}
+
+		for(int y=-1; y<2; y+=2)
+		{ 
+			for(int x=-2; x<3; x+=4)
+			{
+
+				int moveX = x+xCord;
+				int moveY = y+yCord;
+
+				if(isValid(moveX,moveY))
+				{
+
+					if(isEmpty(moveX,moveY) || !sameColor(moveX,moveY))
+						canMove[moveX][moveY] = true;
+				}
+			}
+		}
+
+	}
+	
 }

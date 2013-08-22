@@ -24,8 +24,6 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 		//System.out.print("Hello Ricky");
 		
 		Play playChess = new Play();
-		playChess.playBoard.movePiece(0, 7, 0, 1);
-
 		
 		playChess.repaint();
 //		System.out.print(playChess.playBoard.boardPiece.);
@@ -99,16 +97,35 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 	@Override
 	public void mousePressed(MouseEvent e) 
 	{
-		// TODO Auto-generated method stub
 		
+		
+		int x = (e.getX()+1)/(playBoard.tileSize+1);
+		int y = (e.getY()-22)/(playBoard.tileSize+1);
+		
+		playBoard.setX1(x);
+		playBoard.setY1(y);
+		
+		System.out.println(x+","+y);
+		playBoard.showMoves(x, y);
+		//playChess.playBoard.movePiece(0, 7, 0, 1);
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) 
 	{
-		// TODO Auto-generated method stub
+		int x = (e.getX()+1)/(playBoard.tileSize+1);
+		int y = (e.getY()-22)/(playBoard.tileSize+1);
 		
-	}
+		System.out.println(x+","+y);
+		
+		playBoard.setX2(x);
+		playBoard.setY2(y);
+		
+		playBoard.movePiece();
+			
+		repaint();
+		}
+		
 
 	@Override
 	public void mouseEntered(MouseEvent e) 

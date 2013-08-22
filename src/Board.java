@@ -7,6 +7,10 @@ public class Board {
 	Piece[][] board;
 	int tileSize =60;
 	Piece boardPiece;
+	int x1;
+	int y1;
+	int x2;
+	int y2;
 
 	public Board()
 	{
@@ -15,18 +19,32 @@ public class Board {
 
 	}
 
-	public void movePiece(int x1,int y1, int x2, int y2)
+	public void movePiece()
 	{
 
-		if(board[x1][y1].isAble(x2,y2)){
+		if(board[x1][y1].isAble(x2,y2)&& !sameSpot())
+		{
 			board[x2][y2] = board[x1][y1];
 			board[x1][y1] = null;
 			System.out.print("works"+ x2+ ", "+y2);
-			//setCordinates to the new
+			board[x2][y2].clearMoveSet();
+			board[x2][y2].setXandYCord(x2, y2);
+			board[x2][y2].setHorizontalandVertical();
 		}
 		else
-			System.out.print("fuck");
+			System.out.println("oops");
 		
+	}
+	
+	public boolean sameSpot()
+	{
+		
+		boolean same = false;
+		
+		if(x1 == x2 && y1 == y2)
+			same = true;
+		
+		return same;
 	}
 
 	public Piece[][] getBoard()
@@ -41,6 +59,36 @@ public class Board {
 		
 		return tileSize;
 	}
+	
+	public void setX1(int a){
+		
+		x1 = a;
+	}
+	
+	public int getX1(){
+		
+		return x1;
+	}
+	
+	public void setX2(int a){
+		
+		x2 = a;
+	}
+	
+	public void setY1(int a){
+		
+		y1 = a;
+	}
+	
+	public int getY1(){
+		
+		return y1;
+	}
+	
+	public void setY2(int a){
+		
+		y2 = a;
+	}
 
 	public boolean simulateMove()
 	{ //checks if move will put you in check
@@ -49,18 +97,11 @@ public class Board {
 
 		return check;
 	}
-
-//	public boolean sameColor(int x1, int y1, int x2, int y2)
-//	{
-//
-//		boolean same = false;
-//
-//		if((board[x1][y1].isWhite() && board[x2][y2].isWhite())
-//				|| (!board[x1][y1].isWhite() && !board[x2][y2].isWhite()))
-//			same = true;
-//
-//		return same;
-//	}
+	
+	public void showMoves(int x, int y){
+		
+		board[x][y].printMoves();
+	}
 
 	public void initializeBoard()
 	{
@@ -135,15 +176,9 @@ public class Board {
 					
 				}
 			}
-		}
-		
-		// 0, 7 wasn't made
-	
-		
-		
-		System.out.println("here");
-		board[0][7].setHorizontalandVertical();
-		System.out.println("not here");
+		}	
+		board[3][3] = new RookPiece(false,3,3,board);
+		board[3][3].setHorizontalandVertical();
 	}
 
 	public boolean isEmpty(int x, int y)
@@ -159,6 +194,17 @@ public class Board {
 
 		}
 		return empty;
+	}
+	
+	public boolean isValid(int x, int y)
+	{
+
+		boolean valid = true;
+
+		if((x>=0 && x<8) && (y>=0 && y<8))
+			valid = false;
+
+		return valid;
 	}
 
 	public void paintBoard(Graphics g)
