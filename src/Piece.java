@@ -9,12 +9,13 @@ public class Piece
 	int yCord;
 	boolean[][] canMove = new boolean[8][8];
 
-	public Piece(boolean white, int xCord, int yCord)
+	public Piece(boolean white, int xCord, int yCord, Piece[][] pieceBoard)
 	{
 
 		this.white = white;
 		this.xCord = xCord;
 		this.yCord = yCord;
+		this.pieceBoard = pieceBoard;
 	}
 
 	public boolean isWhite()
@@ -33,20 +34,6 @@ public class Piece
 	{
 
 		return pieceType;
-	}
-
-	public void setPieceBoard(Piece[][] board)
-	{
-
-		pieceBoard = board;
-
-	}
-
-	public Piece[][] getPieceBoard()
-	{
-
-		return pieceBoard;
-
 	}
 
 	public void clearMoveSet()
@@ -110,8 +97,8 @@ public class Piece
 
 	public void setHorizontalandVertical(){
 
-		System.out.println(""+xCord+","+yCord);
-		System.out.println(""+isWhite());
+//		System.out.println(""+xCord+","+yCord);
+//		System.out.println(""+isWhite());
 		
 		for(int x=(xCord-1); x>=0; x--)
 		{

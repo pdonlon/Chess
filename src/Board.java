@@ -11,9 +11,8 @@ public class Board {
 	public Board()
 	{
 		board = new Piece[8][8];
-		
-		boardPiece = new Piece(false,0,0);
-		boardPiece.setPieceBoard(board);
+		initializeBoard();
+
 	}
 
 	public void movePiece(int x1,int y1, int x2, int y2)
@@ -71,7 +70,7 @@ public class Board {
 			for(int x=0; x<9; x+=7)
 			{
 
-				board[x][y] = new RookPiece(false,x,y);
+				board[x][y] = new RookPiece(false,x,y,board);
 				//TODO change this to be global setMoves
 			}
 		}
@@ -81,7 +80,7 @@ public class Board {
 			for(int x=1; x<8; x+=5)
 			{
 
-				board[x][y] = new KnightPiece(false,x,y);
+				board[x][y] = new KnightPiece(false,x,y,board);
 			}
 		}
 
@@ -90,7 +89,7 @@ public class Board {
 			for(int x=2; x<8; x+=3)
 			{
 
-				board[x][y] = new BishopPiece(false,x,y);
+				board[x][y] = new BishopPiece(false,x,y,board);
 			}
 		}
 
@@ -98,7 +97,7 @@ public class Board {
 		{ //queen
 			int x = 3;
 
-			board[x][y] = new QueenPiece(false,x,y);
+			board[x][y] = new QueenPiece(false,x,y,board);
 
 		}
 
@@ -106,7 +105,7 @@ public class Board {
 		{ //king
 			int x = 4;
 
-			board[x][y] = new KingPiece(false,x,y);
+			board[x][y] = new KingPiece(false,x,y,board);
 		}
 
 //		for(int y=1; y<7; y+=5)
@@ -137,6 +136,11 @@ public class Board {
 				}
 			}
 		}
+		
+		// 0, 7 wasn't made
+	
+		
+		
 		System.out.println("here");
 		board[0][7].setHorizontalandVertical();
 		System.out.println("not here");

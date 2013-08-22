@@ -21,10 +21,10 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 	public static void main(String[]args)
 	{
 		
-		System.out.print("Hello Ricky");
+		//System.out.print("Hello Ricky");
 		
 		Play playChess = new Play();
-				//playChess.playBoard.movePiece(2, 7, 1, 6);
+		playChess.playBoard.movePiece(0, 7, 0, 1);
 
 		
 		playChess.repaint();
@@ -33,9 +33,8 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 	
 	public Play()
 	{
-		
 		playBoard = new Board();
-		playBoard.initializeBoard();
+
 		
 		playDisplay = new Display();
 		

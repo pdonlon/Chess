@@ -3,10 +3,9 @@
 public class BishopPiece extends Piece
 {
 
-
-	public BishopPiece(boolean white, int xCord, int yCord) 
+	public BishopPiece(boolean white, int xCord, int yCord, Piece[][] pieceBoard) 
 	{
-		super(white, xCord, yCord);
+		super(white, xCord, yCord, pieceBoard);
 		
 		this.pieceType = "Bishop";
 	}
