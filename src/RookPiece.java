@@ -9,7 +9,7 @@ public class RookPiece extends Piece
 		this.pieceType = "Rook";
 	}
 
-	public void setMoves(int x1, int y1)
+	public void setMoves()
 	{
 		setHorizontalandVertical();
 	}

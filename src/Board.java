@@ -29,7 +29,7 @@ public class Board {
 			System.out.print("works"+ x2+ ", "+y2);
 			board[x2][y2].clearMoveSet();
 			board[x2][y2].setXandYCord(x2, y2);
-			board[x2][y2].setHorizontalandVertical();
+			board[x2][y2].setMoves();
 		}
 		else
 			System.out.println("oops");
@@ -177,8 +177,8 @@ public class Board {
 				}
 			}
 		}	
-		board[3][3] = new RookPiece(false,3,3,board);
-		board[3][3].setHorizontalandVertical();
+		board[3][3] = new KnightPiece(true,3,3,board);
+		board[3][3].setMoves();
 	}
 
 	public boolean isEmpty(int x, int y)
