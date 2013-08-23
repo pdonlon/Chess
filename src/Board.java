@@ -179,7 +179,7 @@ public class Board {
 //				}
 //			}
 //		}	
-		board[3][3] = new PawnPiece(true,3,3,board);
+		board[3][3] = new KingPiece(true,3,3,board);
 		board[3][3].setMoves();
 	}
 
