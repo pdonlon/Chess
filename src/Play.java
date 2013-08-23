@@ -102,10 +102,16 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 		int x = (e.getX()+1)/(playBoard.tileSize+1);
 		int y = (e.getY()-22)/(playBoard.tileSize+1);
 		
+		if(playBoard.getTurnCount()%2==1){
+			x = playBoard.reflectNumber(x);
+			y = playBoard.reflectNumber(y);
+		}
+		
 		playBoard.setX1(x);
 		playBoard.setY1(y);
-		
+			
 		System.out.println(x+","+y);
+		System.out.println(playBoard.isWhite(x,y));
 		playBoard.showMoves(x, y);
 		//playChess.playBoard.movePiece(0, 7, 0, 1);
 	}
@@ -115,6 +121,11 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 	{
 		int x = (e.getX()+1)/(playBoard.tileSize+1);
 		int y = (e.getY()-22)/(playBoard.tileSize+1);
+		
+		if(playBoard.getTurnCount()%2==1){
+			x = playBoard.reflectNumber(x);
+			y = playBoard.reflectNumber(y);
+		}
 		
 		System.out.println(x+","+y);
 		
@@ -161,5 +172,7 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
 	
 }

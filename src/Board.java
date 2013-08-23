@@ -5,8 +5,10 @@ import java.awt.Graphics;
 public class Board {
 
 	Piece[][] board;
+	int[] reflectNumbers = {0,1,2,3,4,5,6,7};
 	int tileSize =60;
 	Piece boardPiece;
+	int turnCount = 0;
 	int x1;
 	int y1;
 	int x2;
@@ -30,8 +32,7 @@ public class Board {
 			board[x2][y2].setXandYCord(x2, y2);
 			clearAllMoves();
 			initializeMoves();
-			//			board[x2][y2].clearMoveSet();
-			//			board[x2][y2].setMoves();
+			turnCount++;
 		}
 		else
 			System.out.println("oops");
@@ -60,6 +61,11 @@ public class Board {
 	{
 
 		return tileSize;
+	}
+	
+	public int getTurnCount(){
+		
+		return turnCount;
 	}
 
 	public void setX1(int a){
@@ -92,6 +98,15 @@ public class Board {
 		y2 = a;
 	}
 
+	public boolean isWhite(int x, int y){
+		boolean white = false;
+		
+		if(board[x][y].isWhite())
+			white = true;
+		
+		return white;
+	}
+	
 	public boolean simulateMove()
 	{ //checks if move will put you in check
 		//TODO
@@ -227,16 +242,32 @@ public class Board {
 		return valid;
 	}
 
+public int reflectNumber(int num){
+		
+		int searchCount = 0;
+		for(int i=0; i<reflectNumbers.length; i++){
+			if(reflectNumbers[i]==num)
+				break;
+			else
+				searchCount++;
+		}
+		
+		int reflectedNum = reflectNumbers[7-searchCount];
+			return reflectedNum;
+	}
+	
 	public void paintBoard(Graphics g)
 	{
 
 		int tileMarker=0;
 		int ySpacing =0;
-
+		if(turnCount%2==1)
+			ySpacing = (tileSize+1)*7;
 		for(int y=0; y<8; y++)
 		{
-
 			int xSpacing =0;
+			if(turnCount%2==1)
+				xSpacing = (tileSize+1)*7;
 
 			for(int x=0; x<8; x++)
 			{
@@ -265,11 +296,18 @@ public class Board {
 					g.drawString(""+board[x][y].getPieceType().charAt(0), xSpacing+tileSize/2, ySpacing+tileSize/2);
 				}
 
-				xSpacing+=(tileSize+1);	
+
+				if(turnCount%2==1)
+					xSpacing-=(tileSize+1);
+				else
+					xSpacing+=(tileSize+1);	
 				tileMarker++;	
 
 			}
-			ySpacing+=(tileSize+1);
+			if(turnCount%2==1)
+				ySpacing-=(tileSize+1);
+			else
+				ySpacing+=(tileSize+1);
 			tileMarker++;
 		}
 

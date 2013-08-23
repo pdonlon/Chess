@@ -11,7 +11,6 @@ public class PawnPiece extends Piece
 
 	public void setMoves()
 	{
-
 		if(isWhite())
 		{
 			int y=(yCord-1); //up

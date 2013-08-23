@@ -7,6 +7,7 @@ public class Piece
 	String pieceType;
 	int xCord;
 	int yCord;
+	int turnCount;
 	boolean[][] canMove = new boolean[8][8];
 
 	public Piece(boolean white, int xCord, int yCord, Piece[][] pieceBoard)
