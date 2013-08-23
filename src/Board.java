@@ -27,23 +27,25 @@ public class Board {
 			board[x2][y2] = board[x1][y1];
 			board[x1][y1] = null;
 			System.out.print("works"+ x2+ ", "+y2);
-			board[x2][y2].clearMoveSet();
 			board[x2][y2].setXandYCord(x2, y2);
-			board[x2][y2].setMoves();
+			clearAllMoves();
+			initializeMoves();
+			//			board[x2][y2].clearMoveSet();
+			//			board[x2][y2].setMoves();
 		}
 		else
 			System.out.println("oops");
-		
+
 	}
-	
+
 	public boolean sameSpot()
 	{
-		
+
 		boolean same = false;
-		
+
 		if(x1 == x2 && y1 == y2)
 			same = true;
-		
+
 		return same;
 	}
 
@@ -53,40 +55,40 @@ public class Board {
 		return board;
 
 	}
-	
+
 	public int getTileSize()
 	{
-		
+
 		return tileSize;
 	}
-	
+
 	public void setX1(int a){
-		
+
 		x1 = a;
 	}
-	
+
 	public int getX1(){
-		
+
 		return x1;
 	}
-	
+
 	public void setX2(int a){
-		
+
 		x2 = a;
 	}
-	
+
 	public void setY1(int a){
-		
+
 		y1 = a;
 	}
-	
+
 	public int getY1(){
-		
+
 		return y1;
 	}
-	
+
 	public void setY2(int a){
-		
+
 		y2 = a;
 	}
 
@@ -97,9 +99,9 @@ public class Board {
 
 		return check;
 	}
-	
+
 	public void showMoves(int x, int y){
-		
+
 		board[x][y].printMoves();
 	}
 
@@ -160,27 +162,43 @@ public class Board {
 
 		for(int y=6; y<8; y++){
 			for(int x=0; x<8; x++){
-				
+
 				board[x][y].setWhite(true);
-				
+
 			}
 		}
-		
-//		for(int y=0; y<8; y++)
-//		{
-//			for(int x=0; x<8; x++)
-//			{
-//				
-//				try{
-//				board[x][y].setWhite(true);
-//				}
-//				catch(Exception E){
-//					
-//				}
-//			}
-//		}	
-		board[3][3] = new KingPiece(true,3,3,board);
-		board[3][3].setMoves();
+		initializeMoves();
+	}
+
+	public void initializeMoves()
+	{
+
+		for(int y=0; y<8; y++)
+		{
+			for(int x=0; x<8; x++)
+			{
+
+				if(!isEmpty(x,y))
+					board[x][y].setMoves();
+
+			}
+		}
+
+	}
+
+	public void clearAllMoves(){
+
+		for(int y=0; y<8; y++)
+		{
+			for(int x=0; x<8; x++)
+			{
+
+				if(!isEmpty(x,y))
+					board[x][y].clearMoveSet();
+
+			}
+		}
+
 	}
 
 	public boolean isEmpty(int x, int y)
@@ -197,7 +215,7 @@ public class Board {
 		}
 		return empty;
 	}
-	
+
 	public boolean isValid(int x, int y)
 	{
 
@@ -249,7 +267,7 @@ public class Board {
 
 				xSpacing+=(tileSize+1);	
 				tileMarker++;	
-				
+
 			}
 			ySpacing+=(tileSize+1);
 			tileMarker++;
