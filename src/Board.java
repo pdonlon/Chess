@@ -13,6 +13,8 @@ public class Board {
 	int y1;
 	int x2;
 	int y2;
+	int dragCordX;
+	int dragCordY;
 	boolean dragging = false;
 
 	public Board()
@@ -99,7 +101,16 @@ public class Board {
 		y2 = a;
 	}
 	
-	//public void set
+	public void setDragging(boolean a){
+		
+		dragging = a;
+	}
+	
+	public void setDraggingCoordinates(int x, int y)
+	{
+		dragCordX = x;
+		dragCordY = y;
+	}
 
 	public boolean isWhite(int x, int y){
 		boolean white = false;
@@ -284,13 +295,14 @@ public int reflectNumber(int num){
 
 				if(!isEmpty(x,y))
 				{
-					if(board[x][y].isWhite())
+					if((board[x][y].isWhite())&&((!dragging)||(x1!=x)||(y1!=y)))
+	
 					{
 						g.setColor(Color.WHITE);
 						g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
 						g.setColor(Color.BLACK);
 					}
-					else
+					else if((!board[x][y].isWhite())&&((!dragging)||(x1!=x)||(y1!=y)))
 					{
 						g.setColor(Color.BLACK);
 						g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
@@ -314,8 +326,15 @@ public int reflectNumber(int num){
 			tileMarker++;
 		}
 
-		
-		
+		if(dragging){
+			if(board[x1][y1].isWhite())
+			g.setColor(Color.WHITE);
+			else
+				g.setColor(Color.BLACK);
+			g.fillOval(dragCordX-(tileSize*2/7), dragCordY-(tileSize*5/7), tileSize*3/4, tileSize*3/4);
+			
+		}
+			
 	}
-
 }
+

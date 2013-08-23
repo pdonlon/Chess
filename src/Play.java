@@ -132,6 +132,8 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 	@Override
 	public void mouseReleased(MouseEvent e) 
 	{
+		playBoard.setDragging(false);
+		
 		int x = (e.getX()+1)/(playBoard.tileSize+1);
 		int y = (e.getY()-22)/(playBoard.tileSize+1);
 
@@ -168,7 +170,9 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 	@Override
 	public void mouseDragged(MouseEvent e) 
 	{
-		// TODO Auto-generated method stub
+		playBoard.setDragging(true);
+		playBoard.setDraggingCoordinates(e.getX(),e.getY());
+		repaint();
 
 	}
 
