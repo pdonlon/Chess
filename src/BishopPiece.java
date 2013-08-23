@@ -10,7 +10,7 @@ public class BishopPiece extends Piece
 		this.pieceType = "Bishop";
 	}
 
-	public void setMoves(int x1, int y1)
+	public void setMoves()
 	{
 		setDiagonal();
 	}

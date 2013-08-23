@@ -149,35 +149,37 @@ public class Board {
 			board[x][y] = new KingPiece(false,x,y,board);
 		}
 
-//		for(int y=1; y<7; y+=5)
-//		{ //pawn
-//			for(int x=0; x<8; x++)
-//			{
-//
-//				board[x][y] = new PawnPiece(false);
-//			}
-//		}
+		for(int y=1; y<7; y+=5)
+		{ //pawn
+			for(int x=0; x<8; x++)
+			{
 
-//		for(int y=6; y<8; y++){
-//			for(int x=0; x<8; x++){
-//				
-//				board[x][y].setWhite(true);
-//				
-//			}
-//		}
-//		
-		for(int y=0; y<8; y++){
+				board[x][y] = new PawnPiece(false,x,y,board);
+			}
+		}
+
+		for(int y=6; y<8; y++){
 			for(int x=0; x<8; x++){
 				
-				try{
 				board[x][y].setWhite(true);
-				}
-				catch(Exception E){
-					
-				}
+				
 			}
-		}	
-		board[3][3] = new KnightPiece(true,3,3,board);
+		}
+		
+//		for(int y=0; y<8; y++)
+//		{
+//			for(int x=0; x<8; x++)
+//			{
+//				
+//				try{
+//				board[x][y].setWhite(true);
+//				}
+//				catch(Exception E){
+//					
+//				}
+//			}
+//		}	
+		board[3][3] = new PawnPiece(true,3,3,board);
 		board[3][3].setMoves();
 	}
 

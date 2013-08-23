@@ -8,7 +8,7 @@ public class QueenPiece extends Piece{
 		this.pieceType = "Queen";
 	}
 
-	public void setMoves(int x1, int y1)
+	public void setMoves()
 	{
 		setDiagonal();
 		setHorizontalandVertical();

@@ -106,26 +106,15 @@ public class Piece
 		}
 		return same;
 	}
-	
-//	public void setHorizontalandVertical()
-//	{
-//		for(int y=(yCord-1); y>=0; y--)
-//		{
-//			if(isValid(xCord,y)){
-//				canMove[xCord][y]= true;
-//			}
-//		}
-//	}
+
 
 	public void setHorizontalandVertical()
 	{
 		for(int x=(xCord-1); x>=0; x--) //left
 		{
 			System.out.print(x+","+yCord+" ");
-			if(isValid(x,yCord)){
-				
-				System.out.println();
-				System.out.print(x+","+yCord+" ");
+			if(isValid(x,yCord))
+			{
 				if(isEmpty(x,yCord) || !sameColor(x, yCord))
 					canMove[x][yCord] = true;
 				else
@@ -135,7 +124,8 @@ public class Piece
 
 		for(int x=(xCord+1); x<8; x++) //right
 		{
-			if(isValid(x,yCord)){
+			if(isValid(x,yCord))
+			{
 				if(isEmpty(x,yCord) || !sameColor(x, yCord))
 					canMove[x][yCord] = true;
 				else
@@ -145,7 +135,8 @@ public class Piece
 
 		for(int y=(yCord-1); y>=0; y--) //up
 		{
-			if(isValid(xCord,y)){
+			if(isValid(xCord,y))
+			{
 				if(isEmpty(xCord,y) || !sameColor(xCord, y))
 					canMove[xCord][y] = true;
 				else
@@ -155,7 +146,8 @@ public class Piece
 
 		for(int y=(yCord+1); y<8; y++) //down
 		{
-			if(isValid(xCord,y)){
+			if(isValid(xCord,y))
+			{
 				if(isEmpty(xCord,y) || !sameColor(xCord, y))
 					canMove[xCord][y] = true;
 				else
@@ -181,7 +173,6 @@ public class Piece
 			xL--;
 			yD--;
 		}
-		System.out.println("1");
 		xL = (xCord-1); //left
 		int yU = (yCord+1); //up
 		while(xL >=0 && yU<8)
