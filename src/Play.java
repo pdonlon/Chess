@@ -14,28 +14,28 @@ import javax.swing.JPanel;
 
 public class Play extends JFrame implements ActionListener, MouseMotionListener, MouseListener, KeyListener
 {
-	
+
 	Board playBoard;
 	Display playDisplay;
-	
+
 	public static void main(String[]args)
 	{
-		
+
 		//System.out.print("Hello Ricky");
-		
+
 		Play playChess = new Play();
-		
+
 		playChess.repaint();
-//		System.out.print(playChess.playBoard.boardPiece.);
+		//		System.out.print(playChess.playBoard.boardPiece.);
 	}
-	
+
 	public Play()
 	{
 		playBoard = new Board();
 
-		
+
 		playDisplay = new Display();
-		
+
 		this.pack();
 		setTitle("Chess");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //EXIT_ON_CLOSE
@@ -48,68 +48,81 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 		this.addMouseMotionListener(this);
 		this.addKeyListener(this);
 
-		
+
 	}
-	
-	
-	
+
+
+
 	public class Display extends JPanel
 	{ 
-		
+
 		public void paintComponent(Graphics g)
 		{
-			
+
 			super.paintComponent(g);
 			this.setBackground(Color.GRAY);
 			playBoard.paintBoard(g);
 		}
-		
+
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) 
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) 
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) 
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) 
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) 
 	{
-		
-		
+
+
 		int x = (e.getX()+1)/(playBoard.tileSize+1);
 		int y = (e.getY()-22)/(playBoard.tileSize+1);
-		
+
 		if(playBoard.getTurnCount()%2==1){
 			x = playBoard.reflectNumber(x);
 			y = playBoard.reflectNumber(y);
+			
+			if(!playBoard.isWhite(x, y))
+			{
+				playBoard.setX1(x);
+				playBoard.setY1(y);	
+			}
+			
+		}
+
+		else
+		{
+			if(playBoard.isWhite(x, y))
+			{
+				playBoard.setX1(x);
+				playBoard.setY1(y);	
+			}
 		}
 		
-		playBoard.setX1(x);
-		playBoard.setY1(y);
-			
 		System.out.println(x+","+y);
 		System.out.println(playBoard.isWhite(x,y));
 		playBoard.showMoves(x, y);
@@ -121,58 +134,58 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 	{
 		int x = (e.getX()+1)/(playBoard.tileSize+1);
 		int y = (e.getY()-22)/(playBoard.tileSize+1);
-		
+
 		if(playBoard.getTurnCount()%2==1){
 			x = playBoard.reflectNumber(x);
 			y = playBoard.reflectNumber(y);
 		}
-		
+
 		System.out.println(x+","+y);
-		
+
 		playBoard.setX2(x);
 		playBoard.setY2(y);
-		
+
 		playBoard.movePiece();
-			
+
 		repaint();
-		}
-		
+	}
+
 
 	@Override
 	public void mouseEntered(MouseEvent e) 
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) 
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) 
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) 
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
-	
-	
-	
+
+
+
 }

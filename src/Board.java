@@ -13,6 +13,7 @@ public class Board {
 	int y1;
 	int x2;
 	int y2;
+	boolean dragging = false;
 
 	public Board()
 	{
@@ -97,6 +98,8 @@ public class Board {
 
 		y2 = a;
 	}
+	
+	//public void set
 
 	public boolean isWhite(int x, int y){
 		boolean white = false;
@@ -311,10 +314,8 @@ public int reflectNumber(int num){
 			tileMarker++;
 		}
 
+		
+		
 	}
-
-	//check if the piece can go there (rules)
-	//will another piece block it? (excludes knight)
-	//check if the move will put you in check
 
 }
