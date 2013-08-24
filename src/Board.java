@@ -201,34 +201,34 @@ public class Board {
 			board[x][y] = new KingPiece(false,x,y,board,whiteMoves,blackMoves);
 		}
 
-//		for(int y=1; y<7; y+=5)
-//		{ //pawn
-//			for(int x=0; x<8; x++)
-//			{
-//
-//				board[x][y] = new PawnPiece(false,x,y,board,whiteMoves,blackMoves);
-//			}
-//		}
-//
-//		for(int y=6; y<8; y++){
-//			for(int x=0; x<8; x++){
-//
-//				board[x][y].setWhite(true);
-//
-//			}
-//		}
-		board[2][2] = new PawnPiece(false,2,2,board,whiteMoves,blackMoves);
-		board[2][3] = new PawnPiece(false,2,3,board,whiteMoves,blackMoves);
-		board[2][4] = new PawnPiece(false,2,4,board,whiteMoves,blackMoves);
-		board[3][2] = new PawnPiece(false,3,2,board,whiteMoves,blackMoves);
-		board[3][4] = new PawnPiece(false,3,4,board,whiteMoves,blackMoves);
-		board[2][4] = new PawnPiece(false,2,4,board,whiteMoves,blackMoves);
-		board[4][2] = new PawnPiece(false,4,2,board,whiteMoves,blackMoves);
-		board[4][3] = new PawnPiece(false,4,3,board,whiteMoves,blackMoves);
-		board[4][4] = new PawnPiece(false,4,4,board,whiteMoves,blackMoves);
-		
-		board[3][3] = new QueenPiece(false,3,3,board,whiteMoves,blackMoves);
-		board[3][3].setWhite(true);
+		for(int y=1; y<7; y+=5)
+		{ //pawn
+			for(int x=0; x<8; x++)
+			{
+
+				board[x][y] = new PawnPiece(false,x,y,board,whiteMoves,blackMoves);
+			}
+		}
+
+		for(int y=6; y<8; y++){
+			for(int x=0; x<8; x++){
+
+				board[x][y].setWhite(true);
+
+			}
+		}
+//		board[2][2] = new PawnPiece(false,2,2,board,whiteMoves,blackMoves);
+//		board[2][3] = new PawnPiece(false,2,3,board,whiteMoves,blackMoves);
+//		board[2][4] = new PawnPiece(false,2,4,board,whiteMoves,blackMoves);
+//		board[3][2] = new PawnPiece(false,3,2,board,whiteMoves,blackMoves);
+//		board[3][4] = new PawnPiece(false,3,4,board,whiteMoves,blackMoves);
+//		board[2][4] = new PawnPiece(false,2,4,board,whiteMoves,blackMoves);
+//		board[4][2] = new PawnPiece(false,4,2,board,whiteMoves,blackMoves);
+//		board[4][3] = new PawnPiece(false,4,3,board,whiteMoves,blackMoves);
+//		board[4][4] = new PawnPiece(false,4,4,board,whiteMoves,blackMoves);
+//		
+//		board[3][3] = new QueenPiece(false,3,3,board,whiteMoves,blackMoves);
+
 		
 		initializeWhiteMoves();
 		initializeBlackMoves();

@@ -185,10 +185,9 @@ public class Piece
 			{
 				if(isEmpty(x,yCord) || !sameColor(x, yCord))
 					canMove[x][yCord] = true;
-				if(!sameColor(x, yCord))
+				if(!isEmpty(x,yCord)&&(!sameColor(x, yCord)||sameColor(x,yCord)))
 					break;
-				else
-					break;
+				
 			}
 		}
 
@@ -198,10 +197,9 @@ public class Piece
 			{
 				if(isEmpty(x,yCord) || !sameColor(x, yCord))
 					canMove[x][yCord] = true;
-				if(!sameColor(x, yCord))
+				if(!isEmpty(x,yCord)&&(!sameColor(x, yCord)|| sameColor(x, yCord)))
 					break;
-				else
-					break;
+				
 			}
 		}
 
@@ -211,10 +209,9 @@ public class Piece
 			{
 				if(isEmpty(xCord,y) || !sameColor(xCord, y))
 					canMove[xCord][y] = true;
-				if(!sameColor(xCord, y))
+				if(!isEmpty(xCord,y)&&(!sameColor(xCord, y)||sameColor(xCord, y)))
 					break;
-				else
-					break;
+				
 			}
 		}
 
@@ -224,10 +221,9 @@ public class Piece
 			{
 				if(isEmpty(xCord,y) || !sameColor(xCord, y))
 					canMove[xCord][y] = true;
-				if(!sameColor(xCord, y))
+				if(!isEmpty(xCord,y)&&(!sameColor(xCord, y)||sameColor(xCord, y)))
 					break;
-				else
-					break;
+				
 			}
 		}
 		addBlackAndWhiteMoves();
@@ -236,34 +232,33 @@ public class Piece
 	public void setDiagonal(){
 
 		int xL = (xCord-1); //left
-		int yD = (yCord-1); //down
+		int yD = (yCord-1); //up
 		while(xL >=0 && yD >=0)
 		{
 			if(isValid(xL,yD))
 			{
 				if(isEmpty(xL,yD) || !sameColor( xL, yD))
 					canMove[xL][yD] = true;
-				else
+				if(!isEmpty(xL,yD)&&(!sameColor( xL, yD)||sameColor( xL, yD)))
 					break;
 			}
 			xL--;
 			yD--;
 		}
 		xL = (xCord-1); //left
-		int yU = (yCord+1); //up
+		int yU = (yCord+1); //down
 		while(xL >=0 && yU<8)
 		{
 			if(isValid(xL,yU))
 			{
 				if(isEmpty(xL,yU) || !sameColor(xL, yU))
 					canMove[xL][yU] = true;
-				else
+				if(!isEmpty(xL,yU)&&(!sameColor(xL, yU)||sameColor(xL, yU)))
 					break;
+				
+			}
 				xL--;
 				yU++;
-			}
-			else
-				break;
 		}
 
 		int xR = (xCord+1); //right
@@ -274,13 +269,11 @@ public class Piece
 			{
 				if(isEmpty(xR,yD) || !sameColor(xR, yD))
 					canMove[xR][yD] = true;
-				else
+				if(!isEmpty(xR,yD)&&(!sameColor(xR, yD)||sameColor(xR, yD)))
 					break;
+			}
 				xR++;
 				yD--;
-			}
-			else
-				break;
 		}
 
 		xR = (xCord+1); //right
@@ -291,13 +284,11 @@ public class Piece
 			{
 				if(isEmpty(xR,yU) || !sameColor(xR, yU))
 					canMove[xR][yU] = true;
-				else
+				if(!isEmpty(xR,yU)&&(!sameColor(xR, yU)||sameColor(xR, yU)))
 					break;
+			}
 				xR++;
 				yU++;
-			}
-			else
-				break;
 		}
 		addBlackAndWhiteMoves();
 	}
