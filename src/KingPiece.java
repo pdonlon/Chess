@@ -19,16 +19,19 @@ public class KingPiece extends Piece{
 
 				if(isValid(xCord+x,yCord+y)&&(!sameColor(xCord+x, yCord+y)||isEmpty(xCord+x,yCord+y)))
 				{
+					if(white && isValid(xCord+x,yCord+y)&&!whiteMoves[xCord+x][yCord+y])
+						whiteMoves[xCord+x][yCord+y] = true;
 					
-					if( (pieceBoard[xCord][yCord].isWhite()&& !blackMoves[xCord+x][yCord+y]) 
-						|| (!pieceBoard[xCord][yCord].isWhite() && !whiteMoves[xCord+x][yCord+y]) )
+					else if(!white && isValid(xCord+x,yCord+y)&&!blackMoves[xCord+x][yCord+y])
+						blackMoves[xCord+x][yCord+y] = true;
 						
+					if((white && !blackMoves[xCord+x][yCord+y]) || (!white && !whiteMoves[xCord+x][yCord+y]))	
 						canMove[xCord+x][yCord+y]=true;
+					
 				}
 			}
 		}
-		
+		addBlackAndWhiteMoves();
 	}
-
 
 }

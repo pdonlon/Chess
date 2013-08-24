@@ -413,16 +413,16 @@ public class Board {
 					g.drawString(""+board[x][y].getPieceType().charAt(0), xSpacing+tileSize/2, ySpacing+tileSize/2);
 				}
 
-				else if(isEmpty(x,y))
-				{
-					g.setColor(Color.CYAN);
-					if(whiteMoves[x][y]&&turnCount%2==1)
-						g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
-					else if(blackMoves[x][y]&&turnCount%2==0){
-						g.setColor(Color.RED);
-						g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
-					}
-				}
+//				else if(isEmpty(x,y))
+//				{
+//					g.setColor(Color.CYAN);
+//					if(whiteMoves[x][y]&&turnCount%2==1)
+//						g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
+//					else if(blackMoves[x][y]&&turnCount%2==0){
+//						g.setColor(Color.RED);
+//						g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
+//					}
+//				}
 
 				if(turnCount%2==1)
 					xSpacing-=(tileSize+1);
