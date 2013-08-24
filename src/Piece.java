@@ -12,6 +12,7 @@ public class Piece
 	int turnCount;
 	boolean[][] canMove = new boolean[8][8];
 	boolean isKing = false;
+	boolean isPawn = false;
 
 	public Piece(boolean white, int xCord, int yCord, Piece[][] pieceBoard, boolean[][] whiteMoves, boolean[][] blackMoves)
 	{
@@ -48,7 +49,8 @@ public class Piece
 		return pieceType;
 	}
 
-	public void setMoves(){
+	public void setMoves()
+	{
 
 	}
 
@@ -66,9 +68,9 @@ public class Piece
 		}
 
 	}
-	
+
 	public boolean isKing(){
-		
+
 		return isKing;
 	}
 
@@ -115,8 +117,9 @@ public class Piece
 		}
 		return same;
 	}
-	
-	public void addBlackAndWhiteMoves(){
+
+	public void addBlackAndWhiteMoves()
+	{
 
 		for(int y=0; y<8; y++){
 			for(int x=0; x<8; x++){
@@ -124,23 +127,52 @@ public class Piece
 				if(white && canMove(x,y) && !whiteMoves[x][y])
 					whiteMoves[x][y] = true;
 
-				else if(!white && canMove(x,y) && !whiteMoves[x][y])
+				else if(!white && canMove(x,y) && !blackMoves[x][y])
 					blackMoves[x][y] = true;
 
 			}
 		}
 
 	}
-	
+
+	public void addPawnMoves()
+	{
+		for(int y=0; y<8; y++)
+		{
+			for(int x=0; x<8; x++)
+			{
+				if(!isEmpty(x,y)){
+
+					if(pieceBoard[x][y].isWhite()&&pieceBoard[x][y].isPawn)
+					{
+						if(isValid(x-1,y-1)&&!whiteMoves[x-1][y-1])
+							whiteMoves[x-1][y-1] = true;
+
+						if(isValid(x+1,y-1)&&!whiteMoves[x+1][y-1])
+							whiteMoves[x+1][y-1] = true;
+					}
+					if(!pieceBoard[x][y].isWhite()&&pieceBoard[x][y].isPawn)
+					{
+						if(isValid(x-1,y+1)&&!blackMoves[x-1][y+1])
+							blackMoves[x-1][y+1] = true;
+
+						if(isValid(x+1,y+1)&&!blackMoves[x+1][y+1])
+							blackMoves[x+1][y+1] = true;
+					}
+				}
+			}
+		}
+	}
+
 	public boolean canMove(int x, int y){
-		
+
 		boolean can = false;
 		try{
 			if(canMove[x][y])
 				can = true;
 		}
 		catch(Exception e){
-			
+
 		}
 		return can;
 	}
@@ -153,6 +185,8 @@ public class Piece
 			{
 				if(isEmpty(x,yCord) || !sameColor(x, yCord))
 					canMove[x][yCord] = true;
+				if(!sameColor(x, yCord))
+					break;
 				else
 					break;
 			}
@@ -164,6 +198,8 @@ public class Piece
 			{
 				if(isEmpty(x,yCord) || !sameColor(x, yCord))
 					canMove[x][yCord] = true;
+				if(!sameColor(x, yCord))
+					break;
 				else
 					break;
 			}
@@ -175,6 +211,8 @@ public class Piece
 			{
 				if(isEmpty(xCord,y) || !sameColor(xCord, y))
 					canMove[xCord][y] = true;
+				if(!sameColor(xCord, y))
+					break;
 				else
 					break;
 			}
@@ -186,6 +224,8 @@ public class Piece
 			{
 				if(isEmpty(xCord,y) || !sameColor(xCord, y))
 					canMove[xCord][y] = true;
+				if(!sameColor(xCord, y))
+					break;
 				else
 					break;
 			}
@@ -261,7 +301,8 @@ public class Piece
 		}
 		addBlackAndWhiteMoves();
 	}
-	public boolean isAble(int x, int y){
+	public boolean isAble(int x, int y)
+	{
 
 		boolean able = false;
 

@@ -123,10 +123,6 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 			}
 		}
 		
-//		System.out.println(x+","+y);
-//		System.out.println(playBoard.isWhite(x,y));
-//		playBoard.showMoves(x, y);
-		//playChess.playBoard.movePiece(0, 7, 0, 1);
 	}
 
 	@Override

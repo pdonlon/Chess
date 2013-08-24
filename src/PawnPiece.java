@@ -7,6 +7,7 @@ public class PawnPiece extends Piece
 		super(white, xCord, yCord, pieceBoard,whiteMoves,blackMoves);
 
 		this.pieceType = "Pawn";
+		isPawn = true;
 	}
 
 	public void setMoves()
@@ -44,7 +45,7 @@ public class PawnPiece extends Piece
 					canMove[xCord-1][y] = true;
 			}
 		}
-		addBlackAndWhiteMoves();
+		addPawnMoves();
 	}
 
 

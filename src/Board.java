@@ -15,7 +15,7 @@ public class Board {
 	int y2;
 	int dragCordX;
 	int dragCordY;
-	
+
 	boolean[][] whiteMoves;
 	boolean[][] blackMoves;
 	boolean dragging = false;
@@ -25,7 +25,7 @@ public class Board {
 		whiteMoves = new boolean[8][8];
 		blackMoves = new boolean[8][8];
 		initializeBlackAndWhiteMoves();
-		
+
 		board = new Piece[8][8];
 		initializeBoard();
 		printWhiteMoves();
@@ -33,16 +33,38 @@ public class Board {
 
 	public void movePiece()
 	{
-
 		if(board[x1][y1].isAble(x2,y2)&& !sameSpot())
 		{
 			board[x2][y2] = board[x1][y1];
 			board[x1][y1] = null;
 			board[x2][y2].setXandYCord(x2, y2);
+
 			printWhiteMoves();
-			clearBlackAndWhiteMoves();
-			clearAllMoves();
-			initializeMoves();
+			
+			if(turnCount%2==0) //Black Move
+			{
+				clearWhiteMoves();
+				clearWhiteMoveSet();
+				initializeWhiteMoves();
+				
+				clearBlackMoves();
+				clearBlackMoveSet();
+				initializeBlackMoves();
+			}
+
+			else if(turnCount%2==1) //WhiteMove
+			{
+				clearBlackMoves();
+				clearBlackMoveSet();
+				initializeBlackMoves();
+				
+				clearWhiteMoves();
+				clearWhiteMoveSet();
+				initializeWhiteMoves();
+			}
+
+			printWhiteMoves();
+			
 			turnCount++;
 		}
 		else
@@ -73,9 +95,9 @@ public class Board {
 
 		return tileSize;
 	}
-	
+
 	public int getTurnCount(){
-		
+
 		return turnCount;
 	}
 
@@ -108,12 +130,12 @@ public class Board {
 
 		y2 = a;
 	}
-	
+
 	public void setDragging(boolean a){
-		
+
 		dragging = a;
 	}
-	
+
 	public void setDraggingCoordinates(int x, int y)
 	{
 		dragCordX = x;
@@ -122,10 +144,10 @@ public class Board {
 
 	public boolean isWhite(int x, int y){
 		boolean white = false;
-		
+
 		if(board[x][y].isWhite())
 			white = true;
-		
+
 		return white;
 	}
 
@@ -136,9 +158,6 @@ public class Board {
 
 	public void initializeBoard()
 	{
-
-		
-		
 		for(int y=0; y<9; y+=7)
 		{ //rook
 			for(int x=0; x<9; x+=7)
@@ -182,92 +201,135 @@ public class Board {
 			board[x][y] = new KingPiece(false,x,y,board,whiteMoves,blackMoves);
 		}
 
-		for(int y=1; y<7; y+=5)
-		{ //pawn
-			for(int x=0; x<8; x++)
-			{
-
-				board[x][y] = new PawnPiece(false,x,y,board,whiteMoves,blackMoves);
-			}
-		}
-
-		for(int y=6; y<8; y++){
-			for(int x=0; x<8; x++){
-
-				board[x][y].setWhite(true);
-
-			}
-		}
-		initializeMoves();
+//		for(int y=1; y<7; y+=5)
+//		{ //pawn
+//			for(int x=0; x<8; x++)
+//			{
+//
+//				board[x][y] = new PawnPiece(false,x,y,board,whiteMoves,blackMoves);
+//			}
+//		}
+//
+//		for(int y=6; y<8; y++){
+//			for(int x=0; x<8; x++){
+//
+//				board[x][y].setWhite(true);
+//
+//			}
+//		}
+		board[2][2] = new PawnPiece(false,2,2,board,whiteMoves,blackMoves);
+		board[2][3] = new PawnPiece(false,2,3,board,whiteMoves,blackMoves);
+		board[2][4] = new PawnPiece(false,2,4,board,whiteMoves,blackMoves);
+		board[3][2] = new PawnPiece(false,3,2,board,whiteMoves,blackMoves);
+		board[3][4] = new PawnPiece(false,3,4,board,whiteMoves,blackMoves);
+		board[2][4] = new PawnPiece(false,2,4,board,whiteMoves,blackMoves);
+		board[4][2] = new PawnPiece(false,4,2,board,whiteMoves,blackMoves);
+		board[4][3] = new PawnPiece(false,4,3,board,whiteMoves,blackMoves);
+		board[4][4] = new PawnPiece(false,4,4,board,whiteMoves,blackMoves);
+		
+		board[3][3] = new QueenPiece(false,3,3,board,whiteMoves,blackMoves);
+		board[3][3].setWhite(true);
+		
+		initializeWhiteMoves();
+		initializeBlackMoves();
 	}
 
-	public void initializeMoves()
+	public void initializeWhiteMoves()
 	{
-		
+
 		for(int y=0; y<8; y++)
 		{
 			for(int x=0; x<8; x++)
 			{
-
-				if(!isEmpty(x,y)&&!board[x][y].isKing)
+				if(!isEmpty(x,y)&&board[x][y].isWhite())
 					board[x][y].setMoves();
-				
+
 			}
 		}
-		
-		for(int y=0; y<8; y++)
-		{
-			for(int x=0; x<8; x++)
-			{
 
-				if(!isEmpty(x,y)&&board[x][y].isKing)
-					board[x][y].setMoves();
-				
-			}
-		}
-		//has to initialize Kings LAST TODO
 	}
-	
-	public void initializeBlackAndWhiteMoves(){
-		
+
+	public void initializeBlackMoves()
+	{
 		for(int y=0; y<8; y++)
 		{
 			for(int x=0; x<8; x++)
 			{
-				
+				if(!isEmpty(x,y)&&!board[x][y].isWhite())
+					board[x][y].setMoves();
+
+			}
+		}
+
+	}
+
+	public void initializeBlackAndWhiteMoves()
+	{	
+		for(int y=0; y<8; y++)
+		{
+			for(int x=0; x<8; x++)
+			{
+
 				whiteMoves[x][y] = false;
 				blackMoves[x][y] = false;
-				
+
 			}
 		}
-		
+
 	}
 
-	public void clearAllMoves(){
-
+	public void clearBlackMoveSet()
+	{
 		for(int y=0; y<8; y++)
 		{
 			for(int x=0; x<8; x++)
 			{
 
-				if(!isEmpty(x,y))
+				if(!isEmpty(x,y)&&!board[x][y].isWhite())
 					board[x][y].clearMoveSet();
 
 			}
 		}
 
 	}
-	
-	public void clearBlackAndWhiteMoves(){
-		
-		for(int y=0; y<8; y++){
-			for(int x=0; x<8; x++){
-				
+
+	public void clearWhiteMoveSet()
+	{
+		for(int y=0; y<8; y++)
+		{
+			for(int x=0; x<8; x++)
+			{
+
+				if(!isEmpty(x,y)&&board[x][y].isWhite())
+					board[x][y].clearMoveSet();
+
+			}
+		}
+
+	}
+
+	public void clearWhiteMoves()
+	{
+		for(int y=0; y<8; y++)
+		{
+			for(int x=0; x<8; x++)
+			{
 				whiteMoves[x][y] = false;
+
+			}
+		}
+
+	}
+
+	public void clearBlackMoves()
+	{
+		for(int y=0; y<8; y++)
+		{
+			for(int x=0; x<8; x++)
+			{
 				blackMoves[x][y] = false;
 			}
 		}
-		
 	}
 
 	public boolean isEmpty(int x, int y)
@@ -297,7 +359,7 @@ public class Board {
 	}
 
 	public int reflectNumber(int num){
-		
+
 		int searchCount = 0;
 		for(int i=0; i<reflectNumbers.length; i++){
 			if(reflectNumbers[i]==num)
@@ -305,17 +367,17 @@ public class Board {
 			else
 				searchCount++;
 		}
-		
+
 		int reflectedNum = reflectNumbers[7-searchCount];
-			return reflectedNum;
+		return reflectedNum;
 	}
-	
+
 	public void paintBoard(Graphics g)
 	{
 
 		int tileMarker=0;
 		int ySpacing =0;
-		if(turnCount%2==1)
+		if(turnCount%2==1) //Black Move
 			ySpacing = (tileSize+1)*7;
 		for(int y=0; y<8; y++)
 		{
@@ -336,7 +398,7 @@ public class Board {
 				if(!isEmpty(x,y))
 				{
 					if((board[x][y].isWhite())&&((!dragging)||(x1!=x)||(y1!=y)))
-	
+
 					{
 						g.setColor(Color.WHITE);
 						g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
@@ -351,6 +413,16 @@ public class Board {
 					g.drawString(""+board[x][y].getPieceType().charAt(0), xSpacing+tileSize/2, ySpacing+tileSize/2);
 				}
 
+				else if(isEmpty(x,y))
+				{
+					g.setColor(Color.CYAN);
+					if(whiteMoves[x][y]&&turnCount%2==1)
+						g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
+					else if(blackMoves[x][y]&&turnCount%2==0){
+						g.setColor(Color.RED);
+						g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
+					}
+				}
 
 				if(turnCount%2==1)
 					xSpacing-=(tileSize+1);
@@ -365,27 +437,31 @@ public class Board {
 				ySpacing+=(tileSize+1);
 			tileMarker++;
 		}
+		
+		
 
-		if(dragging){
+		if(dragging)
+		{
 			if(board[x1][y1].isWhite())
-			g.setColor(Color.WHITE);
+				g.setColor(Color.WHITE);
 			else
 				g.setColor(Color.BLACK);
 			g.fillOval(dragCordX-(tileSize*2/7), dragCordY-(tileSize*5/7), tileSize*3/4, tileSize*3/4);
-			
-		}
-			
-	}
-	
-	public void printWhiteMoves(){
-		
-		for(int y=0; y<8; y++){
-			for(int x=0; x<8; x++){
 
+		}
+
+	}
+
+	public void printWhiteMoves()
+	{
+		for(int y=0; y<8; y++)
+		{
+			for(int x=0; x<8; x++)
+			{
 				if(whiteMoves[x][y])
 					System.out.print(whiteMoves[x][y]+"  ");
 				else
-				System.out.print(whiteMoves[x][y]+" ");
+					System.out.print(whiteMoves[x][y]+" ");
 
 			}
 			System.out.println();
