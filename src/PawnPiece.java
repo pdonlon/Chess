@@ -2,9 +2,9 @@
 public class PawnPiece extends Piece
 {
 
-	public PawnPiece(boolean white, int xCord, int yCord, Piece[][] pieceBoard) 
+	public PawnPiece(boolean white, int xCord, int yCord, Piece[][] pieceBoard, boolean[][]whiteMoves, boolean[][]blackMoves) 
 	{
-		super(white, xCord, yCord, pieceBoard);
+		super(white, xCord, yCord, pieceBoard,whiteMoves,blackMoves);
 
 		this.pieceType = "Pawn";
 	}
@@ -44,6 +44,7 @@ public class PawnPiece extends Piece
 					canMove[xCord-1][y] = true;
 			}
 		}
+		addBlackAndWhiteMoves();
 	}
 
 

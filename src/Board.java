@@ -15,13 +15,20 @@ public class Board {
 	int y2;
 	int dragCordX;
 	int dragCordY;
+	
+	boolean[][] whiteMoves;
+	boolean[][] blackMoves;
 	boolean dragging = false;
 
 	public Board()
 	{
+		whiteMoves = new boolean[8][8];
+		blackMoves = new boolean[8][8];
+		initializeBlackAndWhiteMoves();
+		
 		board = new Piece[8][8];
 		initializeBoard();
-
+		printWhiteMoves();
 	}
 
 	public void movePiece()
@@ -31,8 +38,9 @@ public class Board {
 		{
 			board[x2][y2] = board[x1][y1];
 			board[x1][y1] = null;
-			System.out.print("works"+ x2+ ", "+y2);
 			board[x2][y2].setXandYCord(x2, y2);
+			printWhiteMoves();
+			clearBlackAndWhiteMoves();
 			clearAllMoves();
 			initializeMoves();
 			turnCount++;
@@ -120,14 +128,6 @@ public class Board {
 		
 		return white;
 	}
-	
-	public boolean simulateMove()
-	{ //checks if move will put you in check
-		//TODO
-		boolean check = false;
-
-		return check;
-	}
 
 	public void showMoves(int x, int y){
 
@@ -137,13 +137,15 @@ public class Board {
 	public void initializeBoard()
 	{
 
+		
+		
 		for(int y=0; y<9; y+=7)
 		{ //rook
 			for(int x=0; x<9; x+=7)
 			{
 
-				board[x][y] = new RookPiece(false,x,y,board);
-				//TODO change this to be global setMoves
+				board[x][y] = new RookPiece(false,x,y,board,whiteMoves,blackMoves);
+
 			}
 		}
 
@@ -152,7 +154,7 @@ public class Board {
 			for(int x=1; x<8; x+=5)
 			{
 
-				board[x][y] = new KnightPiece(false,x,y,board);
+				board[x][y] = new KnightPiece(false,x,y,board,whiteMoves,blackMoves);
 			}
 		}
 
@@ -161,7 +163,7 @@ public class Board {
 			for(int x=2; x<8; x+=3)
 			{
 
-				board[x][y] = new BishopPiece(false,x,y,board);
+				board[x][y] = new BishopPiece(false,x,y,board,whiteMoves,blackMoves);
 			}
 		}
 
@@ -169,7 +171,7 @@ public class Board {
 		{ //queen
 			int x = 3;
 
-			board[x][y] = new QueenPiece(false,x,y,board);
+			board[x][y] = new QueenPiece(false,x,y,board,whiteMoves,blackMoves);
 
 		}
 
@@ -177,7 +179,7 @@ public class Board {
 		{ //king
 			int x = 4;
 
-			board[x][y] = new KingPiece(false,x,y,board);
+			board[x][y] = new KingPiece(false,x,y,board,whiteMoves,blackMoves);
 		}
 
 		for(int y=1; y<7; y+=5)
@@ -185,7 +187,7 @@ public class Board {
 			for(int x=0; x<8; x++)
 			{
 
-				board[x][y] = new PawnPiece(false,x,y,board);
+				board[x][y] = new PawnPiece(false,x,y,board,whiteMoves,blackMoves);
 			}
 		}
 
@@ -201,18 +203,44 @@ public class Board {
 
 	public void initializeMoves()
 	{
-
+		
 		for(int y=0; y<8; y++)
 		{
 			for(int x=0; x<8; x++)
 			{
 
-				if(!isEmpty(x,y))
+				if(!isEmpty(x,y)&&!board[x][y].isKing)
 					board[x][y].setMoves();
-
+				
 			}
 		}
+		
+		for(int y=0; y<8; y++)
+		{
+			for(int x=0; x<8; x++)
+			{
 
+				if(!isEmpty(x,y)&&board[x][y].isKing)
+					board[x][y].setMoves();
+				
+			}
+		}
+		//has to initialize Kings LAST TODO
+	}
+	
+	public void initializeBlackAndWhiteMoves(){
+		
+		for(int y=0; y<8; y++)
+		{
+			for(int x=0; x<8; x++)
+			{
+				
+				whiteMoves[x][y] = false;
+				blackMoves[x][y] = false;
+				
+			}
+		}
+		
 	}
 
 	public void clearAllMoves(){
@@ -228,6 +256,18 @@ public class Board {
 			}
 		}
 
+	}
+	
+	public void clearBlackAndWhiteMoves(){
+		
+		for(int y=0; y<8; y++){
+			for(int x=0; x<8; x++){
+				
+				whiteMoves[x][y] = false;
+				blackMoves[x][y] = false;
+			}
+		}
+		
 	}
 
 	public boolean isEmpty(int x, int y)
@@ -256,7 +296,7 @@ public class Board {
 		return valid;
 	}
 
-public int reflectNumber(int num){
+	public int reflectNumber(int num){
 		
 		int searchCount = 0;
 		for(int i=0; i<reflectNumbers.length; i++){
@@ -335,6 +375,22 @@ public int reflectNumber(int num){
 			
 		}
 			
+	}
+	
+	public void printWhiteMoves(){
+		
+		for(int y=0; y<8; y++){
+			for(int x=0; x<8; x++){
+
+				if(whiteMoves[x][y])
+					System.out.print(whiteMoves[x][y]+"  ");
+				else
+				System.out.print(whiteMoves[x][y]+" ");
+
+			}
+			System.out.println();
+		}
+		System.out.println();
 	}
 }
 
