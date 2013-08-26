@@ -16,6 +16,9 @@ public class Board {
 	int dragCordX;
 	int dragCordY;
 
+	boolean blackCheck = false;
+	boolean whiteCheck = false;
+
 	boolean[][] whiteMoves;
 	boolean[][] blackMoves;
 	boolean dragging = false;
@@ -35,41 +38,35 @@ public class Board {
 	{
 		if(board[x1][y1].isAble(x2,y2)&& !sameSpot())
 		{
-			board[x2][y2] = board[x1][y1];
-			board[x1][y1] = null;
-			board[x2][y2].setXandYCord(x2, y2);
 
-			printWhiteMoves();
-			
-			if(turnCount%2==0) //Black Move
+			if(moveSuccessful())
 			{
-				clearWhiteMoves();
-				clearWhiteMoveSet();
-				initializeWhiteMoves();
-				
-				clearBlackMoves();
-				clearBlackMoveSet();
-				initializeBlackMoves();
-			}
 
-			else if(turnCount%2==1) //WhiteMove
-			{
-				clearBlackMoves();
-				clearBlackMoveSet();
-				initializeBlackMoves();
-				
-				clearWhiteMoves();
-				clearWhiteMoveSet();
-				initializeWhiteMoves();
-			}
+				if(turnCount%2==0) //White Move
+				{
+					resetWhiteMoves();
+					resetBlackMoves();
+					blackInCheck();
+				}
 
-			printWhiteMoves();
-			
-			turnCount++;
+				else if(turnCount%2==1) //Black Move
+				{
+					resetBlackMoves();
+					resetWhiteMoves();
+					whiteInCheck();
+				}
+
+				System.out.println("Black is in check "+blackInCheck());
+				System.out.println("White is in check "+whiteInCheck());
+				//printWhiteMoves();
+
+				//			if(inCheck()){
+				//				System.out.println("CHECK");
+				//			}
+
+				turnCount++;
+			}
 		}
-		else
-			System.out.println("oops");
-
 	}
 
 	public boolean sameSpot()
@@ -156,6 +153,78 @@ public class Board {
 		board[x][y].printMoves();
 	}
 
+	public boolean moveSuccessful(){
+
+		boolean successful = true;
+		Piece tempPiece1 = board[x1][y1];
+		Piece tempPiece2 = board[x2][y2];
+
+		board[x2][y2] = board[x1][y1];
+		board[x1][y1] = null;
+
+		if(turnCount%2==0)	//white move
+		{ 
+			resetBlackMoves();
+
+			if(whiteInCheck()) //still in check
+			{
+				board[x1][y1] = tempPiece1; //undo move
+				board[x2][y2] = tempPiece2;
+				resetBlackMoves();
+				successful = false;
+			}
+			else //still have to undo to the last black move initialization 
+			{
+				board[x1][y1] = tempPiece1; 
+				board[x2][y2] = tempPiece2;
+				resetBlackMoves();
+
+				board[x2][y2] = board[x1][y1];
+				board[x1][y1] = null;
+			}
+		}
+
+		else if(turnCount%2==1)	//black move
+		{ 
+			resetWhiteMoves();
+
+			if(blackInCheck()) //still in check
+			{
+				board[x1][y1] = tempPiece1; //undo move
+				board[x2][y2] = tempPiece2;
+				resetWhiteMoves();
+				successful = false;
+			}
+			else //still have to undo to the last white move initialization 
+			{
+				board[x1][y1] = tempPiece1; 
+				board[x2][y2] = tempPiece2;
+				resetWhiteMoves();
+
+				board[x2][y2] = board[x1][y1];
+				board[x1][y1] = null;
+			}
+		}
+
+		if(successful)
+			board[x2][y2].setXandYCord(x2, y2);
+		return successful;
+	}
+	
+	public void resetBlackMoves()
+	{
+		clearBlackMoves();
+		clearBlackMoveSet();
+		initializeBlackMoves();
+	}
+	
+	public void resetWhiteMoves()
+	{
+		clearWhiteMoves();
+		clearWhiteMoveSet();
+		initializeWhiteMoves();
+	}
+
 	public void initializeBoard()
 	{
 		for(int y=0; y<9; y+=7)
@@ -216,20 +285,7 @@ public class Board {
 				board[x][y].setWhite(true);
 
 			}
-		}
-//		board[2][2] = new PawnPiece(false,2,2,board,whiteMoves,blackMoves);
-//		board[2][3] = new PawnPiece(false,2,3,board,whiteMoves,blackMoves);
-//		board[2][4] = new PawnPiece(false,2,4,board,whiteMoves,blackMoves);
-//		board[3][2] = new PawnPiece(false,3,2,board,whiteMoves,blackMoves);
-//		board[3][4] = new PawnPiece(false,3,4,board,whiteMoves,blackMoves);
-//		board[2][4] = new PawnPiece(false,2,4,board,whiteMoves,blackMoves);
-//		board[4][2] = new PawnPiece(false,4,2,board,whiteMoves,blackMoves);
-//		board[4][3] = new PawnPiece(false,4,3,board,whiteMoves,blackMoves);
-//		board[4][4] = new PawnPiece(false,4,4,board,whiteMoves,blackMoves);
-//		
-//		board[3][3] = new QueenPiece(false,3,3,board,whiteMoves,blackMoves);
-
-		
+		}		
 		initializeWhiteMoves();
 		initializeBlackMoves();
 	}
@@ -332,6 +388,46 @@ public class Board {
 		}
 	}
 
+	public boolean whiteInCheck()
+	{		
+		boolean wCheck = false;
+		for(int y=0; y<8; y++)
+		{
+			for(int x=0; x<8; x++)
+			{
+				if(!isEmpty(x,y)&&board[x][y].isKing())
+				{
+
+					if(board[x][y].isWhite() && blackMoves[x][y])
+						wCheck = true;
+
+				}
+
+			}
+		}
+		whiteCheck = wCheck;
+		return whiteCheck;
+	}
+
+	public boolean blackInCheck()
+	{
+		boolean bCheck = false;
+		for(int y=0; y<8; y++)
+		{
+			for(int x=0; x<8; x++)
+			{
+				if(!isEmpty(x,y)&&board[x][y].isKing())
+				{	
+					if(!board[x][y].isWhite() && whiteMoves[x][y])
+						bCheck = true;
+				}
+
+			}
+		}
+		blackCheck = bCheck;
+		return blackCheck;
+	}
+
 	public boolean isEmpty(int x, int y)
 	{
 		boolean empty = false;
@@ -413,16 +509,16 @@ public class Board {
 					g.drawString(""+board[x][y].getPieceType().charAt(0), xSpacing+tileSize/2, ySpacing+tileSize/2);
 				}
 
-//				else if(isEmpty(x,y))
-//				{
-//					g.setColor(Color.CYAN);
-//					if(whiteMoves[x][y]&&turnCount%2==1)
-//						g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
-//					else if(blackMoves[x][y]&&turnCount%2==0){
-//						g.setColor(Color.RED);
-//						g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
-//					}
-//				}
+				//				else if(isEmpty(x,y))
+				//				{
+				//					g.setColor(Color.CYAN);
+				//					if(whiteMoves[x][y]&&turnCount%2==1)
+				//						g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
+				//					else if(blackMoves[x][y]&&turnCount%2==0){
+				//						g.setColor(Color.RED);
+				//						g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
+				//					}
+				//				}
 
 				if(turnCount%2==1)
 					xSpacing-=(tileSize+1);
@@ -437,8 +533,6 @@ public class Board {
 				ySpacing+=(tileSize+1);
 			tileMarker++;
 		}
-		
-		
 
 		if(dragging)
 		{
