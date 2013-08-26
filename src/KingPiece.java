@@ -7,7 +7,7 @@ public class KingPiece extends Piece{
 	{
 		super(white, xCord, yCord, pieceBoard,whiteMoves,blackMoves);
 
-		this.pieceType = "King";
+		this.pieceType = "TKing";
 		isKing = true;
 	}
 
