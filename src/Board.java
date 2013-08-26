@@ -13,6 +13,9 @@ public class Board {
 	int y1;
 	int x2;
 	int y2;
+	
+	int clickX;
+	int clickY;
 	int dragCordX;
 	int dragCordY;
 
@@ -21,6 +24,7 @@ public class Board {
 
 	boolean[][] whiteMoves;
 	boolean[][] blackMoves;
+	boolean click = false;
 	boolean dragging = false;
 
 	public Board()
@@ -138,7 +142,28 @@ public class Board {
 		dragCordX = x;
 		dragCordY = y;
 	}
+	
+	public int getClickX(){
+		
+		return clickX;
+	}
+	
+	public int getClickY(){
+		
+		return clickY;
+	}
+	
+	public void setClick(boolean a){
 
+		click = a;
+	}
+
+	public void setClickCoordinates(int x, int y)
+	{
+		clickX = x;
+		clickY = y;
+	}
+	
 	public boolean isWhite(int x, int y){
 		boolean white = false;
 
@@ -519,6 +544,16 @@ public class Board {
 				//						g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
 				//					}
 				//				}
+				
+				else if(isEmpty(x,y)&&click){
+					g.setColor(Color.CYAN);
+					if(board[clickX][clickY].isAble(x, y))
+					{
+						g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
+					}
+					
+					
+				}
 
 				if(turnCount%2==1)
 					xSpacing-=(tileSize+1);
@@ -534,6 +569,8 @@ public class Board {
 			tileMarker++;
 		}
 
+		if(click)
+			click = false;
 		if(dragging)
 		{
 			if(board[x1][y1].isWhite())

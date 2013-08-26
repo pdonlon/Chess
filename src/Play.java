@@ -90,7 +90,31 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 	@Override
 	public void mouseClicked(MouseEvent e) 
 	{
-		// TODO Auto-generated method stub
+
+		int x = (e.getX()+1)/(playBoard.tileSize+1);
+		int y = (e.getY()-22)/(playBoard.tileSize+1);
+
+		if(playBoard.getTurnCount()%2==1)
+		{
+			x = playBoard.reflectNumber(x);
+			y = playBoard.reflectNumber(y);
+		}
+
+		if(!playBoard.isEmpty(x,y)){
+
+			playBoard.setClick(true);
+			if((playBoard.getClickX()==x && playBoard.getClickY()==y)
+					|| (playBoard.isWhite(x, y)&&playBoard.getTurnCount()%2==1)
+					|| (!playBoard.isWhite(x, y)&&playBoard.getTurnCount()%2==0))
+			{
+				playBoard.setClickCoordinates(-1,-1);
+				playBoard.setClick(false);
+			}
+			else
+				playBoard.setClickCoordinates(x,y);
+
+			repaint();
+		}
 
 	}
 
