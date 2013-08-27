@@ -24,8 +24,6 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 		//System.out.print("Hello Ricky");
 
 		Play playChess = new Play();
-
-		playChess.repaint();
 		//		System.out.print(playChess.playBoard.boardPiece.);
 	}
 
@@ -113,9 +111,8 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 			else
 				playBoard.setClickCoordinates(x,y);
 
-			repaint();
 		}
-
+		repaint();
 	}
 
 	@Override
@@ -146,7 +143,6 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 				playBoard.setY1(y);	
 			}
 		}
-		
 	}
 
 	@Override
@@ -168,7 +164,6 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 		playBoard.setY2(y);
 
 		playBoard.movePiece();
-
 		repaint();
 	}
 
@@ -193,7 +188,6 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 		playBoard.setDragging(true);
 		playBoard.setDraggingCoordinates(e.getX(),e.getY());
 		repaint();
-
 	}
 
 	@Override

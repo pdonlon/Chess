@@ -67,7 +67,6 @@ public class Board {
 				//			if(inCheck()){
 				//				System.out.println("CHECK");
 				//			}
-
 				turnCount++;
 			}
 		}
@@ -206,7 +205,9 @@ public class Board {
 
 				board[x2][y2] = board[x1][y1];
 				board[x1][y1] = null;
+				board[x2][y2].setMoved(true);
 			}
+			
 		}
 
 		else if(turnCount%2==1)	//black move
@@ -228,6 +229,7 @@ public class Board {
 
 				board[x2][y2] = board[x1][y1];
 				board[x1][y1] = null;
+				board[x2][y2].setMoved(true);
 			}
 		}
 
@@ -493,6 +495,11 @@ public class Board {
 		return reflectedNum;
 	}
 
+//	public void setMoved(boolean a)
+//	{
+//		
+//	}
+	
 	public void paintBoard(Graphics g)
 	{
 

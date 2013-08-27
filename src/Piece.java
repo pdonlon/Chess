@@ -13,6 +13,7 @@ public class Piece
 	boolean[][] canMove = new boolean[8][8];
 	boolean isKing = false;
 	boolean isPawn = false;
+	boolean moved = false;
 
 	public Piece(boolean white, int xCord, int yCord, Piece[][] pieceBoard, boolean[][] whiteMoves, boolean[][] blackMoves)
 	{
@@ -48,10 +49,15 @@ public class Piece
 
 		return pieceType;
 	}
-
+	
 	public void setMoves()
 	{
+		//do not remove
+	}
 
+	public void setMoved(boolean a)
+	{
+		moved = a;
 	}
 
 	public void clearMoveSet()

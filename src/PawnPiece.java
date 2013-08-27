@@ -25,7 +25,8 @@ public class PawnPiece extends Piece
 
 				if(isValid(xCord-1,y)&&!isEmpty(xCord-1,y)&&(!pieceBoard[xCord-1][y].isWhite()))
 					canMove[xCord-1][y] = true;
-
+				if(!moved&&isEmpty(xCord,y-1)&&isEmpty(xCord,y))
+						canMove[xCord][y-1] = true;
 			}
 
 		}
@@ -43,6 +44,8 @@ public class PawnPiece extends Piece
 
 				if(isValid(xCord-1,y)&&!isEmpty(xCord-1,y)&&(pieceBoard[xCord-1][y].isWhite()))
 					canMove[xCord-1][y] = true;
+				if(!moved&&isEmpty(xCord,y+1)&&isEmpty(xCord,y))
+					canMove[xCord][y+1] = true;
 			}
 		}
 		addPawnMoves();
