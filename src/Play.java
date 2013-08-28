@@ -118,8 +118,6 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 	@Override
 	public void mousePressed(MouseEvent e) 
 	{
-
-
 		int x = (e.getX()+1)/(playBoard.tileSize+1);
 		int y = (e.getY()-22)/(playBoard.tileSize+1);
 

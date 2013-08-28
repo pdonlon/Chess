@@ -80,6 +80,18 @@ public class Piece
 		return isKing;
 	}
 
+	public int getColorValue()
+	{
+		int cValue;
+		
+		if(white)
+			cValue = -1;
+		else
+			cValue = 1;
+		
+		return cValue;
+	}
+	
 	public boolean isEmpty(int x, int y)
 	{
 		boolean empty = false;
