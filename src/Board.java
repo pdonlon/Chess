@@ -42,14 +42,18 @@ public class Board {
 	{
 		if(board[x1][y1].isAble(x2,y2)&& !sameSpot())
 		{
-
-			if(moveSuccessful())
+			if(board[x1][y1].validMove(x2, y2))
 			{
+				board[x2][y2] = board[x1][y1];
+				board[x1][y1] = null;
+				board[x2][y2].setXandYCord(x2, y2);
+				board[x2][y2].setMoved(true);
+	
 				boolean white = turnCount%2==0;
-				
-					resetMoves(white); //no restrictions
-					resetMoves(!white); //restrictions
-					inCheck(!white);
+
+				resetMoves(white); //no restrictions
+				resetMoves(!white); //restrictions
+				inCheck(!white);
 
 				System.out.println("Black is in check "+inCheck(false));
 				System.out.println("White is in check "+inCheck(true));
@@ -157,7 +161,7 @@ public class Board {
 	public boolean isWhite(int x, int y){
 		boolean white = false;
 
-		if(board[x][y].isWhite())
+		if(!isEmpty(x,y)&&board[x][y].isWhite())
 			white = true;
 
 		return white;
@@ -171,7 +175,7 @@ public class Board {
 	public boolean moveSuccessful(){
 
 		boolean white = (turnCount%2==0);
-		
+
 		boolean successful = true;
 		Piece tempPiece1 = board[x1][y1];
 		Piece tempPiece2 = board[x2][y2];
@@ -314,13 +318,13 @@ public class Board {
 
 	}
 
-	public void clearMoveSets(boolean white)
+	public void clearMoveSets(boolean colorWhite)
 	{
 		for(int y=0; y<8; y++)
 		{
 			for(int x=0; x<8; x++)
 			{
-				if(white){
+				if(colorWhite){
 					if(!isEmpty(x,y)&&board[x][y].isWhite())
 						board[x][y].clearMoveSet();
 				}
@@ -334,13 +338,13 @@ public class Board {
 
 	}
 
-	public void clearMoves(boolean white)
+	public void clearMoves(boolean colorWhite)
 	{
 		for(int y=0; y<8; y++)
 		{
 			for(int x=0; x<8; x++)
 			{
-				if(white)
+				if(colorWhite)
 					whiteMoves[x][y] = false;
 				else
 					blackMoves[x][y] = false;
@@ -350,20 +354,20 @@ public class Board {
 
 	}
 
-	public boolean inCheck(boolean white)
+	public boolean inCheck(boolean colorWhite)
 	{		
 		boolean check = false;
 		for(int y=0; y<8; y++)
 		{
 			for(int x=0; x<8; x++)
 			{
-				
-				if(white&&!isEmpty(x,y)&&board[x][y].isKing())
+
+				if(colorWhite&&!isEmpty(x,y)&&board[x][y].isKing())
 				{
 					if(board[x][y].isWhite() && blackMoves[x][y])
 						check = true;
 				}
-				else if(!white&&!isEmpty(x,y)&&board[x][y].isKing())
+				else if(!colorWhite&&!isEmpty(x,y)&&board[x][y].isKing())
 				{
 					if(!board[x][y].isWhite() && whiteMoves[x][y])
 						check = true;
@@ -463,9 +467,9 @@ public class Board {
 				//				else if(isEmpty(x,y))
 				//				{
 				//					g.setColor(Color.CYAN);
-				//					if(whiteMoves[x][y]&&turnCount%2==1)
+				//					if(whiteMoves[x][y]&&turnCount%2==0)
 				//						g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
-				//					else if(blackMoves[x][y]&&turnCount%2==0){
+				//					else if(blackMoves[x][y]&&turnCount%2==1){
 				//						g.setColor(Color.RED);
 				//						g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
 				//					}
@@ -473,7 +477,7 @@ public class Board {
 
 				else if(isEmpty(x,y)&&click){
 					g.setColor(Color.CYAN);
-					if(board[clickX][clickY].isAble(x, y))
+					if(board[clickX][clickY].validMove(x, y))
 					{
 						g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
 					}
