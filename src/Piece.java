@@ -5,6 +5,8 @@ public class Piece
 	Piece[][] pieceBoard;
 	boolean[][] whiteMoves;
 	boolean[][] blackMoves;
+	boolean[][] savedWhiteMoves;
+	boolean[][] savedBlackMoves;
 	boolean white;
 	String pieceType;
 	int xCord;
@@ -49,7 +51,7 @@ public class Piece
 
 		return pieceType;
 	}
-	
+
 	public void setMoves()
 	{
 		//do not remove
@@ -83,15 +85,15 @@ public class Piece
 	public int getColorValue()
 	{
 		int cValue;
-		
+
 		if(white)
 			cValue = -1;
 		else
 			cValue = 1;
-		
+
 		return cValue;
 	}
-	
+
 	public boolean isEmpty(int x, int y)
 	{
 		boolean empty = false;
@@ -205,7 +207,7 @@ public class Piece
 					canMove[x][yCord] = true;
 				if(!isEmpty(x,yCord)&&(!sameColor(x, yCord)||sameColor(x,yCord)))
 					break;
-				
+
 			}
 		}
 
@@ -217,7 +219,7 @@ public class Piece
 					canMove[x][yCord] = true;
 				if(!isEmpty(x,yCord)&&(!sameColor(x, yCord)|| sameColor(x, yCord)))
 					break;
-				
+
 			}
 		}
 
@@ -229,7 +231,7 @@ public class Piece
 					canMove[xCord][y] = true;
 				if(!isEmpty(xCord,y)&&(!sameColor(xCord, y)||sameColor(xCord, y)))
 					break;
-				
+
 			}
 		}
 
@@ -241,7 +243,7 @@ public class Piece
 					canMove[xCord][y] = true;
 				if(!isEmpty(xCord,y)&&(!sameColor(xCord, y)||sameColor(xCord, y)))
 					break;
-				
+
 			}
 		}
 		addBlackAndWhiteMoves();
@@ -273,10 +275,10 @@ public class Piece
 					canMove[xL][yU] = true;
 				if(!isEmpty(xL,yU)&&(!sameColor(xL, yU)||sameColor(xL, yU)))
 					break;
-				
+
 			}
-				xL--;
-				yU++;
+			xL--;
+			yU++;
 		}
 
 		int xR = (xCord+1); //right
@@ -290,8 +292,8 @@ public class Piece
 				if(!isEmpty(xR,yD)&&(!sameColor(xR, yD)||sameColor(xR, yD)))
 					break;
 			}
-				xR++;
-				yD--;
+			xR++;
+			yD--;
 		}
 
 		xR = (xCord+1); //right
@@ -305,8 +307,8 @@ public class Piece
 				if(!isEmpty(xR,yU)&&(!sameColor(xR, yU)||sameColor(xR, yU)))
 					break;
 			}
-				xR++;
-				yU++;
+			xR++;
+			yU++;
 		}
 		addBlackAndWhiteMoves();
 	}
@@ -333,5 +335,123 @@ public class Piece
 		}
 
 	}
-	
+
+	public boolean validMove(int x2, int y2){
+
+		//right before white turn ends the white pieces have no restrictions reset and black pieces have restricted reset
+
+		//comments based on right after white moves and before white turn ends
+
+		boolean whiteTurn = (turnCount%2==0);
+
+		boolean valid = true;
+		if(turnCount==0||white&&whiteTurn||!white&&!whiteTurn) //no restrictions
+			return valid;
+
+		Piece tempPiece1 = pieceBoard[xCord][yCord]; //testing
+		Piece tempPiece2 = pieceBoard[x2][y2]; // move the piece
+
+		pieceBoard[x2][y2] = pieceBoard[xCord][yCord]; //moves black
+		pieceBoard[xCord][yCord] = null;
+
+		resetMoves(whiteTurn); //reset white with no restrictions
+
+		if(inCheck(!whiteTurn)) //if black moves in check or doesn't get out of check
+			valid = false;
+
+		pieceBoard[xCord][yCord] = tempPiece1; 
+		pieceBoard[x2][y2] = tempPiece2;
+		resetMoves(!whiteTurn); //reset the black moves
+
+
+		return valid;
+	}
+
+	public void clearMoveSets(boolean white)
+	{
+		for(int y=0; y<8; y++)
+		{
+			for(int x=0; x<8; x++)
+			{
+				if(white){
+					if(!isEmpty(x,y)&&pieceBoard[x][y].isWhite())
+						pieceBoard[x][y].clearMoveSet();
+				}
+				else
+					if(!isEmpty(x,y)&&!pieceBoard[x][y].isWhite())
+						pieceBoard[x][y].clearMoveSet();
+
+
+			}
+		}
+
+	}
+
+
+
+	public void clearMoves(boolean white)
+	{
+		for(int y=0; y<8; y++)
+		{
+			for(int x=0; x<8; x++)
+			{
+				if(white)
+					whiteMoves[x][y] = false;
+				else
+					blackMoves[x][y] = false;
+
+			}
+		}
+
+	}
+
+	public boolean inCheck(boolean white)
+	{		
+		boolean check = false;
+		for(int y=0; y<8; y++)
+		{
+			for(int x=0; x<8; x++)
+			{
+
+				if(white&&!isEmpty(x,y)&&pieceBoard[x][y].isKing())
+				{
+					if(pieceBoard[x][y].isWhite() && blackMoves[x][y])
+						check = true;
+				}
+				else if(!white&&!isEmpty(x,y)&&pieceBoard[x][y].isKing())
+				{
+					if(!pieceBoard[x][y].isWhite() && whiteMoves[x][y])
+						check = true;
+				}
+			}
+		}
+		return check;
+	}
+
+	public void initializeMoves(boolean white)
+	{
+
+		for(int y=0; y<8; y++)
+		{
+			for(int x=0; x<8; x++)
+			{
+				if(white){
+					if(!isEmpty(x,y)&&pieceBoard[x][y].isWhite())
+						pieceBoard[x][y].setMoves();
+				}
+				else
+					if(!isEmpty(x,y)&&!pieceBoard[x][y].isWhite())
+						pieceBoard[x][y].setMoves();
+
+			}
+		}
+
+	}
+
+	public void resetMoves(boolean color)
+	{
+		clearMoves(color);
+		clearMoveSets(color);
+		initializeMoves(color);
+	}
 }

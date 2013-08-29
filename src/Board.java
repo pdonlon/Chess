@@ -45,20 +45,11 @@ public class Board {
 
 			if(moveSuccessful())
 			{
-
-				if(turnCount%2==0) //White Move
-				{
-					resetMoves(true);
-					resetMoves(false);
-					inCheck(false);
-				}
-
-				else if(turnCount%2==1) //Black Move
-				{
-					resetMoves(false);
-					resetMoves(true);
-					inCheck(true);
-				}
+				boolean white = turnCount%2==0;
+				
+					resetMoves(white); //no restrictions
+					resetMoves(!white); //restrictions
+					inCheck(!white);
 
 				System.out.println("Black is in check "+inCheck(false));
 				System.out.println("White is in check "+inCheck(true));
@@ -179,6 +170,8 @@ public class Board {
 
 	public boolean moveSuccessful(){
 
+		boolean white = (turnCount%2==0);
+		
 		boolean successful = true;
 		Piece tempPiece1 = board[x1][y1];
 		Piece tempPiece2 = board[x2][y2];
@@ -186,22 +179,22 @@ public class Board {
 		board[x2][y2] = board[x1][y1];
 		board[x1][y1] = null;
 
-		if(turnCount%2==0)	//white move
+		if(white)	//white move
 		{ 
-			resetMoves(false);
+			resetMoves(!white);
 
-			if(inCheck(true)) //still in check
+			if(inCheck(white)) //still in check
 			{
 				board[x1][y1] = tempPiece1; //undo move
 				board[x2][y2] = tempPiece2;
-				resetMoves(false);
+				resetMoves(!white);
 				successful = false;
 			}
 			else //still have to undo to the last black move initialization 
 			{
 				board[x1][y1] = tempPiece1; 
 				board[x2][y2] = tempPiece2;
-				resetMoves(false);
+				resetMoves(!white);
 
 				board[x2][y2] = board[x1][y1];
 				board[x1][y1] = null;
@@ -209,30 +202,6 @@ public class Board {
 			}
 
 		}
-
-		else if(turnCount%2==1)	//black move
-		{ 
-			resetMoves(true);
-
-			if(inCheck(false)) //still in check
-			{
-				board[x1][y1] = tempPiece1; //undo move
-				board[x2][y2] = tempPiece2;
-				resetMoves(true);
-				successful = false;
-			}
-			else //still have to undo to the last white move initialization 
-			{
-				board[x1][y1] = tempPiece1; 
-				board[x2][y2] = tempPiece2;
-				resetMoves(true);
-
-				board[x2][y2] = board[x1][y1];
-				board[x1][y1] = null;
-				board[x2][y2].setMoved(true);
-			}
-		}
-
 		if(successful)
 			board[x2][y2].setXandYCord(x2, y2);
 		return successful;
