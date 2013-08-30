@@ -14,7 +14,6 @@ import javax.swing.JPanel;
 
 public class Play extends JFrame implements ActionListener, MouseMotionListener, MouseListener, KeyListener
 {
-
 	Board playBoard;
 	Display playDisplay;
 
@@ -89,6 +88,8 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 	public void mouseClicked(MouseEvent e) 
 	{
 
+		System.out.println("click");
+
 		int x = (e.getX()+1)/(playBoard.tileSize+1);
 		int y = (e.getY()-22)/(playBoard.tileSize+1);
 
@@ -101,12 +102,14 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 		if(!playBoard.isEmpty(x,y)){
 
 			playBoard.setClick(true);
+			//playBoard.newbool = true;
+			
 			if((playBoard.getClickX()==x && playBoard.getClickY()==y)
 					|| (playBoard.isWhite(x, y)&&playBoard.getTurnCount()%2==1)
 					|| (!playBoard.isWhite(x, y)&&playBoard.getTurnCount()%2==0))
 			{
 				playBoard.setClickCoordinates(-1,-1);
-				playBoard.setClick(false);
+			//	playBoard.setClick(false);
 			}
 			else
 				playBoard.setClickCoordinates(x,y);
@@ -120,7 +123,9 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 	{
 		int x = (e.getX()+1)/(playBoard.tileSize+1);
 		int y = (e.getY()-22)/(playBoard.tileSize+1);
-
+			
+//		if (playBoard.newbool == false)
+//		{
 		if(playBoard.getTurnCount()%2==1){
 			x = playBoard.reflectNumber(x);
 			y = playBoard.reflectNumber(y);
@@ -141,6 +146,7 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 				playBoard.setY1(y);	
 			}
 		}
+//		}
 	}
 
 	@Override
@@ -162,6 +168,9 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 		playBoard.setY2(y);
 
 		playBoard.movePiece();
+		
+//		if (playBoard.newbool)
+//			playBoard.newbool = false;
 		repaint();
 	}
 
@@ -191,7 +200,7 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 	@Override
 	public void mouseMoved(MouseEvent e) 
 	{
-		// TODO Auto-generated method stub
+		//System.out.println(playBoard.newbool);
 
 	}
 

@@ -21,6 +21,8 @@ public class Board {
 
 	boolean blackCheck = false;
 	boolean whiteCheck = false;
+	
+	boolean newbool = false;
 
 	boolean[][] whiteMoves;
 	boolean[][] blackMoves;
@@ -40,6 +42,10 @@ public class Board {
 
 	public void movePiece()
 	{
+		
+		System.out.println("movePiece: "+ x1 + ""
+				+ ", " + y1);
+		
 		if(board[x1][y1].isAble(x2,y2)&& !sameSpot())
 		{
 			if(board[x1][y1].validMove(x2, y2))
@@ -224,9 +230,9 @@ public class Board {
 		{ //rook
 			for(int x=0; x<9; x+=7)
 			{
-
+				
 				board[x][y] = new RookPiece(false,x,y,board,whiteMoves,blackMoves);
-
+				
 			}
 		}
 
@@ -291,7 +297,7 @@ public class Board {
 			for(int x=0; x<8; x++)
 			{
 				if(white){
-					if(!isEmpty(x,y)&&board[x][y].isWhite())
+					if(!isEmpty(x,y) && board[x][y].isWhite())
 						board[x][y].setMoves();
 				}
 				else
@@ -510,6 +516,14 @@ public class Board {
 			g.fillOval(dragCordX-(tileSize*2/7), dragCordY-(tileSize*5/7), tileSize*3/4, tileSize*3/4);
 
 		}
+		
+		if (inCheck(false) || inCheck(true))
+		{
+			
+			g.setColor(new Color(255, 0, 0,50));
+			g.fillRect(0, 0, (tileSize+1)*8, (tileSize+1)*8);
+		}
+				
 
 	}
 

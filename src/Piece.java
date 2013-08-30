@@ -126,7 +126,7 @@ public class Piece
 
 		boolean same = false;
 
-		if(isEmpty(x2,y2))
+		if(isEmpty(x2,y2) || isEmpty(xCord, yCord))
 			same =true;
 
 		else{
@@ -352,10 +352,13 @@ public class Piece
 		pieceBoard[x2][y2] = pieceBoard[xCord][yCord]; //moves black
 		pieceBoard[xCord][yCord] = null;
 
+		resetMoves(whiteTurn);
 		resetMoves(!whiteTurn); //reset white with no restrictions
 
-		if(inCheck(whiteTurn)) //if black moves in check or doesn't get out of check
+		if(inCheck(true) || inCheck(false)) //if black moves in check or doesn't get out of check
 			valid = false;
+		
+		System.out.print("valid is: "+valid);
 
 		pieceBoard[xCord][yCord] = tempPiece1; 
 		pieceBoard[x2][y2] = tempPiece2;
