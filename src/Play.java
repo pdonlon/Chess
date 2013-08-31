@@ -16,7 +16,6 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 {
 	Board playBoard;
 	Display playDisplay;
-	boolean clicking =false;
 
 	public static void main(String[]args)
 	{
@@ -103,15 +102,16 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 
 		if(!playBoard.isEmpty(x,y)){
 
-			playBoard.setClick(true);
+			if(playBoard.click && (playBoard.getClickX() == x) && (playBoard.getClickY() == y))
+			playBoard.setClick(false);
+			else
+				playBoard.setClick(true);
 			//playBoard.newbool = true;
 			
-			if((playBoard.getClickX()==x && playBoard.getClickY()==y)
-					|| (playBoard.isWhite(x, y)&&playBoard.getTurnCount()%2==1)
+			if((playBoard.isWhite(x, y)&&playBoard.getTurnCount()%2==1)
 					|| (!playBoard.isWhite(x, y)&&playBoard.getTurnCount()%2==0))
 			{
-				//playBoard.setClickCoordinates(-1,-1);
-			//	playBoard.setClick(false);
+				playBoard.setClick(false);
 			}
 			else
 				playBoard.setClickCoordinates(x,y);
@@ -123,25 +123,20 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 	@Override
 	public void mousePressed(MouseEvent e) 
 	{
-		boolean whiteMove = (playBoard.turnCount%2 == 0);
-	
-		System.out.println(clicking);
+		playBoard.setJustMoved(false);
+
+		boolean whiteTurn = (playBoard.turnCount%2 == 0);
 
 		int x = (e.getX()+1)/(playBoard.tileSize+1);
 		int y = (e.getY()-22)/(playBoard.tileSize+1);
 		
-		if(playBoard.getTurnCount()%2==1){
+		if(!whiteTurn){
 			x = playBoard.reflectNumber(x);
 			y = playBoard.reflectNumber(y);
 		}
+			
 		
-		if(playBoard.getX1()==x && playBoard.getY1()==y)
-			playBoard.setJustMoved(true);
-		else
-			playBoard.setJustMoved(false);
-		
-		
-		if(clicking&&!playBoard.sameColor(playBoard.getX1(),playBoard.getY1(),x,y))
+		if( (playBoard.isWhite(x, y)&&!whiteTurn) || (!playBoard.isWhite(x, y)&&whiteTurn))
 			return;
 		
 			if(!playBoard.isEmpty(x, y))
@@ -157,7 +152,6 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 	@Override
 	public void mouseReleased(MouseEvent e) 
 	{
-		clicking = false;
 		playBoard.setDragging(false);
 		
 		int x = (e.getX()+1)/(playBoard.tileSize+1);

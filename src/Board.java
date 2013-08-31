@@ -67,7 +67,6 @@ public class Board {
 				//				System.out.println("CHECK");
 				//			}
 				justMoved = true;
-				click = false;
 				turnCount++;
 			}
 		}
@@ -80,18 +79,6 @@ public class Board {
 		if(x1 == x2 && y1 == y2)
 			same = true;
 
-		return same;
-	}
-	
-	public boolean sameColor(int x1, int y1, int x2, int y2)
-	{
-		boolean same = true;
-		if(isEmpty(x1,y1)||isEmpty(x2,y2))
-			same = false;
-		
-		else if((board[x1][y1].isWhite()&&board[x2][y2].isWhite()) || (!board[x1][y1].isWhite()&&!board[x2][y2].isWhite()))
-			same = true;
-		
 		return same;
 	}
 
