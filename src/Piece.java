@@ -19,7 +19,6 @@ public class Piece
 
 	public Piece(boolean white, int xCord, int yCord, Piece[][] pieceBoard, boolean[][] whiteMoves, boolean[][] blackMoves)
 	{
-
 		this.white = white;
 		this.xCord = xCord;
 		this.yCord = yCord;
@@ -337,10 +336,6 @@ public class Piece
 	}
 
 	public boolean validMove(int x2, int y2){
-
-		//right before white turn ends the white pieces have no restrictions reset and black pieces have restricted reset
-
-		//comments based on right after white moves and before white turn ends
 		
 		boolean whiteTurn = (turnCount%2==0);
 
@@ -357,8 +352,6 @@ public class Piece
 
 		if(inCheck(true) || inCheck(false)) //if black moves in check or doesn't get out of check
 			valid = false;
-		
-		System.out.print("valid is: "+valid);
 
 		pieceBoard[xCord][yCord] = tempPiece1; 
 		pieceBoard[x2][y2] = tempPiece2;

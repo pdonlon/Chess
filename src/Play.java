@@ -16,6 +16,7 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 {
 	Board playBoard;
 	Display playDisplay;
+	boolean clicking =false;
 
 	public static void main(String[]args)
 	{
@@ -88,8 +89,9 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 	public void mouseClicked(MouseEvent e) 
 	{
 
-		System.out.println("click");
-
+		if(playBoard.justMoved)
+			return;
+		
 		int x = (e.getX()+1)/(playBoard.tileSize+1);
 		int y = (e.getY()-22)/(playBoard.tileSize+1);
 
@@ -108,7 +110,7 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 					|| (playBoard.isWhite(x, y)&&playBoard.getTurnCount()%2==1)
 					|| (!playBoard.isWhite(x, y)&&playBoard.getTurnCount()%2==0))
 			{
-				playBoard.setClickCoordinates(-1,-1);
+				//playBoard.setClickCoordinates(-1,-1);
 			//	playBoard.setClick(false);
 			}
 			else
@@ -121,37 +123,41 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 	@Override
 	public void mousePressed(MouseEvent e) 
 	{
+		boolean whiteMove = (playBoard.turnCount%2 == 0);
+	
+		System.out.println(clicking);
+
 		int x = (e.getX()+1)/(playBoard.tileSize+1);
 		int y = (e.getY()-22)/(playBoard.tileSize+1);
-			
-//		if (playBoard.newbool == false)
-//		{
+		
 		if(playBoard.getTurnCount()%2==1){
 			x = playBoard.reflectNumber(x);
 			y = playBoard.reflectNumber(y);
-			
-			if(!playBoard.isWhite(x, y))
-			{
-				playBoard.setX1(x);
-				playBoard.setY1(y);	
-			}
-			
 		}
-
+		
+		if(playBoard.getX1()==x && playBoard.getY1()==y)
+			playBoard.setJustMoved(true);
 		else
-		{
-			if(playBoard.isWhite(x, y))
+			playBoard.setJustMoved(false);
+		
+		
+		if(clicking&&!playBoard.sameColor(playBoard.getX1(),playBoard.getY1(),x,y))
+			return;
+		
+			if(!playBoard.isEmpty(x, y))
 			{
 				playBoard.setX1(x);
 				playBoard.setY1(y);	
 			}
-		}
+
 //		}
+		//System.out.println(playBoard.getX1() + ", " + playBoard.getY1());
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) 
 	{
+		clicking = false;
 		playBoard.setDragging(false);
 		
 		int x = (e.getX()+1)/(playBoard.tileSize+1);
@@ -162,15 +168,14 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 			y = playBoard.reflectNumber(y);
 		}
 
-//		System.out.println(x+","+y);
-
 		playBoard.setX2(x);
 		playBoard.setY2(y);
 
 		playBoard.movePiece();
 		
-//		if (playBoard.newbool)
-//			playBoard.newbool = false;
+		System.out.println(playBoard.getX1() + ", " + playBoard.getY1());
+		System.out.println(playBoard.x2 + ", " + playBoard.y2);
+		
 		repaint();
 	}
 

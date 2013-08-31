@@ -21,6 +21,7 @@ public class Board {
 
 	boolean blackCheck = false;
 	boolean whiteCheck = false;
+	boolean justMoved = false;
 	
 	boolean newbool = false;
 
@@ -37,14 +38,11 @@ public class Board {
 
 		board = new Piece[8][8];
 		initializeBoard();
-		printWhiteMoves();
+		//printWhiteMoves();
 	}
 
 	public void movePiece()
 	{
-		
-		System.out.println("movePiece: "+ x1 + ""
-				+ ", " + y1);
 		
 		if(board[x1][y1].isAble(x2,y2)&& !sameSpot())
 		{
@@ -61,13 +59,15 @@ public class Board {
 				resetMoves(!white); //restrictions
 				inCheck(!white);
 
-				System.out.println("Black is in check "+inCheck(false));
-				System.out.println("White is in check "+inCheck(true));
+				//System.out.println("Black is in check "+inCheck(false));
+				//System.out.println("White is in check "+inCheck(true));
 				//printWhiteMoves();
 
 				//			if(inCheck()){
 				//				System.out.println("CHECK");
 				//			}
+				justMoved = true;
+				click = false;
 				turnCount++;
 			}
 		}
@@ -75,12 +75,23 @@ public class Board {
 
 	public boolean sameSpot()
 	{
-
 		boolean same = false;
 
 		if(x1 == x2 && y1 == y2)
 			same = true;
 
+		return same;
+	}
+	
+	public boolean sameColor(int x1, int y1, int x2, int y2)
+	{
+		boolean same = true;
+		if(isEmpty(x1,y1)||isEmpty(x2,y2))
+			same = false;
+		
+		else if((board[x1][y1].isWhite()&&board[x2][y2].isWhite()) || (!board[x1][y1].isWhite()&&!board[x2][y2].isWhite()))
+			same = true;
+		
 		return same;
 	}
 
@@ -158,6 +169,11 @@ public class Board {
 		click = a;
 	}
 
+	public void setJustMoved(boolean a)
+	{
+		justMoved=a;
+	}
+	
 	public void setClickCoordinates(int x, int y)
 	{
 		clickX = x;
@@ -424,10 +440,12 @@ public class Board {
 		return reflectedNum;
 	}
 
-	//	public void setMoved(boolean a)
-	//	{
-	//		
-	//	}
+	public boolean validMove(int x, int y)
+	{
+		boolean valid = board[x1][y1].validMove(x, y);
+		
+		return valid;
+	}
 
 	public void paintBoard(Graphics g)
 	{
