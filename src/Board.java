@@ -21,14 +21,17 @@ public class Board {
 
 	boolean blackCheck = false;
 	boolean whiteCheck = false;
+	boolean checkmate = false;
 	boolean justMoved = false;
+	boolean gameOver = false;
 	
-	boolean newbool = false;
-
 	boolean[][] whiteMoves;
 	boolean[][] blackMoves;
 	boolean click = false;
 	boolean dragging = false;
+	boolean stopPainting = false;
+	
+	String winner = "";
 
 	public Board()
 	{
@@ -66,8 +69,10 @@ public class Board {
 				//			if(inCheck()){
 				//				System.out.println("CHECK");
 				//			}
+				System.out.println(checkmate());
 				justMoved = true;
-				turnCount++;
+				if(!gameOver)
+					turnCount++;
 			}
 		}
 	}
@@ -123,6 +128,16 @@ public class Board {
 	public int getY1(){
 
 		return y1;
+	}
+	
+	public String getWinner()
+	{
+		return winner;
+	}
+	
+	public boolean gameIsOver()
+	{
+		return gameOver;
 	}
 
 	public void setY2(int a){
@@ -220,6 +235,11 @@ public class Board {
 		return successful;
 	}
 
+	public void setStopPainting(boolean a)
+	{
+		stopPainting = a;
+	}
+	
 	public void resetMoves(boolean color)
 	{
 		clearMoves(color);
@@ -433,6 +453,15 @@ public class Board {
 		
 		return valid;
 	}
+	
+	public void pawnEvolution()
+	{
+			for(int x=0; x<8; x++)
+			{
+				if(board[x][0].isPawn() || board[x][7].isPawn())
+					System.out.print("OOPS");
+			}
+	}
 
 	public void paintBoard(Graphics g)
 	{
@@ -521,32 +550,63 @@ public class Board {
 			g.fillOval(dragCordX-(tileSize*2/7), dragCordY-(tileSize*5/7), tileSize*3/4, tileSize*3/4);
 
 		}
-		
-		if (inCheck(false) || inCheck(true))
+	
+		if(!stopPainting)
 		{
-			
+		
+		if(checkmate())
+		{
+			g.setColor(new Color(255, 0, 0,125));
+			g.fillRect(0, 0, (tileSize+1)*8, (tileSize+1)*8);
+		}
+		
+		else if (inCheck(false) || inCheck(true))
+		{
 			g.setColor(new Color(255, 0, 0,50));
 			g.fillRect(0, 0, (tileSize+1)*8, (tileSize+1)*8);
 		}
-				
-
+		}
+		
 	}
 
-	public void printWhiteMoves()
+	public boolean checkmate()
 	{
+		int whiteMoves = 0;
+		int blackMoves = 0;
+		
 		for(int y=0; y<8; y++)
 		{
 			for(int x=0; x<8; x++)
 			{
-				if(whiteMoves[x][y])
-					System.out.print(whiteMoves[x][y]+"  ");
-				else
-					System.out.print(whiteMoves[x][y]+" ");
-
+				for(int i=0; i<8; i++)
+				{
+					for(int j=0; j<8; j++)
+					{
+						if(!isEmpty(j,i))
+						{
+						
+						if(isWhite(j,i)&&board[j][i].validMove(x,y))
+							whiteMoves++;
+						else if(!isWhite(j,i)&&board[j][i].validMove(x,y))
+							blackMoves++;
+						}
+					}
+				}
 			}
-			System.out.println();
 		}
-		System.out.println();
+		
+		if(whiteMoves == 0 || blackMoves == 0)
+		{
+			checkmate = true;
+			if(whiteMoves == 0)
+				winner = "Black";
+			else
+				winner = "White";
+			
+			gameOver = true;
+		}
+		
+		return checkmate;
 	}
 }
 

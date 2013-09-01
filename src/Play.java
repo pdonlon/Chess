@@ -9,6 +9,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
@@ -20,10 +21,8 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 	public static void main(String[]args)
 	{
 
-		//System.out.print("Hello Ricky");
-
 		Play playChess = new Play();
-		//		System.out.print(playChess.playBoard.boardPiece.);
+		
 	}
 
 	public Play()
@@ -167,10 +166,15 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 
 		playBoard.movePiece();
 		
-		System.out.println(playBoard.getX1() + ", " + playBoard.getY1());
-		System.out.println(playBoard.x2 + ", " + playBoard.y2);
-		
 		repaint();
+		
+		if(playBoard.gameIsOver())
+		{
+			JOptionPane.showMessageDialog(this, "Checkmate! "+ playBoard.getWinner() + " wins!");
+			playBoard.setStopPainting(true);
+			repaint();
+			//TODO prompt a new game
+		}
 	}
 
 

@@ -80,6 +80,11 @@ public class Piece
 
 		return isKing;
 	}
+	
+	public boolean isPawn(){
+
+		return isPawn;
+	}
 
 	public int getColorValue()
 	{
