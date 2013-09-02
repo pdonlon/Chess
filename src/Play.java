@@ -27,8 +27,7 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 
 	public Play()
 	{
-		playBoard = new Board();
-
+		playBoard = new Board(this);
 
 		playDisplay = new Display();
 
@@ -176,8 +175,7 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 			//TODO prompt a new game
 		}
 	}
-
-
+	
 	@Override
 	public void mouseEntered(MouseEvent e) 
 	{

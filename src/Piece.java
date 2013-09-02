@@ -159,33 +159,12 @@ public class Piece
 
 	}
 
-	public void addPawnMoves()
+	public void addMove(int x, int y)
 	{
-		for(int y=0; y<8; y++)
-		{
-			for(int x=0; x<8; x++)
-			{
-				if(!isEmpty(x,y)){
-
-					if(pieceBoard[x][y].isWhite()&&pieceBoard[x][y].isPawn)
-					{
-						if(isValid(x-1,y-1)&&!whiteMoves[x-1][y-1])
-							whiteMoves[x-1][y-1] = true;
-
-						if(isValid(x+1,y-1)&&!whiteMoves[x+1][y-1])
-							whiteMoves[x+1][y-1] = true;
-					}
-					if(!pieceBoard[x][y].isWhite()&&pieceBoard[x][y].isPawn)
-					{
-						if(isValid(x-1,y+1)&&!blackMoves[x-1][y+1])
-							blackMoves[x-1][y+1] = true;
-
-						if(isValid(x+1,y+1)&&!blackMoves[x+1][y+1])
-							blackMoves[x+1][y+1] = true;
-					}
-				}
-			}
-		}
+		if(white)
+			whiteMoves[x][y] = true;
+		else
+			blackMoves[x][y] = true;
 	}
 
 	public boolean canMove(int x, int y){

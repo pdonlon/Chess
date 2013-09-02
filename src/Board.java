@@ -1,10 +1,13 @@
 import java.awt.Color;
 import java.awt.Graphics;
 
+import javax.swing.JOptionPane;
+
 
 public class Board {
 
 	Piece[][] board;
+	Play boardPlay;
 	int[] reflectNumbers = {0,1,2,3,4,5,6,7};
 	int tileSize =60;
 	Piece boardPiece;
@@ -33,8 +36,10 @@ public class Board {
 	
 	String winner = "";
 
-	public Board()
+	public Board(Play game)
 	{
+		boardPlay = game;
+		
 		whiteMoves = new boolean[8][8];
 		blackMoves = new boolean[8][8];
 		initializeBlackAndWhiteMoves();
@@ -46,7 +51,6 @@ public class Board {
 
 	public void movePiece()
 	{
-		
 		if(board[x1][y1].isAble(x2,y2)&& !sameSpot())
 		{
 			if(board[x1][y1].validMove(x2, y2))
@@ -54,10 +58,20 @@ public class Board {
 				board[x2][y2] = board[x1][y1];
 				board[x1][y1] = null;
 				board[x2][y2].setXandYCord(x2, y2);
-				board[x2][y2].setMoved(true);
 	
 				boolean white = turnCount%2==0;
 
+				if(pawnAtEnd()){
+					
+					Object[] options = {"Knight","Bishop","Rook","Queen"};
+					
+					int n = JOptionPane.showOptionDialog(boardPlay,"Select a piece","Chess",JOptionPane.YES_NO_CANCEL_OPTION,
+					    JOptionPane.QUESTION_MESSAGE,null,options,options[3]);
+					makePiece(x2,y2,n,white);
+				}
+				
+				board[x2][y2].setMoved(true);
+				
 				resetMoves(white); //no restrictions
 				resetMoves(!white); //restrictions
 				inCheck(!white);
@@ -191,6 +205,18 @@ public class Board {
 		return white;
 	}
 
+	private void makePiece(int x, int y, int num, boolean white)
+	{
+		Piece[] pieces = new Piece[4];
+		pieces[0] = new KnightPiece(white,x,y,board,whiteMoves,blackMoves);
+		pieces[1] = new BishopPiece(white,x,y,board,whiteMoves,blackMoves);
+		pieces[2] = new RookPiece(white,x,y,board,whiteMoves,blackMoves);
+		pieces[3] = new QueenPiece(white,x,y,board,whiteMoves,blackMoves);
+		
+		board[x][y] = pieces[num];
+		
+	}
+	
 	public void showMoves(int x, int y){
 
 		board[x][y].printMoves();
@@ -454,13 +480,17 @@ public class Board {
 		return valid;
 	}
 	
-	public void pawnEvolution()
+	public boolean pawnAtEnd()
 	{
+		boolean end = false;
+		
 			for(int x=0; x<8; x++)
 			{
-				if(board[x][0].isPawn() || board[x][7].isPawn())
-					System.out.print("OOPS");
+				if((!isEmpty(x,0) && board[x][0].isPawn()) || (!isEmpty(x,7) && board[x][7].isPawn()))
+					end = true;
 			}
+			
+			return end;
 	}
 
 	public void paintBoard(Graphics g)

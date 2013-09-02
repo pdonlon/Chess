@@ -21,15 +21,21 @@ public class PawnPiece extends Piece
 					canMove[xCord][y] = true;
 
 				if(isValid(xCord+1,y)&&!isEmpty(xCord+1,y))
+				{
 					canMove[xCord+1][y] = true;
+					addMove(xCord+1,y);
+				}
+					
 
 				if(isValid(xCord-1,y)&&!isEmpty(xCord-1,y))
+				{
 					canMove[xCord-1][y] = true;
+					addMove(xCord-1,y);
+				}
 				
 				if(!moved&&isEmpty(xCord,y)&&isEmpty(xCord,y+cVal))
 						canMove[xCord][y+cVal] = true;
 			}
 
-		addBlackAndWhiteMoves();
 	}
 }
