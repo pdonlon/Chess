@@ -55,11 +55,24 @@ public class Board {
 		{
 			if(board[x1][y1].validMove(x2, y2))
 			{
+				boolean white = turnCount%2==0;
+				
+				if(castle(x1,y1,x2,y2)!=0)
+				{
+					board[castle(x1,y1,x2,y2)][getColorValueKing(white)] = 
+							new RookPiece(this,white,castle(x1,y1,x2,y2),getColorValueKing(white),board,whiteMoves,blackMoves);
+					
+					if(x2<5)
+						board[0][getColorValueKing(white)] = null;
+					else
+						board[7][getColorValueKing(white)] = null;
+				}
+				
 				board[x2][y2] = board[x1][y1];
 				board[x1][y1] = null;
 				board[x2][y2].setXandYCord(x2, y2);
 	
-				boolean white = turnCount%2==0;
+				
 
 				if(pawnAtEnd()){
 					
@@ -76,14 +89,6 @@ public class Board {
 				resetMoves(!white); //restrictions
 				inCheck(!white);
 
-				//System.out.println("Black is in check "+inCheck(false));
-				//System.out.println("White is in check "+inCheck(true));
-				//printWhiteMoves();
-
-				//			if(inCheck()){
-				//				System.out.println("CHECK");
-				//			}
-				System.out.println(checkmate());
 				justMoved = true;
 				if(!gameOver)
 					turnCount++;
@@ -208,10 +213,10 @@ public class Board {
 	private void makePiece(int x, int y, int num, boolean white)
 	{
 		Piece[] pieces = new Piece[4];
-		pieces[0] = new KnightPiece(white,x,y,board,whiteMoves,blackMoves);
-		pieces[1] = new BishopPiece(white,x,y,board,whiteMoves,blackMoves);
-		pieces[2] = new RookPiece(white,x,y,board,whiteMoves,blackMoves);
-		pieces[3] = new QueenPiece(white,x,y,board,whiteMoves,blackMoves);
+		pieces[0] = new KnightPiece(this,white,x,y,board,whiteMoves,blackMoves);
+		pieces[1] = new BishopPiece(this,white,x,y,board,whiteMoves,blackMoves);
+		pieces[2] = new RookPiece(this,white,x,y,board,whiteMoves,blackMoves);
+		pieces[3] = new QueenPiece(this,white,x,y,board,whiteMoves,blackMoves);
 		
 		board[x][y] = pieces[num];
 		
@@ -280,7 +285,7 @@ public class Board {
 			for(int x=0; x<9; x+=7)
 			{
 				
-				board[x][y] = new RookPiece(false,x,y,board,whiteMoves,blackMoves);
+				board[x][y] = new RookPiece(this,false,x,y,board,whiteMoves,blackMoves);
 				
 			}
 		}
@@ -290,7 +295,7 @@ public class Board {
 			for(int x=1; x<8; x+=5)
 			{
 
-				board[x][y] = new KnightPiece(false,x,y,board,whiteMoves,blackMoves);
+				board[x][y] = new KnightPiece(this,false,x,y,board,whiteMoves,blackMoves);
 			}
 		}
 
@@ -299,7 +304,7 @@ public class Board {
 			for(int x=2; x<8; x+=3)
 			{
 
-				board[x][y] = new BishopPiece(false,x,y,board,whiteMoves,blackMoves);
+				board[x][y] = new BishopPiece(this,false,x,y,board,whiteMoves,blackMoves);
 			}
 		}
 
@@ -307,7 +312,7 @@ public class Board {
 		{ //queen
 			int x = 3;
 
-			board[x][y] = new QueenPiece(false,x,y,board,whiteMoves,blackMoves);
+			board[x][y] = new QueenPiece(this,false,x,y,board,whiteMoves,blackMoves);
 
 		}
 
@@ -315,7 +320,7 @@ public class Board {
 		{ //king
 			int x = 4;
 
-			board[x][y] = new KingPiece(false,x,y,board,whiteMoves,blackMoves);
+			board[x][y] = new KingPiece(this,false,x,y,board,whiteMoves,blackMoves);
 		}
 
 		for(int y=1; y<7; y+=5)
@@ -323,13 +328,14 @@ public class Board {
 			for(int x=0; x<8; x++)
 			{
 
-				board[x][y] = new PawnPiece(false,x,y,board,whiteMoves,blackMoves);
+				board[x][y] = new PawnPiece(this,false,x,y,board,whiteMoves,blackMoves);
 			}
 		}
 
 		for(int y=6; y<8; y++){
 			for(int x=0; x<8; x++){
 
+				if(!isEmpty(x,y))
 				board[x][y].setWhite(true);
 
 			}
@@ -371,6 +377,33 @@ public class Board {
 			}
 		}
 
+	}
+	
+	public int getColorValueKing(boolean white)
+	{
+		int cValue;
+
+		if(white)
+			cValue = 7;
+		else
+			cValue = 0;
+
+		return cValue;
+	}
+	
+	public int castle(int x1, int y1, int x2, int y2){
+		
+		int castle = 0;
+		
+		if(board[x1][y1].isKing)
+		{
+			if(x2 == 2)
+				castle = 3;
+			else if(x2 == 6)
+				castle = 5;
+		}
+		
+		return castle;
 	}
 
 	public void clearMoveSets(boolean colorWhite)

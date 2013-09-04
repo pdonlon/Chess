@@ -1,7 +1,7 @@
 
 public class Piece 
 {
-
+	Board pBoard;
 	Piece[][] pieceBoard;
 	boolean[][] whiteMoves;
 	boolean[][] blackMoves;
@@ -11,14 +11,14 @@ public class Piece
 	String pieceType;
 	int xCord;
 	int yCord;
-	int turnCount;
 	boolean[][] canMove = new boolean[8][8];
 	boolean isKing = false;
 	boolean isPawn = false;
 	boolean moved = false;
 
-	public Piece(boolean white, int xCord, int yCord, Piece[][] pieceBoard, boolean[][] whiteMoves, boolean[][] blackMoves)
+	public Piece(Board board, boolean white, int xCord, int yCord, Piece[][] pieceBoard, boolean[][] whiteMoves, boolean[][] blackMoves)
 	{
+		pBoard = board;
 		this.white = white;
 		this.xCord = xCord;
 		this.yCord = yCord;
@@ -80,13 +80,13 @@ public class Piece
 
 		return isKing;
 	}
-	
+
 	public boolean isPawn(){
 
 		return isPawn;
 	}
 
-	public int getColorValue()
+	public int getColorValuePawn()
 	{
 		int cValue;
 
@@ -94,6 +94,18 @@ public class Piece
 			cValue = -1;
 		else
 			cValue = 1;
+
+		return cValue;
+	}
+
+	public int getColorValueKing()
+	{
+		int cValue;
+
+		if(white)
+			cValue = 7;
+		else
+			cValue = 0;
 
 		return cValue;
 	}
@@ -116,7 +128,6 @@ public class Piece
 
 	public boolean isValid(int x, int y)
 	{
-
 		boolean valid = false;
 
 		if((x>=0 && x<8) && (y>=0 && y<8))
@@ -295,6 +306,7 @@ public class Piece
 		}
 		addBlackAndWhiteMoves();
 	}
+
 	public boolean isAble(int x, int y)
 	{
 
@@ -319,9 +331,9 @@ public class Piece
 
 	}
 
-	public boolean validMove(int x2, int y2){
-		
-		boolean whiteTurn = (turnCount%2==0);
+	public boolean validMove(int x2, int y2)
+	{	
+		boolean whiteTurn = (pBoard.getTurnCount()%2==0);
 
 		boolean valid = canMove[x2][y2]; 
 
@@ -341,7 +353,6 @@ public class Piece
 		pieceBoard[x2][y2] = tempPiece2;
 		resetMoves(!whiteTurn); //reset the black moves
 		resetMoves(whiteTurn);
-
 
 		return valid;
 	}
@@ -365,8 +376,6 @@ public class Piece
 		}
 
 	}
-
-
 
 	public void clearMoves(boolean colorWhite)
 	{

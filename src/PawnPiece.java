@@ -2,9 +2,9 @@
 public class PawnPiece extends Piece
 {
 
-	public PawnPiece(boolean white, int xCord, int yCord, Piece[][] pieceBoard, boolean[][]whiteMoves, boolean[][]blackMoves) 
+	public PawnPiece(Board board,boolean white, int xCord, int yCord, Piece[][] pieceBoard, boolean[][]whiteMoves, boolean[][]blackMoves) 
 	{
-		super(white, xCord, yCord, pieceBoard,whiteMoves,blackMoves);
+		super(board,white, xCord, yCord, pieceBoard,whiteMoves,blackMoves);
 
 		this.pieceType = "Pawn";
 		isPawn = true;
@@ -12,8 +12,8 @@ public class PawnPiece extends Piece
 
 	public void setMoves()
 	{
-		getColorValue();
-		int cVal = getColorValue();
+		getColorValuePawn();
+		int cVal = getColorValuePawn();
 			int y=(yCord+cVal); //for black and white
 			if(isValid(xCord,y))
 			{
