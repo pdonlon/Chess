@@ -14,4 +14,10 @@ public class BishopPiece extends Piece
 	{
 		setDiagonal();
 	}
+	
+	public void setImage()
+	{
+		pieceImage = pieceImage.getSubimage(0, 0, 70, 70);
+	}
+	
 }

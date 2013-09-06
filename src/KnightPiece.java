@@ -45,5 +45,10 @@ public class KnightPiece extends Piece{
 		}
 		addBlackAndWhiteMoves();
 	}
-
+	
+	public void setImage()
+	{
+		pieceImage = pieceImage.getSubimage(0, 0, 70, 70);
+	}
+	
 }

@@ -14,4 +14,9 @@ public class RookPiece extends Piece
 		setHorizontalAndVertical();
 	}
 	
+	public void setImage()
+	{
+		pieceImage = pieceImage.getSubimage(0, 0, 70, 70);
+	}
+	
 }

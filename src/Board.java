@@ -1,11 +1,14 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JOptionPane;
 
 
-public class Board {
-
+public class Board 
+{	
+	BufferedImage boardImage;
 	Piece[][] board;
 	Play boardPlay;
 	int[] reflectNumbers = {0,1,2,3,4,5,6,7};
@@ -36,10 +39,11 @@ public class Board {
 	
 	String winner = "";
 
-	public Board(Play game)
+	public Board(Play game, BufferedImage img)
 	{
 		boardPlay = game;
 		
+		boardImage = img;
 		whiteMoves = new boolean[8][8];
 		blackMoves = new boolean[8][8];
 		initializeBlackAndWhiteMoves();
@@ -90,7 +94,7 @@ public class Board {
 				inCheck(!white);
 
 				justMoved = true;
-				if(!gameOver)
+				if(!checkmate)
 					turnCount++;
 			}
 		}
@@ -287,6 +291,7 @@ public class Board {
 				
 				board[x][y] = new RookPiece(this,false,x,y,board,whiteMoves,blackMoves);
 				
+				
 			}
 		}
 
@@ -342,6 +347,18 @@ public class Board {
 		}		
 		initializeMoves(true);
 		initializeMoves(false);
+	}
+	
+	public void initializeImages()
+	{
+		for(int y=0; y<8; y++)
+		{
+			for(int x=0; x<8; x++)
+			{
+				if(!isEmpty(x,y))
+						board[x][y].setImage();
+			}
+		}
 	}
 
 	public void initializeMoves(boolean white)
@@ -564,7 +581,8 @@ public class Board {
 						g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
 						g.setColor(Color.WHITE);
 					}
-					g.drawString(""+board[x][y].getPieceType().charAt(0), xSpacing+tileSize/2, ySpacing+tileSize/2);
+					 ((Graphics2D) g).drawImage(board[x][y].getImage(), xSpacing, ySpacing, boardPlay);
+					//g.drawString(""+board[x][y].getPieceType().charAt(0), xSpacing+tileSize/2, ySpacing+tileSize/2);
 				}
 
 				//				else if(isEmpty(x,y))
@@ -666,7 +684,6 @@ public class Board {
 			else
 				winner = "White";
 			
-			gameOver = true;
 		}
 		
 		return checkmate;

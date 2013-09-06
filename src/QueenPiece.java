@@ -13,5 +13,10 @@ public class QueenPiece extends Piece{
 		setDiagonal();
 		setHorizontalAndVertical();
 	}
-
+	
+	public void setImage()
+	{
+		pieceImage = pieceImage.getSubimage(0, 0, 70, 70);
+	}
+	
 }

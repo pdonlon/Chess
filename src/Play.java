@@ -7,7 +7,11 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -27,7 +31,13 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 
 	public Play()
 	{
-		playBoard = new Board(this);
+		BufferedImage img = null;
+		try {
+		    img = ImageIO.read(new File("chessIcons.png").toURI().toURL());
+		} catch (IOException e) {
+		}
+		
+		playBoard = new Board(this, img);
 
 		playDisplay = new Display();
 
@@ -42,7 +52,6 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
 		this.addKeyListener(this);
-
 
 	}
 
@@ -61,28 +70,26 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 
 	}
 
-	@Override
+	
 	public void keyTyped(KeyEvent e) 
 	{
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
+	
 	public void keyPressed(KeyEvent e) 
 	{
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public void keyReleased(KeyEvent e) 
 	{
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public void mouseClicked(MouseEvent e) 
 	{
 
@@ -118,7 +125,7 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 		repaint();
 	}
 
-	@Override
+	
 	public void mousePressed(MouseEvent e) 
 	{
 		playBoard.setJustMoved(false);
@@ -147,7 +154,7 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 		//System.out.println(playBoard.getX1() + ", " + playBoard.getY1());
 	}
 
-	@Override
+	
 	public void mouseReleased(MouseEvent e) 
 	{
 		playBoard.setDragging(false);
@@ -167,7 +174,7 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 		
 		repaint();
 		
-		if(playBoard.gameIsOver())
+		if(playBoard.checkmate())
 		{
 			JOptionPane.showMessageDialog(this, "Checkmate! "+ playBoard.getWinner() + " wins!");
 			playBoard.setStopPainting(true);
@@ -176,21 +183,21 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 		}
 	}
 	
-	@Override
+	
 	public void mouseEntered(MouseEvent e) 
 	{
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
+	
 	public void mouseExited(MouseEvent e) 
 	{
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
+	
 	public void mouseDragged(MouseEvent e) 
 	{
 		playBoard.setDragging(true);
@@ -198,14 +205,14 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 		repaint();
 	}
 
-	@Override
+	
 	public void mouseMoved(MouseEvent e) 
 	{
 		//System.out.println(playBoard.newbool);
 
 	}
 
-	@Override
+	
 	public void actionPerformed(ActionEvent e) 
 	{
 		// TODO Auto-generated method stub

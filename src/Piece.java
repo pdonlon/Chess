@@ -1,6 +1,9 @@
+import java.awt.image.BufferedImage;
+
 
 public class Piece 
 {
+	BufferedImage pieceImage;
 	Board pBoard;
 	Piece[][] pieceBoard;
 	boolean[][] whiteMoves;
@@ -55,7 +58,17 @@ public class Piece
 	{
 		//do not remove
 	}
+	
+	public void setImage()
+	{
+		
+	}
 
+	public BufferedImage getImage()
+	{
+		return pieceImage;
+	}
+	
 	public void setMoved(boolean a)
 	{
 		moved = a;
