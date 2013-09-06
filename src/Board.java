@@ -13,6 +13,7 @@ public class Board
 	Play boardPlay;
 	int[] reflectNumbers = {0,1,2,3,4,5,6,7};
 	int tileSize =60;
+	int boarderSize = 40;
 	Piece boardPiece;
 	int turnCount = 0;
 	int x1;
@@ -117,6 +118,11 @@ public class Board
 
 	}
 
+	public int getBoarder()
+	{
+		return boarderSize;
+	}
+	
 	public int getTileSize()
 	{
 
@@ -547,14 +553,14 @@ public class Board
 	{
 
 		int tileMarker=0;
-		int ySpacing =0;
+		int ySpacing =boarderSize;
 		if(turnCount%2==1) //Black Move
-			ySpacing = (tileSize+1)*7;
+			ySpacing = (tileSize+1)*7+boarderSize;
 		for(int y=0; y<8; y++)
 		{
-			int xSpacing =0;
+			int xSpacing =boarderSize;
 			if(turnCount%2==1)
-				xSpacing = (tileSize+1)*7;
+				xSpacing = (tileSize+1)*7+boarderSize;
 
 			for(int x=0; x<8; x++)
 			{
@@ -582,7 +588,7 @@ public class Board
 						g.setColor(Color.WHITE);
 					}
 					 ((Graphics2D) g).drawImage(board[x][y].getImage(), xSpacing, ySpacing, boardPlay);
-					//g.drawString(""+board[x][y].getPieceType().charAt(0), xSpacing+tileSize/2, ySpacing+tileSize/2);
+					g.drawString(""+board[x][y].getPieceType().charAt(0), xSpacing+tileSize/2, ySpacing+tileSize/2);
 				}
 
 				//				else if(isEmpty(x,y))

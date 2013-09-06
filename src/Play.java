@@ -45,7 +45,7 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 		setTitle("Chess");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //EXIT_ON_CLOSE
 		this.add(playDisplay);
-		this.setSize((playBoard.getTileSize()+1)*8,(playBoard.getTileSize()+1)*8+22);
+		this.setSize((playBoard.getTileSize()+1)*8+playBoard.getBoarder()*2,(playBoard.getTileSize()+1)*8+22+playBoard.getBoarder()*2);
 		this.setVisible(true);
 		this.setResizable(false);
 
@@ -64,7 +64,7 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 		{
 
 			super.paintComponent(g);
-			this.setBackground(Color.GRAY);
+			this.setBackground(Color.BLACK);
 			playBoard.paintBoard(g);
 		}
 
@@ -96,8 +96,8 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 		if(playBoard.justMoved)
 			return;
 		
-		int x = (e.getX()+1)/(playBoard.tileSize+1);
-		int y = (e.getY()-22)/(playBoard.tileSize+1);
+		int x = (e.getX()+1-playBoard.getBoarder())/(playBoard.tileSize+1);
+		int y = (e.getY()-22-playBoard.getBoarder())/(playBoard.tileSize+1);
 
 		if(playBoard.getTurnCount()%2==1)
 		{
@@ -132,8 +132,8 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 
 		boolean whiteTurn = (playBoard.turnCount%2 == 0);
 
-		int x = (e.getX()+1)/(playBoard.tileSize+1);
-		int y = (e.getY()-22)/(playBoard.tileSize+1);
+		int x = (e.getX()+1-playBoard.getBoarder())/(playBoard.tileSize+1);
+		int y = (e.getY()-22-playBoard.getBoarder())/(playBoard.tileSize+1);
 		
 		if(!whiteTurn){
 			x = playBoard.reflectNumber(x);
@@ -159,8 +159,8 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 	{
 		playBoard.setDragging(false);
 		
-		int x = (e.getX()+1)/(playBoard.tileSize+1);
-		int y = (e.getY()-22)/(playBoard.tileSize+1);
+		int x = (e.getX()+1-playBoard.getBoarder())/(playBoard.tileSize+1);
+		int y = (e.getY()-22-playBoard.getBoarder())/(playBoard.tileSize+1);
 
 		if(playBoard.getTurnCount()%2==1){
 			x = playBoard.reflectNumber(x);
