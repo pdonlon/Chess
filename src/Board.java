@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 
 public class Board 
 {	
-	BufferedImage boardImage;
+	static BufferedImage boardImage;
 	Piece[][] board;
 	Play boardPlay;
 	int[] reflectNumbers = {0,1,2,3,4,5,6,7};
@@ -353,6 +353,7 @@ public class Board
 		}		
 		initializeMoves(true);
 		initializeMoves(false);
+		initializeImages();
 	}
 	
 	public void initializeImages()
@@ -574,21 +575,9 @@ public class Board
 
 				if(!isEmpty(x,y))
 				{
-					if((board[x][y].isWhite())&&((!dragging)||(x1!=x)||(y1!=y)))
-
-					{
-						g.setColor(Color.WHITE);
-						g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
-						g.setColor(Color.BLACK);
-					}
-					else if((!board[x][y].isWhite())&&((!dragging)||(x1!=x)||(y1!=y)))
-					{
-						g.setColor(Color.BLACK);
-						g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
-						g.setColor(Color.WHITE);
-					}
+				
 					 ((Graphics2D) g).drawImage(board[x][y].getImage(), xSpacing, ySpacing, boardPlay);
-					g.drawString(""+board[x][y].getPieceType().charAt(0), xSpacing+tileSize/2, ySpacing+tileSize/2);
+//					g.drawString(""+board[x][y].getPieceType().charAt(0), xSpacing+tileSize/2, ySpacing+tileSize/2);
 				}
 
 				//				else if(isEmpty(x,y))
@@ -644,13 +633,13 @@ public class Board
 		if(checkmate())
 		{
 			g.setColor(new Color(255, 0, 0,125));
-			g.fillRect(0, 0, (tileSize+1)*8, (tileSize+1)*8);
+			g.fillRect(0, 0, (getTileSize()+1)*8 + getBoarder()*2,(getTileSize()+1)*8+22+getBoarder()*2);
 		}
 		
 		else if (inCheck(false) || inCheck(true))
 		{
 			g.setColor(new Color(255, 0, 0,50));
-			g.fillRect(0, 0, (tileSize+1)*8, (tileSize+1)*8);
+			g.fillRect(0, 0, (getTileSize()+1)*8 + getBoarder()*2,(getTileSize()+1)*8+22+getBoarder()*2);
 		}
 		}
 		

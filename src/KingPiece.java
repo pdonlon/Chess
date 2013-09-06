@@ -62,7 +62,8 @@ public class KingPiece extends Piece{
 	
 	public void setImage()
 	{
-		pieceImage = pieceImage.getSubimage(0, 0, 70, 70);
+		super.setImage();
+		pieceImage = pieceImage.getSubimage(0, ySpacing, 70, 70);
 	}
 
 }

@@ -17,7 +17,8 @@ public class BishopPiece extends Piece
 	
 	public void setImage()
 	{
-		pieceImage = pieceImage.getSubimage(0, 0, 70, 70);
+		super.setImage();
+		pieceImage = pieceImage.getSubimage(xSpacing*6, ySpacing, 70, 70);
 	}
 	
 }

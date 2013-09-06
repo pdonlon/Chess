@@ -14,6 +14,8 @@ public class Piece
 	String pieceType;
 	int xCord;
 	int yCord;
+	int xSpacing = 56;
+	int ySpacing = 4;
 	boolean[][] canMove = new boolean[8][8];
 	boolean isKing = false;
 	boolean isPawn = false;
@@ -61,7 +63,10 @@ public class Piece
 	
 	public void setImage()
 	{
+		pieceImage = Board.boardImage;
 		
+		if(white)
+			ySpacing = 92;
 	}
 
 	public BufferedImage getImage()
