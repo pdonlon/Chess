@@ -42,7 +42,7 @@ public class PawnPiece extends Piece
 	public void setImage()
 	{
 		super.setImage();
-		pieceImage = pieceImage.getSubimage(xSpacing*10, ySpacing, 70, 70);
+		pieceImage = pieceImage.getSubimage(xSpacing*10-9, ySpacing, 70, 70);
 	}
 	
 }

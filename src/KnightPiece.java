@@ -49,7 +49,7 @@ public class KnightPiece extends Piece{
 	public void setImage()
 	{
 		super.setImage();
-		pieceImage = pieceImage.getSubimage(xSpacing*8, ySpacing, 70, 70);
+		pieceImage = pieceImage.getSubimage(xSpacing*8-7, ySpacing, 70, 70);
 	}
 	
 }

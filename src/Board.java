@@ -229,6 +229,7 @@ public class Board
 		pieces[3] = new QueenPiece(this,white,x,y,board,whiteMoves,blackMoves);
 		
 		board[x][y] = pieces[num];
+		board[x][y].setImage();
 		
 	}
 	
@@ -567,16 +568,24 @@ public class Board
 			{
 
 				if(tileMarker%2==0)
-					g.setColor(Color.LIGHT_GRAY);
+					g.setColor(Color.WHITE);
 				else
-					g.setColor(Color.GRAY);
+					g.setColor(Color.BLACK);
 
 				g.fillRect(xSpacing, ySpacing, tileSize+1, tileSize+1);
 
 				if(!isEmpty(x,y))
 				{
-				if(!dragging || x!=x1 || y!=y1)
-					 ((Graphics2D) g).drawImage(board[x][y].getImage(), xSpacing, ySpacing, boardPlay);
+				if(!dragging || x!=x1 || y!=y1){
+					
+					int tempXSpacing = xSpacing;
+					int tempYSpacing = ySpacing;
+					
+					if(board[x][y].isKing)
+						tempXSpacing +=5;
+						
+					 ((Graphics2D) g).drawImage(board[x][y].getImage(), tempXSpacing, ySpacing, boardPlay);
+				}
 //					g.drawString(""+board[x][y].getPieceType().charAt(0), xSpacing+tileSize/2, ySpacing+tileSize/2);
 				}
 
@@ -591,11 +600,15 @@ public class Board
 				//					}
 				//				}
 
-				else if(isEmpty(x,y)&&click){
-					g.setColor(Color.CYAN);
+				if(click){
+					g.setColor(new Color(0,255,255, 80));
+					if(!isEmpty(x,y))
+						g.setColor(new Color(255,0,0, 80));
 					if(board[clickX][clickY].validMove(x, y))
 					{
-						g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
+						g.fillRect(xSpacing, ySpacing, tileSize+1, tileSize+1);
+
+//						g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
 					}
 
 
@@ -620,7 +633,7 @@ public class Board
 		if(dragging)
 		{
 			
-			 ((Graphics2D) g).drawImage(board[x1][y1].getImage(), dragCordX-(tileSize*2/7), dragCordY-(tileSize*5/7), boardPlay);
+			 ((Graphics2D) g).drawImage(board[x1][y1].getImage(), dragCordX-(tileSize*3/7), dragCordY-(tileSize*5/7), boardPlay);
 			//g.fillOval(dragCordX-(tileSize*2/7), dragCordY-(tileSize*5/7), tileSize*3/4, tileSize*3/4);
 
 		}

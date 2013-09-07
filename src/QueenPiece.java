@@ -18,7 +18,7 @@ public class QueenPiece extends Piece{
 	{
 		super.setImage();
 		
-		pieceImage = pieceImage.getSubimage(xSpacing*2, ySpacing, 70, 70);
+		pieceImage = pieceImage.getSubimage(xSpacing*2-6, ySpacing, 70, 70);
 	}
 	
 }

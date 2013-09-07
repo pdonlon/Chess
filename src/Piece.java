@@ -15,7 +15,7 @@ public class Piece
 	int xCord;
 	int yCord;
 	int xSpacing = 56;
-	int ySpacing = 4;
+	int ySpacing = 0;
 	boolean[][] canMove = new boolean[8][8];
 	boolean isKing = false;
 	boolean isPawn = false;

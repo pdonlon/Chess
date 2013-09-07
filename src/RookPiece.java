@@ -17,7 +17,7 @@ public class RookPiece extends Piece
 	public void setImage()
 	{
 		super.setImage();
-		pieceImage = pieceImage.getSubimage(xSpacing*4, ySpacing, 70, 70);
+		pieceImage = pieceImage.getSubimage(xSpacing*4-6, ySpacing, 70, 70);
 	}
 	
 }
