@@ -33,26 +33,23 @@ public class KingPiece extends Piece{
 		{
 			if(!isEmpty(xCord-4,cVal) && !pieceBoard[xCord-4][cVal].moved)//rook involved couldn't have moved
 			{
-				for(int x=0; x>-3; x--)
+				for(int x=-1; x>-3; x--)
 				{
-					if(!isEmpty(xCord+x,cVal) && ((white && blackMoves[xCord+x][cVal]) || (!white && whiteMoves[xCord+x][cVal])))
+					if(!isEmpty(xCord+x,cVal) || ((white && blackMoves[xCord+x][cVal]) || (!white && whiteMoves[xCord+x][cVal])))
 						break;
 					if(x==-2)
-					{
 						canMove[xCord+x][cVal] = true;
-					}
 				}
 			}
 
 			if(!isEmpty(xCord+3,cVal) && !pieceBoard[xCord+3][cVal].moved)//rook involved couldn't have moved
 			{
-				for(int x=0; x<3; x++)
+				for(int x=1; x<3; x++)
 				{
-					if(!isEmpty(xCord+x,cVal) && ((white && blackMoves[xCord+x][cVal]) || (!white && whiteMoves[xCord+x][cVal])))
+					if(!isEmpty(xCord+x,cVal) || ((white && blackMoves[xCord+x][cVal]) || (!white && whiteMoves[xCord+x][cVal])))
 						break;
-					if(x == 2){
+					if(x == 2)
 						canMove[xCord+x][cVal] = true;
-					}
 				}
 			}
 		}

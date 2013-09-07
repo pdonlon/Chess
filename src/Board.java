@@ -31,19 +31,19 @@ public class Board
 	boolean checkmate = false;
 	boolean justMoved = false;
 	boolean gameOver = false;
-	
+
 	boolean[][] whiteMoves;
 	boolean[][] blackMoves;
 	boolean click = false;
 	boolean dragging = false;
 	boolean stopPainting = false;
-	
+
 	String winner = "";
 
 	public Board(Play game, BufferedImage img)
 	{
 		boardPlay = game;
-		
+
 		boardImage = img;
 		whiteMoves = new boolean[8][8];
 		blackMoves = new boolean[8][8];
@@ -61,35 +61,36 @@ public class Board
 			if(board[x1][y1].validMove(x2, y2))
 			{
 				boolean white = turnCount%2==0;
-				
+
 				if(castle(x1,y1,x2,y2)!=0)
 				{
 					board[castle(x1,y1,x2,y2)][getColorValueKing(white)] = 
 							new RookPiece(this,white,castle(x1,y1,x2,y2),getColorValueKing(white),board,whiteMoves,blackMoves);
-					
+					board[castle(x1,y1,x2,y2)][getColorValueKing(white)].setImage();
+
 					if(x2<5)
 						board[0][getColorValueKing(white)] = null;
 					else
 						board[7][getColorValueKing(white)] = null;
 				}
-				
+
 				board[x2][y2] = board[x1][y1];
 				board[x1][y1] = null;
 				board[x2][y2].setXandYCord(x2, y2);
-	
-				
+
+
 
 				if(pawnAtEnd()){
-					
+
 					Object[] options = {"Knight","Bishop","Rook","Queen"};
-					
+
 					int n = JOptionPane.showOptionDialog(boardPlay,"Select a piece","Chess",JOptionPane.YES_NO_CANCEL_OPTION,
-					    JOptionPane.QUESTION_MESSAGE,null,options,options[3]);
+							JOptionPane.QUESTION_MESSAGE,null,options,options[3]);
 					makePiece(x2,y2,n,white);
 				}
-				
+
 				board[x2][y2].setMoved(true);
-				
+
 				resetMoves(white); //no restrictions
 				resetMoves(!white); //restrictions
 				inCheck(!white);
@@ -122,7 +123,7 @@ public class Board
 	{
 		return boarderSize;
 	}
-	
+
 	public int getTileSize()
 	{
 
@@ -158,12 +159,12 @@ public class Board
 
 		return y1;
 	}
-	
+
 	public String getWinner()
 	{
 		return winner;
 	}
-	
+
 	public boolean gameIsOver()
 	{
 		return gameOver;
@@ -184,7 +185,7 @@ public class Board
 		dragCordX = x;
 		dragCordY = y;
 	}
-	
+
 	public int getClickX(){
 
 		return clickX;
@@ -204,7 +205,7 @@ public class Board
 	{
 		justMoved=a;
 	}
-	
+
 	public void setClickCoordinates(int x, int y)
 	{
 		clickX = x;
@@ -227,12 +228,12 @@ public class Board
 		pieces[1] = new BishopPiece(this,white,x,y,board,whiteMoves,blackMoves);
 		pieces[2] = new RookPiece(this,white,x,y,board,whiteMoves,blackMoves);
 		pieces[3] = new QueenPiece(this,white,x,y,board,whiteMoves,blackMoves);
-		
+
 		board[x][y] = pieces[num];
 		board[x][y].setImage();
-		
+
 	}
-	
+
 	public void showMoves(int x, int y){
 
 		board[x][y].printMoves();
@@ -281,7 +282,7 @@ public class Board
 	{
 		stopPainting = a;
 	}
-	
+
 	public void resetMoves(boolean color)
 	{
 		clearMoves(color);
@@ -295,10 +296,10 @@ public class Board
 		{ //rook
 			for(int x=0; x<9; x+=7)
 			{
-				
+
 				board[x][y] = new RookPiece(this,false,x,y,board,whiteMoves,blackMoves);
-				
-				
+
+
 			}
 		}
 
@@ -348,7 +349,7 @@ public class Board
 			for(int x=0; x<8; x++){
 
 				if(!isEmpty(x,y))
-				board[x][y].setWhite(true);
+					board[x][y].setWhite(true);
 
 			}
 		}		
@@ -356,7 +357,7 @@ public class Board
 		initializeMoves(false);
 		initializeImages();
 	}
-	
+
 	public void initializeImages()
 	{
 		for(int y=0; y<8; y++)
@@ -364,7 +365,7 @@ public class Board
 			for(int x=0; x<8; x++)
 			{
 				if(!isEmpty(x,y))
-						board[x][y].setImage();
+					board[x][y].setImage();
 			}
 		}
 	}
@@ -403,7 +404,7 @@ public class Board
 		}
 
 	}
-	
+
 	public int getColorValueKing(boolean white)
 	{
 		int cValue;
@@ -415,11 +416,11 @@ public class Board
 
 		return cValue;
 	}
-	
+
 	public int castle(int x1, int y1, int x2, int y2){
-		
+
 		int castle = 0;
-		
+
 		if(board[x1][y1].isKing)
 		{
 			if(x2 == 2)
@@ -427,7 +428,7 @@ public class Board
 			else if(x2 == 6)
 				castle = 5;
 		}
-		
+
 		return castle;
 	}
 
@@ -534,21 +535,21 @@ public class Board
 	public boolean validMove(int x, int y)
 	{
 		boolean valid = board[x1][y1].validMove(x, y);
-		
+
 		return valid;
 	}
-	
+
 	public boolean pawnAtEnd()
 	{
 		boolean end = false;
-		
-			for(int x=0; x<8; x++)
-			{
-				if((!isEmpty(x,0) && board[x][0].isPawn()) || (!isEmpty(x,7) && board[x][7].isPawn()))
-					end = true;
-			}
-			
-			return end;
+
+		for(int x=0; x<8; x++)
+		{
+			if((!isEmpty(x,0) && board[x][0].isPawn()) || (!isEmpty(x,7) && board[x][7].isPawn()))
+				end = true;
+		}
+
+		return end;
 	}
 
 	public void paintBoard(Graphics g)
@@ -576,17 +577,17 @@ public class Board
 
 				if(!isEmpty(x,y))
 				{
-				if(!dragging || x!=x1 || y!=y1){
-					
-					int tempXSpacing = xSpacing;
-					int tempYSpacing = ySpacing;
-					
-					if(board[x][y].isKing)
-						tempXSpacing +=5;
-						
-					 ((Graphics2D) g).drawImage(board[x][y].getImage(), tempXSpacing, ySpacing, boardPlay);
-				}
-//					g.drawString(""+board[x][y].getPieceType().charAt(0), xSpacing+tileSize/2, ySpacing+tileSize/2);
+					if(!dragging || x!=x1 || y!=y1){
+
+						int tempXSpacing = xSpacing;
+						int tempYSpacing = ySpacing;
+
+						if(board[x][y].isKing)
+							tempXSpacing +=5;
+
+						((Graphics2D) g).drawImage(board[x][y].getImage(), tempXSpacing, ySpacing, boardPlay);
+					}
+					//					g.drawString(""+board[x][y].getPieceType().charAt(0), xSpacing+tileSize/2, ySpacing+tileSize/2);
 				}
 
 				//				else if(isEmpty(x,y))
@@ -600,19 +601,26 @@ public class Board
 				//					}
 				//				}
 
-				if(click){
+				if(click)
+				{
 					g.setColor(new Color(0,255,255, 80));
-					if(!isEmpty(x,y))
-						g.setColor(new Color(255,0,0, 80));
+					
 					if(board[clickX][clickY].validMove(x, y))
 					{
-						g.fillRect(xSpacing, ySpacing, tileSize+1, tileSize+1);
+						if(isEmpty(x,y))
+							g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
+						else
+						{
+							g.setColor(new Color(255,0,0, 80));
+							g.fillRect(xSpacing, ySpacing, tileSize+1, tileSize+1);
 
-//						g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
+						}
+
 					}
 
-
 				}
+
+
 
 				if(turnCount%2==1)
 					xSpacing-=(tileSize+1);
@@ -632,35 +640,35 @@ public class Board
 			click = false;
 		if(dragging)
 		{
-			
-			 ((Graphics2D) g).drawImage(board[x1][y1].getImage(), dragCordX-(tileSize*3/7), dragCordY-(tileSize*5/7), boardPlay);
+
+			((Graphics2D) g).drawImage(board[x1][y1].getImage(), dragCordX-(tileSize*3/7), dragCordY-(tileSize*5/7), boardPlay);
 			//g.fillOval(dragCordX-(tileSize*2/7), dragCordY-(tileSize*5/7), tileSize*3/4, tileSize*3/4);
 
 		}
-	
+
 		if(!stopPainting)
 		{
-		
-		if(checkmate())
-		{
-			g.setColor(new Color(255, 0, 0,125));
-			g.fillRect(0, 0, (getTileSize()+1)*8 + getBoarder()*2,(getTileSize()+1)*8+22+getBoarder()*2);
+
+			if(checkmate())
+			{
+				g.setColor(new Color(255, 0, 0,125));
+				g.fillRect(0, 0, (getTileSize()+1)*8 + getBoarder()*2,(getTileSize()+1)*8+22+getBoarder()*2);
+			}
+
+			else if (inCheck(false) || inCheck(true))
+			{
+				g.setColor(new Color(255, 0, 0,50));
+				g.fillRect(0, 0, (getTileSize()+1)*8 + getBoarder()*2,(getTileSize()+1)*8+22+getBoarder()*2);
+			}
 		}
-		
-		else if (inCheck(false) || inCheck(true))
-		{
-			g.setColor(new Color(255, 0, 0,50));
-			g.fillRect(0, 0, (getTileSize()+1)*8 + getBoarder()*2,(getTileSize()+1)*8+22+getBoarder()*2);
-		}
-		}
-		
+
 	}
 
 	public boolean checkmate()
 	{
 		int whiteMoves = 0;
 		int blackMoves = 0;
-		
+
 		for(int y=0; y<8; y++)
 		{
 			for(int x=0; x<8; x++)
@@ -671,17 +679,17 @@ public class Board
 					{
 						if(!isEmpty(j,i))
 						{
-						
-						if(isWhite(j,i)&&board[j][i].validMove(x,y))
-							whiteMoves++;
-						else if(!isWhite(j,i)&&board[j][i].validMove(x,y))
-							blackMoves++;
+
+							if(isWhite(j,i)&&board[j][i].validMove(x,y))
+								whiteMoves++;
+							else if(!isWhite(j,i)&&board[j][i].validMove(x,y))
+								blackMoves++;
 						}
 					}
 				}
 			}
 		}
-		
+
 		if(whiteMoves == 0 || blackMoves == 0)
 		{
 			checkmate = true;
@@ -689,9 +697,9 @@ public class Board
 				winner = "Black";
 			else
 				winner = "White";
-			
+
 		}
-		
+
 		return checkmate;
 	}
 }
