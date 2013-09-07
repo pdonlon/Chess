@@ -12,7 +12,7 @@ public class Board
 	Piece[][] board;
 	Play boardPlay;
 	int[] reflectNumbers = {0,1,2,3,4,5,6,7};
-	int tileSize =60;
+	int tileSize =70;
 	int boarderSize = 40;
 	Piece boardPiece;
 	int turnCount = 0;
@@ -184,7 +184,7 @@ public class Board
 		dragCordX = x;
 		dragCordY = y;
 	}
-
+	
 	public int getClickX(){
 
 		return clickX;
@@ -575,7 +575,7 @@ public class Board
 
 				if(!isEmpty(x,y))
 				{
-				
+				if(!dragging || x!=x1 || y!=y1)
 					 ((Graphics2D) g).drawImage(board[x][y].getImage(), xSpacing, ySpacing, boardPlay);
 //					g.drawString(""+board[x][y].getPieceType().charAt(0), xSpacing+tileSize/2, ySpacing+tileSize/2);
 				}
@@ -619,11 +619,9 @@ public class Board
 			click = false;
 		if(dragging)
 		{
-			if(board[x1][y1].isWhite())
-				g.setColor(Color.WHITE);
-			else
-				g.setColor(Color.BLACK);
-			g.fillOval(dragCordX-(tileSize*2/7), dragCordY-(tileSize*5/7), tileSize*3/4, tileSize*3/4);
+			
+			 ((Graphics2D) g).drawImage(board[x1][y1].getImage(), dragCordX-(tileSize*2/7), dragCordY-(tileSize*5/7), boardPlay);
+			//g.fillOval(dragCordX-(tileSize*2/7), dragCordY-(tileSize*5/7), tileSize*3/4, tileSize*3/4);
 
 		}
 	
