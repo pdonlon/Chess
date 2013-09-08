@@ -26,9 +26,8 @@ public class Board
 	int dragCordX;
 	int dragCordY;
 
-	boolean blackCheck = false;
-	boolean whiteCheck = false;
 	boolean checkmate = false;
+	boolean stalemate = false;
 	boolean justMoved = false;
 	boolean gameOver = false;
 
@@ -96,7 +95,7 @@ public class Board
 				inCheck(!white);
 
 				justMoved = true;
-				if(!checkmate)
+				if(!checkmate && !stalemate)
 					turnCount++;
 			}
 		}
@@ -421,7 +420,7 @@ public class Board
 
 		int castle = 0;
 
-		if(board[x1][y1].isKing)
+		if(board[x1][y1].isKing && !board[x1][y1].moved)
 		{
 			if(x2 == 2)
 				castle = 3;
@@ -604,7 +603,7 @@ public class Board
 				if(click)
 				{
 					g.setColor(new Color(0,255,255, 80));
-					
+
 					if(board[clickX][clickY].validMove(x, y))
 					{
 						if(isEmpty(x,y))
@@ -649,7 +648,7 @@ public class Board
 		if(!stopPainting)
 		{
 
-			if(checkmate())
+			if(checkmate)
 			{
 				g.setColor(new Color(255, 0, 0,125));
 				g.fillRect(0, 0, (getTileSize()+1)*8 + getBoarder()*2,(getTileSize()+1)*8+22+getBoarder()*2);
@@ -664,7 +663,7 @@ public class Board
 
 	}
 
-	public boolean checkmate()
+	public boolean checkmateOrStaleMate(boolean colorWhite)
 	{
 		int whiteMoves = 0;
 		int blackMoves = 0;
@@ -692,15 +691,22 @@ public class Board
 
 		if(whiteMoves == 0 || blackMoves == 0)
 		{
-			checkmate = true;
-			if(whiteMoves == 0)
-				winner = "Black";
+			if(inCheck(colorWhite))
+			{
+				checkmate = true;
+				if(whiteMoves == 0)
+					winner = "Black";
+				else
+					winner = "White";
+			}
 			else
-				winner = "White";
-
+				stalemate = true;
 		}
 
-		return checkmate;
+		if(checkmate)
+			return checkmate;
+		else 
+			return stalemate;
 	}
 }
 

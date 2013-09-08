@@ -26,17 +26,17 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 	{
 
 		Play playChess = new Play();
-		
+
 	}
 
 	public Play()
 	{
 		BufferedImage img = null;
 		try {
-		    img = ImageIO.read(new File("chessIcons.png").toURI().toURL());
+			img = ImageIO.read(new File("chessIcons.png").toURI().toURL());
 		} catch (IOException e) {
 		}
-		
+
 		playBoard = new Board(this, img);
 
 		playDisplay = new Display();
@@ -70,14 +70,14 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 
 	}
 
-	
+
 	public void keyTyped(KeyEvent e) 
 	{
 		// TODO Auto-generated method stub
 
 	}
 
-	
+
 	public void keyPressed(KeyEvent e) 
 	{
 		// TODO Auto-generated method stub
@@ -95,7 +95,7 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 
 		if(playBoard.justMoved)
 			return;
-		
+
 		int x = (e.getX()+1-playBoard.getBoarder())/(playBoard.tileSize+1);
 		int y = (e.getY()-22-playBoard.getBoarder())/(playBoard.tileSize+1);
 
@@ -108,11 +108,11 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 		if(!playBoard.isEmpty(x,y)){
 
 			if(playBoard.click && (playBoard.getClickX() == x) && (playBoard.getClickY() == y))
-			playBoard.setClick(false);
+				playBoard.setClick(false);
 			else
 				playBoard.setClick(true);
 			//playBoard.newbool = true;
-			
+
 			if((playBoard.isWhite(x, y)&&playBoard.getTurnCount()%2==1)
 					|| (!playBoard.isWhite(x, y)&&playBoard.getTurnCount()%2==0))
 			{
@@ -125,7 +125,7 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 		repaint();
 	}
 
-	
+
 	public void mousePressed(MouseEvent e) 
 	{
 		playBoard.setJustMoved(false);
@@ -134,31 +134,32 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 
 		int x = (e.getX()+1-playBoard.getBoarder())/(playBoard.tileSize+1);
 		int y = (e.getY()-22-playBoard.getBoarder())/(playBoard.tileSize+1);
-		
+
 		if(!whiteTurn){
 			x = playBoard.reflectNumber(x);
 			y = playBoard.reflectNumber(y);
 		}
-			
-		
+
+
 		if( (playBoard.isWhite(x, y)&&!whiteTurn) || (!playBoard.isWhite(x, y)&&whiteTurn))
 			return;
-		
-			if(!playBoard.isEmpty(x, y))
-			{
-				playBoard.setX1(x);
-				playBoard.setY1(y);	
-			}
 
-//		}
-		//System.out.println(playBoard.getX1() + ", " + playBoard.getY1());
+		if(!playBoard.isEmpty(x, y))
+		{
+			playBoard.setX1(x);
+			playBoard.setY1(y);	
+		}
+
+		//		}
+	//System.out.println(playBoard.getX1() + ", " + playBoard.getY1());
 	}
 
-	
+
 	public void mouseReleased(MouseEvent e) 
 	{
+		boolean white = playBoard.getTurnCount()%2==1;
 		playBoard.setDragging(false);
-		
+
 		int x = (e.getX()+1-playBoard.getBoarder())/(playBoard.tileSize+1);
 		int y = (e.getY()-22-playBoard.getBoarder())/(playBoard.tileSize+1);
 
@@ -171,33 +172,37 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 		playBoard.setY2(y);
 
 		playBoard.movePiece();
-		
+
 		repaint();
-		
-		if(playBoard.checkmate())
-		{
-			JOptionPane.showMessageDialog(this, "Checkmate! "+ playBoard.getWinner() + " wins!");
-			playBoard.setStopPainting(true);
-			repaint();
+
+		if(playBoard.checkmateOrStaleMate(white)){
+
+			if(playBoard.checkmate)
+				JOptionPane.showMessageDialog(this, "Checkmate! "+ playBoard.getWinner() + " wins!");
+			else
+				JOptionPane.showMessageDialog(this, "Stalemate!");
+
 			//TODO prompt a new game
+			repaint();
+			playBoard.setStopPainting(true);
 		}
 	}
-	
-	
+
+
 	public void mouseEntered(MouseEvent e) 
 	{
 		// TODO Auto-generated method stub
 
 	}
 
-	
+
 	public void mouseExited(MouseEvent e) 
 	{
 		// TODO Auto-generated method stub
 
 	}
 
-	
+
 	public void mouseDragged(MouseEvent e) 
 	{
 		playBoard.setDragging(true);
@@ -205,14 +210,14 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 		repaint();
 	}
 
-	
+
 	public void mouseMoved(MouseEvent e) 
 	{
 		//System.out.println(playBoard.newbool);
 
 	}
 
-	
+
 	public void actionPerformed(ActionEvent e) 
 	{
 		// TODO Auto-generated method stub
