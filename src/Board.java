@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -12,8 +13,11 @@ public class Board
 	Piece[][] board;
 	Play boardPlay;
 	int[] reflectNumbers = {0,1,2,3,4,5,6,7};
+	String borderLetters = "ABCDEFGH"; 
+	String borderNumbers = "87654321"; 
+	Font borderFont = new Font("Helvitica", Font.BOLD, 20);; 
 	int tileSize =70;
-	int boarderSize = 40;
+	int borderSize = 40;
 	Piece boardPiece;
 	int turnCount = 0;
 	int x1;
@@ -121,9 +125,9 @@ public class Board
 
 	}
 
-	public int getBoarder()
+	public int getBorder()
 	{
-		return boarderSize;
+		return borderSize;
 	}
 
 	public int getTileSize()
@@ -456,7 +460,6 @@ public class Board
 		int cVal = board[x1][y1].getColorValuePawn()*-1;
 		if(isEmpty(x2,y2) && board[x1][y1].isPawn && (x1-1==x2 || x1+1 == x2))
 			board[x2][y2+cVal] = null;
-		//TODO
 	}
 	
 	public void addPassant(int x1, int y1, int x2, int y2)
@@ -592,16 +595,38 @@ public class Board
 
 	public void paintBoard(Graphics g)
 	{
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, (getTileSize()+1)*9 + getBorder()*2,(getTileSize()+1)*8+22+getBorder()*2);
+		g.setColor(Color.BLACK);
+		g.fillRect(2, 2, (getTileSize()+1)*8+22+getBorder()+14,(getTileSize()+1)*8+22+getBorder()+14);
+		g.setColor(Color.WHITE);
+		g.fillRect(borderSize-2, borderSize-2, (tileSize+1)*8+4,(tileSize+1)*8+4);
+
+
+		
+		for(int x =0; x<8; x++)
+		{
+			g.setFont(borderFont);
+			g.setColor(Color.WHITE);
+			g.drawString(""+borderLetters.charAt(x), x*tileSize+tileSize, borderSize*2/3);
+			g.drawString(""+borderLetters.charAt(x), x*tileSize+tileSize, (tileSize+1)*8+borderSize*7/4);
+			
+			g.drawString(""+borderNumbers.charAt(x), borderSize*1/3, x*tileSize+tileSize+borderSize*2/5);
+			g.drawString(""+borderNumbers.charAt(x), (tileSize+1)*8+borderSize*5/4, x*tileSize+tileSize+borderSize*2/5);
+
+			
+		}
+		
 		boolean white = turnCount%2==0;
 		int tileMarker=0;
-		int ySpacing =boarderSize;
+		int ySpacing =borderSize;
 		if(!white) //Black Move
-			ySpacing = (tileSize+1)*7+boarderSize;
+			ySpacing = (tileSize+1)*7+borderSize;
 		for(int y=0; y<8; y++)
 		{
-			int xSpacing =boarderSize;
+			int xSpacing =borderSize;
 			if(!white)
-				xSpacing = (tileSize+1)*7+boarderSize;
+				xSpacing = (tileSize+1)*7+borderSize;
 
 			for(int x=0; x<8; x++)
 			{
@@ -690,16 +715,18 @@ public class Board
 			if(checkmate)
 			{
 				g.setColor(new Color(255, 0, 0,125));
-				g.fillRect(0, 0, (getTileSize()+1)*8 + getBoarder()*2,(getTileSize()+1)*8+22+getBoarder()*2);
+				g.fillRect(0, 0, (getTileSize()+1)*8 + getBorder()*2,(getTileSize()+1)*8+22+getBorder()*2);
 			}
 
 			else if (inCheck(false) || inCheck(true))
 			{
 				g.setColor(new Color(255, 0, 0,50));
-				g.fillRect(0, 0, (getTileSize()+1)*8 + getBoarder()*2,(getTileSize()+1)*8+22+getBoarder()*2);
+				g.fillRect(0, 0, (getTileSize()+1)*8 + getBorder()*2,(getTileSize()+1)*8+22+getBorder()*2);
 			}
 		}
 
+		
+		
 	}
 
 	public boolean checkmateOrStaleMate(boolean colorWhite)
