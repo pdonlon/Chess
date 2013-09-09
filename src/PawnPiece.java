@@ -35,6 +35,12 @@ public class PawnPiece extends Piece
 				
 				if(!moved&&isEmpty(xCord,y)&&isEmpty(xCord,y+cVal))
 						canMove[xCord][y+cVal] = true;
+				
+				if(isValid(xCord-1,yCord)&&!sameColor(xCord-1,yCord)&&pieceBoard[xCord-1][yCord].justMovedPawn())
+					canMove[xCord-1][yCord+cVal] = true;
+				
+				if(isValid(xCord+1,yCord)&&!sameColor(xCord+1,yCord)&&pieceBoard[xCord+1][yCord].justMovedPawn())
+					canMove[xCord+1][yCord+cVal] = true;
 			}
 
 	}

@@ -33,7 +33,7 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 	{
 		BufferedImage img = null;
 		try {
-			img = ImageIO.read(new File("chessIcons.png").toURI().toURL());
+			img = ImageIO.read(getClass().getResource("chessIcons.png"));
 		} catch (IOException e) {
 		}
 
@@ -64,7 +64,7 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 		{
 
 			super.paintComponent(g);
-			this.setBackground(Color.GRAY);
+			this.setBackground(Color.LIGHT_GRAY);
 			playBoard.paintBoard(g);
 		}
 

@@ -50,7 +50,6 @@ public class Board
 
 		board = new Piece[8][8];
 		initializeBoard();
-		//printWhiteMoves();
 	}
 
 	public void movePiece()
@@ -61,6 +60,10 @@ public class Board
 			{
 				boolean white = turnCount%2==0;
 
+				clearPassant(white); 
+				
+				passantCapture(x1,y1,x2,y2);
+				
 				if(castle(x1,y1,x2,y2)!=0)
 				{
 					board[castle(x1,y1,x2,y2)][getColorValueKing(white)] = 
@@ -73,11 +76,11 @@ public class Board
 						board[7][getColorValueKing(white)] = null;
 				}
 
+				
 				board[x2][y2] = board[x1][y1];
+				addPassant(x1,y1,x2,y2);
 				board[x1][y1] = null;
 				board[x2][y2].setXandYCord(x2, y2);
-
-
 
 				if(pawnAtEnd()){
 
@@ -430,6 +433,37 @@ public class Board
 
 		return castle;
 	}
+	
+	public void clearPassant(boolean white)
+	{
+		int y;
+		if(white)
+			y = 4;
+		else
+			y = 3;
+		for(int x=0; x<8; x++)
+		{
+			if(!isEmpty(x,y)&&board[x][y].justMovedPawn())
+			{
+				board[x][y].setJustMovedPawn(false);
+				break;
+			}
+		}
+	}
+	
+	public void passantCapture(int x1,int y1,int x2,int y2)
+	{
+		int cVal = board[x1][y1].getColorValuePawn()*-1;
+		if(isEmpty(x2,y2) && board[x1][y1].isPawn && (x1-1==x2 || x1+1 == x2))
+			board[x2][y2+cVal] = null;
+		//TODO
+	}
+	
+	public void addPassant(int x1, int y1, int x2, int y2)
+	{
+		if(board[x1][y1].isPawn && (y1+2==y2 || y1-2==y2))
+			board[x2][y2].setJustMovedPawn(true);
+	}
 
 	public void clearMoveSets(boolean colorWhite)
 	{
@@ -550,18 +584,23 @@ public class Board
 
 		return end;
 	}
+	
+//	public int passantValue(boolean white)
+//	{
+//		
+//	}
 
 	public void paintBoard(Graphics g)
 	{
-
+		boolean white = turnCount%2==0;
 		int tileMarker=0;
 		int ySpacing =boarderSize;
-		if(turnCount%2==1) //Black Move
+		if(!white) //Black Move
 			ySpacing = (tileSize+1)*7+boarderSize;
 		for(int y=0; y<8; y++)
 		{
 			int xSpacing =boarderSize;
-			if(turnCount%2==1)
+			if(!white)
 				xSpacing = (tileSize+1)*7+boarderSize;
 
 			for(int x=0; x<8; x++)
@@ -594,7 +633,7 @@ public class Board
 				//					g.setColor(Color.CYAN);
 				//					if(whiteMoves[x][y]&&turnCount%2==0)
 				//						g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
-				//					else if(blackMoves[x][y]&&turnCount%2==1){
+				//					else if(blackMoves[x][y]&&!white){
 				//						g.setColor(Color.RED);
 				//						g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
 				//					}
@@ -608,7 +647,7 @@ public class Board
 					{
 						if(isEmpty(x,y))
 							g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
-						else
+						else if(!isEmpty(x,y))
 						{
 							g.setColor(new Color(255,0,0, 80));
 							g.fillRect(xSpacing, ySpacing, tileSize+1, tileSize+1);
@@ -621,14 +660,14 @@ public class Board
 
 
 
-				if(turnCount%2==1)
+				if(!white)
 					xSpacing-=(tileSize+1);
 				else
 					xSpacing+=(tileSize+1);	
 				tileMarker++;	
 
 			}
-			if(turnCount%2==1)
+			if(!white)
 				ySpacing-=(tileSize+1);
 			else
 				ySpacing+=(tileSize+1);
