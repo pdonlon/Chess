@@ -59,40 +59,33 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 
 	public class Display extends JPanel
 	{ 
-
 		public void paintComponent(Graphics g)
 		{
-
 			super.paintComponent(g);
 			this.setBackground(Color.LIGHT_GRAY);
 			playBoard.paintBoard(g);
 		}
-
 	}
 
 
 	public void keyTyped(KeyEvent e) 
 	{
 		// TODO Auto-generated method stub
-
 	}
 
 
 	public void keyPressed(KeyEvent e) 
 	{
 		// TODO Auto-generated method stub
-
 	}
 
 	public void keyReleased(KeyEvent e) 
 	{
 		// TODO Auto-generated method stub
-
 	}
 
 	public void mouseClicked(MouseEvent e) 
 	{
-
 		if(playBoard.justMoved)
 			return;
 

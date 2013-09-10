@@ -595,11 +595,11 @@ public class Board
 
 	public void paintBoard(Graphics g)
 	{
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, (getTileSize()+1)*9 + getBorder()*2,(getTileSize()+1)*8+22+getBorder()*2);
 		g.setColor(Color.BLACK);
-		g.fillRect(2, 2, (getTileSize()+1)*8+22+getBorder()+14,(getTileSize()+1)*8+22+getBorder()+14);
+		g.fillRect(0, 0, (getTileSize()+1)*9 + getBorder()*2,(getTileSize()+1)*8+22+getBorder()*2);
 		g.setColor(Color.WHITE);
+		g.fillRect(2, 2, (getTileSize()+1)*8+22+getBorder()+14,(getTileSize()+1)*8+22+getBorder()+14);
+		g.setColor(Color.BLACK);
 		g.fillRect(borderSize-2, borderSize-2, (tileSize+1)*8+4,(tileSize+1)*8+4);
 
 
@@ -607,7 +607,7 @@ public class Board
 		for(int x =0; x<8; x++)
 		{
 			g.setFont(borderFont);
-			g.setColor(Color.WHITE);
+			g.setColor(Color.BLACK);
 			g.drawString(""+borderLetters.charAt(x), x*tileSize+tileSize, borderSize*2/3);
 			g.drawString(""+borderLetters.charAt(x), x*tileSize+tileSize, (tileSize+1)*8+borderSize*7/4);
 			
