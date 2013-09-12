@@ -11,7 +11,7 @@ public class Board
 {	
 	static BufferedImage boardImage;
 	Piece[][] board;
-	Play boardPlay;
+	Display boardPlay;
 	int[] reflectNumbers = {0,1,2,3,4,5,6,7};
 	String borderLetters = "ABCDEFGH"; 
 	String borderNumbers = "87654321"; 
@@ -20,8 +20,8 @@ public class Board
 	int borderSize = 40;
 	Piece boardPiece;
 	int turnCount = 0;
-	int x1;
-	int y1;
+	int x1=-1;
+	int y1=-1;
 	int x2;
 	int y2;
 
@@ -43,9 +43,9 @@ public class Board
 
 	String winner = "";
 
-	public Board(Play game, BufferedImage img)
+	public Board(Display display, BufferedImage img)
 	{
-		boardPlay = game;
+		boardPlay = display;
 
 		boardImage = img;
 		whiteMoves = new boolean[8][8];

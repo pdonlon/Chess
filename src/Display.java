@@ -8,7 +8,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -16,20 +15,12 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+public class Display extends JPanel implements ActionListener, MouseListener, KeyListener, MouseMotionListener
+{ 
 
-public class Play extends JFrame implements ActionListener, MouseMotionListener, MouseListener, KeyListener
-{
 	Board playBoard;
-	Display playDisplay;
 
-	public static void main(String[]args)
-	{
-
-		Play playChess = new Play();
-
-	}
-
-	public Play()
+	public Display()
 	{
 		BufferedImage img = null;
 		try {
@@ -38,34 +29,20 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 		}
 
 		playBoard = new Board(this, img);
-
-		playDisplay = new Display();
-
-		this.pack();
-		setTitle("Chess");
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //EXIT_ON_CLOSE
-		this.add(playDisplay);
-		this.setSize((playBoard.getTileSize()+1)*8+playBoard.getBorder()*2,(playBoard.getTileSize()+1)*8+22+playBoard.getBorder()*2);
+		
 		this.setVisible(true);
-		this.setResizable(false);
 
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
 		this.addKeyListener(this);
-
+	}
+	public void paintComponent(Graphics g)
+	{
+		super.paintComponent(g);
+		this.setBackground(Color.LIGHT_GRAY);
+		playBoard.paintBoard(g);
 	}
 
-
-
-	public class Display extends JPanel
-	{ 
-		public void paintComponent(Graphics g)
-		{
-			super.paintComponent(g);
-			this.setBackground(Color.LIGHT_GRAY);
-			playBoard.paintBoard(g);
-		}
-	}
 
 
 	public void keyTyped(KeyEvent e) 
@@ -142,9 +119,9 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 			playBoard.setX1(x);
 			playBoard.setY1(y);	
 		}
-
+		
 		//		}
-	//System.out.println(playBoard.getX1() + ", " + playBoard.getY1());
+		//System.out.println(playBoard.getX1() + ", " + playBoard.getY1());
 	}
 
 
@@ -216,7 +193,5 @@ public class Play extends JFrame implements ActionListener, MouseMotionListener,
 		// TODO Auto-generated method stub
 
 	}
-
-
 
 }
