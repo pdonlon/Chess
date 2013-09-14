@@ -78,7 +78,7 @@ public class Display extends JPanel implements ActionListener, MouseListener, Ke
 
 		if(!playBoard.isEmpty(x,y)){
 
-			if(playBoard.click && (playBoard.getClickX() == x) && (playBoard.getClickY() == y))
+			if(playBoard.click && ((playBoard.getClickX() == x) && (playBoard.getClickY() == y)))
 				playBoard.setClick(false);
 			else
 				playBoard.setClick(true);
@@ -184,8 +184,24 @@ public class Display extends JPanel implements ActionListener, MouseListener, Ke
 
 	public void mouseDragged(MouseEvent e) 
 	{
-		playBoard.setDragging(true);
 		playBoard.setDraggingCoordinates(e.getX(),e.getY());
+
+		if(!playBoard.dragging)
+		{
+		playBoard.setDragging(true);
+		
+		int x = (e.getX()+1-playBoard.getBorder())/(playBoard.tileSize+1);
+		int y = (e.getY()-playBoard.getBorder())/(playBoard.tileSize+1);
+		
+		if(playBoard.getTurnCount()%2==1)
+		{
+			x = playBoard.reflectNumber(x);
+			y = playBoard.reflectNumber(y);
+		}
+		
+		playBoard.setClickCoordinates(x, y);
+		playBoard.setClick(true);
+		}
 		repaint();
 	}
 

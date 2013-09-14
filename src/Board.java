@@ -100,7 +100,6 @@ public class Board
 				resetMoves(white); //no restrictions
 				resetMoves(!white); //restrictions
 				inCheck(!white);
-				click = false;
 
 				justMoved = true;
 				if(!checkmate && !stalemate)
