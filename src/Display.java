@@ -67,7 +67,7 @@ public class Display extends JPanel implements ActionListener, MouseListener, Ke
 			return;
 
 		int x = (e.getX()+1-playBoard.getBorder())/(playBoard.tileSize+1);
-		int y = (e.getY()-22-playBoard.getBorder())/(playBoard.tileSize+1);
+		int y = (e.getY()-playBoard.getBorder())/(playBoard.tileSize+1);
 
 		if(playBoard.getTurnCount()%2==1)
 		{
@@ -103,7 +103,7 @@ public class Display extends JPanel implements ActionListener, MouseListener, Ke
 		boolean whiteTurn = (playBoard.turnCount%2 == 0);
 
 		int x = (e.getX()+1-playBoard.getBorder())/(playBoard.tileSize+1);
-		int y = (e.getY()-22-playBoard.getBorder())/(playBoard.tileSize+1);
+		int y = (e.getY()-playBoard.getBorder())/(playBoard.tileSize+1);
 
 		if(!whiteTurn){
 			x = playBoard.reflectNumber(x);
@@ -131,7 +131,7 @@ public class Display extends JPanel implements ActionListener, MouseListener, Ke
 		playBoard.setDragging(false);
 
 		int x = (e.getX()+1-playBoard.getBorder())/(playBoard.tileSize+1);
-		int y = (e.getY()-22-playBoard.getBorder())/(playBoard.tileSize+1);
+		int y = (e.getY()-playBoard.getBorder())/(playBoard.tileSize+1);
 
 		if(playBoard.getTurnCount()%2==1){
 			x = playBoard.reflectNumber(x);

@@ -2,8 +2,6 @@ import javax.swing.JApplet;
 
 public class PlayApplet extends JApplet{
 
-
-
 	Display playBoard;
 
 	public PlayApplet()
@@ -12,7 +10,6 @@ public class PlayApplet extends JApplet{
 
 		this.add(playBoard);
 		this.setSize((playBoard.playBoard.getTileSize()+1)*8+playBoard.playBoard.getBorder()*2,(playBoard.playBoard.getTileSize()+1)*8+22+playBoard.playBoard.getBorder()*2);
-		System.out.println(""+ ((playBoard.playBoard.getTileSize()+1)*8+22+playBoard.playBoard.getBorder()*2));
 		this.setVisible(true);
 		this.setFocusable(true);
 	}

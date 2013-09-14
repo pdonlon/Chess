@@ -602,22 +602,32 @@ public class Board
 		g.setColor(Color.BLACK);
 		g.fillRect(borderSize-2, borderSize-2, (tileSize+1)*8+4,(tileSize+1)*8+4);
 
+		boolean white = turnCount%2==0;
 
+		int start = 0;
+		int increment = 1;
 		
-		for(int x =0; x<8; x++)
+		if(!white)
 		{
+			start = 7;
+			increment = -1;
+		}
+		int count = 0;
+		int startingX = start;
+		while(count<8){
+			
 			g.setFont(borderFont);
 			g.setColor(Color.BLACK);
-			g.drawString(""+borderLetters.charAt(x), x*tileSize+tileSize, borderSize*2/3);
-			g.drawString(""+borderLetters.charAt(x), x*tileSize+tileSize, (tileSize+1)*8+borderSize*7/4);
+			g.drawString(""+borderLetters.charAt(startingX), count*tileSize+tileSize, borderSize*2/3);
+			g.drawString(""+borderLetters.charAt(startingX), count*tileSize+tileSize, (tileSize+1)*8+borderSize*7/4);
 			
-			g.drawString(""+borderNumbers.charAt(x), borderSize*1/3, x*tileSize+tileSize+borderSize*2/5);
-			g.drawString(""+borderNumbers.charAt(x), (tileSize+1)*8+borderSize*5/4, x*tileSize+tileSize+borderSize*2/5);
-
+			g.drawString(""+borderNumbers.charAt(startingX), borderSize*1/3, count*tileSize+tileSize+borderSize*2/5);
+			g.drawString(""+borderNumbers.charAt(startingX), (tileSize+1)*8+borderSize*5/4, count*tileSize+tileSize+borderSize*2/5);
 			
+			startingX+=increment;
+			count ++;
 		}
 		
-		boolean white = turnCount%2==0;
 		int tileMarker=0;
 		int ySpacing =borderSize;
 		if(!white) //Black Move
