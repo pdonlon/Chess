@@ -29,7 +29,7 @@ public class KingPiece extends Piece{
 			}
 		}
 
-		if(pBoard.getTurnCount()>0 && !moved) //King couldn't have moved
+		if(pBoard.getTurnCount()>0 && !moved && ((white&&!blackMoves[xCord][yCord])||(!white&&!whiteMoves[xCord][yCord]))) //King couldn't have moved
 		{
 			if(!isEmpty(xCord-4,cVal) && !pieceBoard[xCord-4][cVal].moved)//rook involved couldn't have moved
 			{
