@@ -688,8 +688,8 @@ public class Board
 						{
 							if(clickX == x && clickY == y)
 							{
-//							g.setColor(new Color(0,255,255, 100));
-//							g.fillRect(xSpacing, ySpacing, tileSize+1, tileSize+1);
+							g.setColor(new Color(0,255,255, 100));
+							g.fillRect(xSpacing, ySpacing, tileSize+1, tileSize+1);
 							}
 //							else if(board[clickX][clickY].validMove(x, y)&&!isEmpty(x,y))
 //							{
