@@ -19,7 +19,8 @@ public class Display extends JPanel implements ActionListener, MouseListener, Ke
 { 
 
 	Board playBoard;
-
+	boolean exited;
+	
 	public Display()
 	{
 		BufferedImage img = null;
@@ -127,6 +128,14 @@ public class Display extends JPanel implements ActionListener, MouseListener, Ke
 
 	public void mouseReleased(MouseEvent e) 
 	{
+		if(exited)
+		{
+			playBoard.setDragging(false);
+			repaint();
+			exited = false;
+			return;
+		}
+		
 		boolean white = playBoard.getTurnCount()%2==1;
 		playBoard.setDragging(false);
 
@@ -168,8 +177,7 @@ public class Display extends JPanel implements ActionListener, MouseListener, Ke
 
 	public void mouseExited(MouseEvent e) 
 	{
-		// TODO Auto-generated method stub
-
+		exited = true;
 	}
 
 
