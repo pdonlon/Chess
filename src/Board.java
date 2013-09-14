@@ -620,11 +620,11 @@ public class Board
 			
 			g.setFont(borderFont);
 			g.setColor(Color.BLACK);
-			g.drawString(""+borderLetters.charAt(startingX), count*tileSize+tileSize, borderSize*2/3);
-			g.drawString(""+borderLetters.charAt(startingX), count*tileSize+tileSize, (tileSize+1)*8+borderSize*7/4);
+			g.drawString(""+borderLetters.charAt(startingX), count*tileSize+tileSize, borderSize*2/3+2);
+			g.drawString(""+borderLetters.charAt(startingX), count*tileSize+tileSize, (tileSize+1)*8+borderSize*7/4-2);
 			
 			g.drawString(""+borderNumbers.charAt(startingX), borderSize*1/3, count*tileSize+tileSize+borderSize*2/5);
-			g.drawString(""+borderNumbers.charAt(startingX), (tileSize+1)*8+borderSize*5/4, count*tileSize+tileSize+borderSize*2/5);
+			g.drawString(""+borderNumbers.charAt(startingX), (tileSize+1)*8+borderSize*5/4+3, count*tileSize+tileSize+borderSize*2/5);
 			
 			startingX+=increment;
 			count ++;
