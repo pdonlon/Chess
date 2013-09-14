@@ -184,23 +184,28 @@ public class Display extends JPanel implements ActionListener, MouseListener, Ke
 
 	public void mouseDragged(MouseEvent e) 
 	{
+		boolean white = playBoard.getTurnCount()%2==0;
 		playBoard.setDraggingCoordinates(e.getX(),e.getY());
 
 		if(!playBoard.dragging)
 		{
-		playBoard.setDragging(true);
 		
 		int x = (e.getX()+1-playBoard.getBorder())/(playBoard.tileSize+1);
 		int y = (e.getY()-playBoard.getBorder())/(playBoard.tileSize+1);
 		
-		if(playBoard.getTurnCount()%2==1)
+		if(!white)
 		{
 			x = playBoard.reflectNumber(x);
 			y = playBoard.reflectNumber(y);
 		}
-		
+		if((white&&playBoard.isWhite(x, y)) || (!white&&!playBoard.isWhite(x, y)))
+		{
+		playBoard.setDragging(true);
 		playBoard.setClickCoordinates(x, y);
 		playBoard.setClick(true);
+		}
+		else
+			playBoard.setClick(false);
 		}
 		repaint();
 	}
