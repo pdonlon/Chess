@@ -130,6 +130,7 @@ public class Display extends JPanel implements ActionListener, MouseListener, Ke
 	{
 		if(exited)
 		{
+			playBoard.setClick(false);
 			playBoard.setDragging(false);
 			repaint();
 			exited = false;

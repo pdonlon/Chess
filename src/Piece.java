@@ -373,7 +373,7 @@ public class Piece
 		resetMoves(whiteTurn);
 		resetMoves(!whiteTurn); //reset white with no restrictions
 
-		if(inCheck(true) || inCheck(false)) //if black moves in check or doesn't get out of check
+		if(inCheck(white)) //if black moves in check or doesn't get out of check
 			valid = false;
 
 		pieceBoard[xCord][yCord] = tempPiece1; 

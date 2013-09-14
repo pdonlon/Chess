@@ -100,12 +100,15 @@ public class Board
 				resetMoves(white); //no restrictions
 				resetMoves(!white); //restrictions
 				inCheck(!white);
+				click = false;
 
 				justMoved = true;
 				if(!checkmate && !stalemate)
 					turnCount++;
 			}
 		}
+		
+			click = false;
 	}
 
 	public boolean sameSpot()
@@ -709,14 +712,11 @@ public class Board
 			tileMarker++;
 		}
 
-		if(click)
-			click = false;
 		if(dragging)
 		{
-
 			((Graphics2D) g).drawImage(board[x1][y1].getImage(), dragCordX-(tileSize*3/7), dragCordY-(tileSize*5/7), boardPlay);
-			//g.fillOval(dragCordX-(tileSize*2/7), dragCordY-(tileSize*5/7), tileSize*3/4, tileSize*3/4);
-
+			if(clickX!= x1 || clickY!=y1) 
+				click = false;
 		}
 
 		if(!stopPainting)
