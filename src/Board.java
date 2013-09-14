@@ -31,6 +31,7 @@ public class Board
 	int dragCordY;
 
 	boolean checkmate = false;
+	boolean check = false;
 	boolean stalemate = false;
 	boolean justMoved = false;
 	boolean gameOver = false;
@@ -508,7 +509,7 @@ public class Board
 
 	public boolean inCheck(boolean colorWhite)
 	{		
-		boolean check = false;
+		check = false;
 		for(int y=0; y<8; y++)
 		{
 			for(int x=0; x<8; x++)
@@ -590,11 +591,34 @@ public class Board
 		return end;
 	}
 	
-//	public int passantValue(boolean white)
-//	{
-//		
-//	}
+	public void resetGame()
+	{
+		turnCount =0;
+		check =false;
+		checkmate = false;
+		stalemate = false;
+		justMoved = false;
+		gameOver = false;
 
+		click = false;
+		dragging = false;
+		stopPainting = false;
+		
+		for(int y=0; y<8; y++){
+			for(int x=0; x<8; x++){
+				
+				board[x][y] = null;
+				
+//				for(int i=0; i<8; i++){
+//					for(int j=0; j<8; j++){
+//						board[x][y].whiteMoves[j][i] = false;
+//						board[x][y].whiteMoves[j][i] = false;
+//					}
+//				}
+			}
+		}
+	}
+	
 	public void paintBoard(Graphics g)
 	{
 		g.setColor(Color.BLACK);
@@ -727,7 +751,7 @@ public class Board
 				g.fillRect(0, 0, (getTileSize()+1)*8 + getBorder()*2,(getTileSize()+1)*8+22+getBorder()*2);
 			}
 
-			else if (inCheck(false) || inCheck(true))
+			else if (check)
 			{
 				g.setColor(new Color(255, 0, 0,50));
 				g.fillRect(0, 0, (getTileSize()+1)*8 + getBorder()*2,(getTileSize()+1)*8+22+getBorder()*2);

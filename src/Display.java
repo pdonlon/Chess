@@ -161,11 +161,12 @@ public class Display extends JPanel implements ActionListener, MouseListener, Ke
 				JOptionPane.showMessageDialog(this, "Checkmate! "+ playBoard.getWinner() + " wins!");
 			else
 				JOptionPane.showMessageDialog(this, "Stalemate!");
-
-			//TODO prompt a new game
+			//playBoard.setStopPainting(true);
+			playBoard.resetGame();
+			playBoard.initializeBoard();
 			repaint();
-			playBoard.setStopPainting(true);
 		}
+		repaint();
 	}
 
 
