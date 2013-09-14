@@ -684,21 +684,24 @@ public class Board
 						if(board[x][y].isKing)
 							tempXSpacing +=5;
 
+						if(click)
+						{
+							if(clickX == x && clickY == y)
+							{
+							g.setColor(new Color(0,255,255, 100));
+							g.fillRect(xSpacing, ySpacing, tileSize+1, tileSize+1);
+							}
+//							else if(board[clickX][clickY].validMove(x, y)&&!isEmpty(x,y))
+//							{
+//								g.setColor(new Color(255,0,0, 100));
+//								g.fillRect(xSpacing, ySpacing, tileSize+1, tileSize+1);
+//							}
+
+						}
+						
 						((Graphics2D) g).drawImage(board[x][y].getImage(), tempXSpacing, ySpacing, boardPlay);
 					}
-					//					g.drawString(""+board[x][y].getPieceType().charAt(0), xSpacing+tileSize/2, ySpacing+tileSize/2);
 				}
-
-				//				else if(isEmpty(x,y))
-				//				{
-				//					g.setColor(Color.CYAN);
-				//					if(whiteMoves[x][y]&&turnCount%2==0)
-				//						g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
-				//					else if(blackMoves[x][y]&&!white){
-				//						g.setColor(Color.RED);
-				//						g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
-				//					}
-				//				}
 
 				if(click)
 				{
@@ -707,6 +710,8 @@ public class Board
 					if(board[clickX][clickY].validMove(x, y))
 					{
 						if(isEmpty(x,y))
+					//g.fillRect(xSpacing, ySpacing, tileSize+1, tileSize+1);
+
 							g.fillOval(xSpacing+tileSize*1/4-(tileSize*1/8), ySpacing+tileSize*1/4-(tileSize*1/8), tileSize*3/4, tileSize*3/4);
 						else if(!isEmpty(x,y))
 						{
